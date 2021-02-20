@@ -59,7 +59,8 @@ import { ProfileLinkTextComponent } from
 import { TakeBreakModalComponent } from
   'pages/exploration-player-page/templates/take-break-modal.component';
 import { AuthService } from 'services/auth.service';
-
+import { AdminConfigTabComponent } from 'pages/admin-page/config-tab/admin-config-tab.component';
+import { MatCardModule } from '@angular/material/card';
 
 // TODO(#11462): Delete these conditional values once firebase auth is launched.
 const firebaseAuthModules = AuthService.firebaseAuthIsEnabled ? [
@@ -81,6 +82,7 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     BrowserModule,
     NgbTooltipModule,
     FormsModule,
+    MatCardModule,
     ...firebaseAuthModules,
   ],
 
@@ -104,7 +106,8 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     SocialButtonsComponent,
     SubtopicSummaryTileDirective,
     TranslatePipe,
-    TakeBreakModalComponent
+    TakeBreakModalComponent,
+    AdminConfigTabComponent
   ],
 
   entryComponents: [
@@ -118,7 +121,8 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     ExplorationEmbedButtonModalComponent,
     KeyboardShortcutHelpModalComponent,
     SkillMasteryViewerComponent,
-    SocialButtonsComponent
+    SocialButtonsComponent,
+    AdminConfigTabComponent
   ],
 
   exports: [

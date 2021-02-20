@@ -118,7 +118,7 @@
     "@angular/core": "^10.2.2",
     "@angular/fire": "^6.1.0",
     "@angular/forms": "^10.2.2",
-    "@angular/material": "^10.2.2",
+    "@angular/material": "^11.2.1",
     "@angular/platform-browser": "^10.2.2",
     "@angular/platform-browser-dynamic": "^10.2.2",
     "@angular/router": "^10.2.2",
