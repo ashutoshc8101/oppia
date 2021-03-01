@@ -1,4 +1,4 @@
-// Copyright 2014 The Oppia Authors. All Rights Reserved.
+// Copyright 2021 The Oppia Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
  * @fileoverview Directive for the skill selector editor.
  */
 
-require(
-  'components/skill-selector/skill-selector.directive.ts');
 require('domain/skill/skill-domain.constants.ajs.ts');
 require('services/context.service.ts');
 

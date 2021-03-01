@@ -1,4 +1,4 @@
-// Copyright 2020 The Oppia Authors. All Rights Reserved.
+// Copyright 2021 The Oppia Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -59,6 +59,12 @@ import { ProfileLinkTextComponent } from
 import { TakeBreakModalComponent } from
   'pages/exploration-player-page/templates/take-break-modal.component';
 import { AuthService } from 'services/auth.service';
+import { SkillSelectorComponent } from './skill-selector/skill-selector.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CategorizedSkillFilterPipe } from 'filters/categorized-skill-filter.pipe';
+import { UntriagedSkillSummariesFilter } from 'filters/untriaged-skill-summaries-filter.pipe';
 
 
 // TODO(#11462): Delete these conditional values once firebase auth is launched.
@@ -79,9 +85,12 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
   imports: [
     CommonModule,
     BrowserModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatRadioModule,
     NgbTooltipModule,
     FormsModule,
-    ...firebaseAuthModules,
+    ...firebaseAuthModules
   ],
 
   providers: [
@@ -91,6 +100,7 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
   declarations: [
     AttributionGuideComponent,
     BackgroundBannerComponent,
+    CategorizedSkillFilterPipe,
     ExplorationEmbedButtonModalComponent,
     ExplorationSummaryTileDirective,
     KeyboardShortcutHelpModalComponent,
@@ -100,11 +110,13 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     ProfileLinkTextComponent,
     SharingLinksComponent,
     SkillMasteryViewerComponent,
+    SkillSelectorComponent,
     StorySummaryTileDirective,
     SocialButtonsComponent,
     SubtopicSummaryTileDirective,
+    TakeBreakModalComponent,
     TranslatePipe,
-    TakeBreakModalComponent
+    UntriagedSkillSummariesFilter
   ],
 
   entryComponents: [
@@ -118,6 +130,7 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     ExplorationEmbedButtonModalComponent,
     KeyboardShortcutHelpModalComponent,
     SkillMasteryViewerComponent,
+    SkillSelectorComponent,
     SocialButtonsComponent
   ],
 

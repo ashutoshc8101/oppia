@@ -1,4 +1,4 @@
-// Copyright 2018 The Oppia Authors. All Rights Reserved.
+// Copyright 2021 The Oppia Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,8 +32,6 @@ require(
 require(
   'components/skill-selector/' +
   'questions-list-select-skill-modal.controller.ts');
-require(
-  'components/skill-selector/skill-selector.directive.ts');
 
 require(
   'components/question-directives/modal-templates/' +

@@ -1,4 +1,4 @@
-# Copyright 2020 The Oppia Authors. All Rights Reserved.
+# Copyright 2021 The Oppia Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -296,7 +296,6 @@ NOT_FULLY_COVERED_FILENAMES = [
     'skill-questions-tab.directive.ts',
     'skill-rubrics-editor.directive.ts',
     'skill-selector-editor.directive.ts',
-    'skill-selector.directive.ts',
     'SkillObjectFactory.ts',
     'skills-list.directive.ts',
     'skills-mastery-list.directive.ts',

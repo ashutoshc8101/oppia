@@ -1,4 +1,4 @@
-// Copyright 2020 The Oppia Authors. All Rights Reserved.
+// Copyright 2021 The Oppia Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,6 +25,14 @@ export interface SkillSummaryBackendDict {
   'worked_examples_count': number;
   'skill_model_created_on': number;
   'skill_model_last_updated': number;
+}
+
+export interface SubTopic {
+  [key : string]: SkillSummary[]
+}
+
+export interface CategorizedSkills {
+  [key : string]: SubTopic
 }
 
 export class SkillSummary {
