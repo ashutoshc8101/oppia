@@ -9,14 +9,11 @@
              autofocus>
     </mat-card>
     <div class="skill-list-box">
-      <mat-radio-group
-         [(ngModel)]="selectedSkill"
-         (change)="updateSelectedSkillId()">
-        <div
-          *ngFor="let skill of activeCategorizedSkills | keyvalue | categorizedSkillFilter:skillFilterText">
-          <mat-card
-          class="list-view-item"
-          *ngIf="checkIfTopicIsEmpty(skill.key)">
+      <mat-radio-group [(ngModel)]="selectedSkill"
+                       (change)="updateSelectedSkillId()">
+        <div *ngFor="let skill of activeCategorizedSkills | keyvalue | categorizedSkillFilter:skillFilterText">
+          <mat-card class="list-view-item"
+                    *ngIf="checkIfTopicIsEmpty(skill.key)">
             <mat-card layout="row" class="list-view-item">
               <h2>
                 <label class="oppia-topic-name-text">{{ skill.key }}</label>
@@ -27,10 +24,9 @@
                 <mat-card class="list-view-item">
                   <label class="oppia-subtopic-name-text">{{ subtopic.key }}</label>
                   <div *ngFor="let skill of subtopic.value">
-                    <mat-radio-button
-                      class="oppia-skills-list-item protractor-test-skills-list-item"
-                      [value]="skill.id"
-                      attr.aria-label="{{skill.description}}">
+                    <mat-radio-button class="oppia-skills-list-item protractor-test-skills-list-item"
+                                      [value]="skill.id"
+                                      attr.aria-label="{{skill.description}}">
                       {{ skill.description }}
                     </mat-radio-button>
                   </div>
@@ -40,23 +36,20 @@
           </mat-card>
         </div>
         <div *ngIf="untriagedSkillSummaries">
-          <mat-card
-            *ngIf="untriagedSkillSummaries.length"
-            class="list-view-item">
+          <mat-card *ngIf="untriagedSkillSummaries.length"
+                    class="list-view-item">
             <mat-card layout="row" class="list-view-item">
               <h2>
                 <label class="oppia-heading-text">Untriaged Skills</label>
               </h2>
             </mat-card>
-            <div
-              *ngIf="!checkIfEmpty(untriagedSkillSummaries)"
-              class="list-view-item">
+            <div *ngIf="!checkIfEmpty(untriagedSkillSummaries)"
+                 class="list-view-item">
               <mat-card class="list-view-item">
-                <mat-radio-button
-                  class="oppia-skills-list-item protractor-test-skills-list-item"
-                  *ngFor="let skill of untriagedSkillSummaries | untriagedSkillSummariesFilter:skillFilterText"
-                  [value]="skill.id"
-                  [attr.aria-label]="skill.description">
+                <mat-radio-button class="oppia-skills-list-item protractor-test-skills-list-item"
+                                  *ngFor="let skill of untriagedSkillSummaries | untriagedSkillSummariesFilter:skillFilterText"
+                                  [value]="skill.id"
+                                  [attr.aria-label]="skill.description">
                   {{skill.description}}
                 </mat-radio-button>
               </mat-card>
@@ -67,21 +60,18 @@
     </div>
   </div>
   <div class="list-group oppia-filter-list-group">
-    <mat-card
-      *ngIf="allowSkillsFromOtherTopics"
-      layout="row"
-      class="list-view-item oppia-list-view-item">
+    <mat-card *ngIf="allowSkillsFromOtherTopics"
+              layout="row"
+              class="list-view-item oppia-list-view-item">
       <label>Filter By Topics</label>
     </mat-card>
-    <div
-      *ngIf="allowSkillsFromOtherTopics"
-      class="oppia-list-view-item-container">
+    <div *ngIf="allowSkillsFromOtherTopics"
+         class="oppia-list-view-item-container">
       <mat-card class="list-view-item">
-        <mat-checkbox
-          class="oppia-skills-list-item"
-          *ngFor="let topic of topicFilterList"
-          [(ngModel)]="topic.checked"
-          (change)="updateSkillsListOnTopicFilterChange()">{{ topic.topicName }}</mat-checkbox>
+        <mat-checkbox class="oppia-skills-list-item"
+                      *ngFor="let topic of topicFilterList"
+                      [(ngModel)]="topic.checked"
+                      (change)="updateSkillsListOnTopicFilterChange()">{{ topic.topicName }}</mat-checkbox>
       </mat-card>
     </div>
     <br>
@@ -95,11 +85,10 @@
             <label class="list-group-item-heading oppia-heading-text">{{ subTopics.key }}</label>
           </h3>
           <mat-card class="list-view-item">
-            <mat-checkbox
-              class="oppia-skills-list-item"
-              *ngFor="let subtopic of subTopics.value"
-              [(ngModel)]="subtopic.checked"
-              (change)="updateSkillsListOnSubtopicFilterChange()">{{ subtopic.subTopicName }}</mat-checkbox>
+            <mat-checkbox class="oppia-skills-list-item"
+                          *ngFor="let subtopic of subTopics.value"
+                          [(ngModel)]="subtopic.checked"
+                          (change)="updateSkillsListOnSubtopicFilterChange()">{{ subtopic.subTopicName }}</mat-checkbox>
           </mat-card>
         </div>
       </mat-card>
