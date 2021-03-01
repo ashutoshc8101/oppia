@@ -1,6 +1,7 @@
 <div
   class="skill-selector-parent skill-container oppia-skill-container protractor-test-skill-container">
-  <div class="list-group oppia-list-group">
+  <div 
+  class="list-group oppia-list-group">
     <mat-card class="list-view-item protractor-test-skill-select-header">
       Search By Skill
       <input type="text"
@@ -11,13 +12,13 @@
     </mat-card>
     <div class="skill-list-box">
       <mat-radio-group
-        [(ngModel)]="selectedSkill"
-        (change)="updateSelectedSkillId()">
+         [(ngModel)]="selectedSkill"
+         (change)="updateSelectedSkillId()">
         <div
           *ngFor="let skill of activeCategorizedSkills | keyvalue | categorizedSkillFilter:skillFilterText">
           <mat-card
-            class="list-view-item"
-            *ngIf="checkIfTopicIsEmpty(skill.key)">
+          class="list-view-item"
+          *ngIf="checkIfTopicIsEmpty(skill.key)">
             <mat-card layout="row" class="list-view-item">
               <h2>
                 <label class="oppia-topic-name-text">{{ skill.key }}</label>
