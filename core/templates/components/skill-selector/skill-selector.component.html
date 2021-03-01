@@ -71,7 +71,9 @@
         <mat-checkbox class="oppia-skills-list-item"
                       *ngFor="let topic of topicFilterList"
                       [(ngModel)]="topic.checked"
-                      (change)="updateSkillsListOnTopicFilterChange()">{{ topic.topicName }}</mat-checkbox>
+                      (change)="updateSkillsListOnTopicFilterChange()">
+                      {{ topic.topicName }}
+        </mat-checkbox>
       </mat-card>
     </div>
     <br>
@@ -88,7 +90,9 @@
             <mat-checkbox class="oppia-skills-list-item"
                           *ngFor="let subtopic of subTopics.value"
                           [(ngModel)]="subtopic.checked"
-                          (change)="updateSkillsListOnSubtopicFilterChange()">{{ subtopic.subTopicName }}</mat-checkbox>
+                          (change)="updateSkillsListOnSubtopicFilterChange()">
+                          {{ subtopic.subTopicName }}
+            </mat-checkbox>
           </mat-card>
         </div>
       </mat-card>
