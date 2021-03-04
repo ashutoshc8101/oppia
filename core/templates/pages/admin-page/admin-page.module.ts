@@ -43,12 +43,14 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   declarations: [
     OppiaAdminProdModeActivitiesTabComponent,
     OppiaAngularRootComponent,
-    AdminFeaturesTabComponent
+    AdminFeaturesTabComponent,
+    AdminConfigTabComponent
   ],
   entryComponents: [
     OppiaAdminProdModeActivitiesTabComponent,
     OppiaAngularRootComponent,
-    AdminFeaturesTabComponent
+    AdminFeaturesTabComponent,
+    AdminConfigTabComponent
   ],
   providers: [
     {
@@ -71,6 +73,7 @@ class AdminPageModule {
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { downgradeModule } from '@angular/upgrade/static';
+import { AdminConfigTabComponent } from './config-tab/admin-config-tab.component';
 
 const bootstrapFn = (extraProviders: StaticProvider[]) => {
   const platformRef = platformBrowserDynamic(extraProviders);
