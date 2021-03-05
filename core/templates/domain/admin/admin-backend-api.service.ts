@@ -60,7 +60,7 @@ interface RoleGraphData {
   }[];
 }
 
-interface ConfigProperties {
+export interface ConfigProperties {
   [property: string]: Object;
 }
 

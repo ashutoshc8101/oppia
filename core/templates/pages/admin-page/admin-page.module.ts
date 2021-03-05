@@ -32,6 +32,8 @@ import { OppiaAdminProdModeActivitiesTabComponent } from
   './activities-tab/admin-prod-mode-activities-tab.component';
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
+import { SchemaBasedEditorModule } from 'components/forms/schema-based-editors/schema-based-editor.module';
+import { AdminConfigTabComponent } from './config-tab/admin-config-tab.component';
 
 @NgModule({
   imports: [
@@ -44,12 +46,14 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   declarations: [
     OppiaAdminProdModeActivitiesTabComponent,
     OppiaAngularRootComponent,
-    AdminFeaturesTabComponent
+    AdminFeaturesTabComponent,
+    AdminConfigTabComponent
   ],
   entryComponents: [
     OppiaAdminProdModeActivitiesTabComponent,
     OppiaAngularRootComponent,
     AdminFeaturesTabComponent,
+    AdminConfigTabComponent
   ],
   providers: [
     {
@@ -72,7 +76,8 @@ class AdminPageModule {
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { downgradeModule } from '@angular/upgrade/static';
-import { SchemaBasedEditorModule } from 'components/forms/schema-based-editors/schema-based-editor.module';
+import { AdminConfigTabComponent } from './config-tab/admin-config-tab.component';
+
 
 const bootstrapFn = (extraProviders: StaticProvider[]) => {
   const platformRef = platformBrowserDynamic(extraProviders);
