@@ -16,8 +16,8 @@
  * @fileoverview Directive for the skill review material editor.
  */
 
-require(
-  'components/forms/schema-based-editors/schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-editor.directive.ts');
 require('domain/exploration/SubtitledHtmlObjectFactory.ts');
 require('domain/utilities/url-interpolation.service.ts');
 require('components/ck-editor-helpers/ck-editor-4-rte.directive.ts');

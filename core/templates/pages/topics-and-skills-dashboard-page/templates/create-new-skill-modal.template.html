@@ -37,8 +37,8 @@
       </div>
 
       <div ng-if="conceptCardExplanationEditorIsShown">
-        <schema-based-editor schema="HTML_SCHEMA" class="protractor-test-concept-card-text"
-                             local-value="bindableDict.displayedConceptCardExplanation">
+        <schema-based-editor [schema]="HTML_SCHEMA" class="protractor-test-concept-card-text"
+                         [local-value]="bindableDict.displayedConceptCardExplanation">
         </schema-based-editor>
       </div>
     </div>

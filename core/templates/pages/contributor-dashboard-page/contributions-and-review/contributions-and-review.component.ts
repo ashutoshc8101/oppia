@@ -17,8 +17,8 @@
  */
 
 require('base-components/base-content.directive.ts');
-require(
-  'components/forms/schema-based-editors/schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-editor.directive.ts');
 require(
   'components/question-directives/question-editor/' +
   'question-editor.directive.ts');

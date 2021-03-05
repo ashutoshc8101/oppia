@@ -16,8 +16,8 @@
  * @fileoverview Directive for the state content editor.
  */
 
-require(
-  'components/forms/schema-based-editors/schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-editor.directive.ts');
 require(
   'components/state-editor/state-editor-properties-services/' +
   'state-editor.service.ts');

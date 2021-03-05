@@ -16,8 +16,8 @@
  * @fileoverview Directive for Subtitled Unicode editor.
  */
 
-require(
-  'components/forms/schema-based-editors/schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-editor.directive.ts');
 
 angular.module('oppia').directive('subtitledUnicodeEditor', [
   function() {

@@ -23,8 +23,8 @@ require(
 require(
   'components/common-layout-directives/common-elements/' +
   'background-banner.component.ts');
-require(
-  'components/forms/schema-based-editors/schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-editor.directive.ts');
 require(
   'pages/exploration-player-page/learner-experience/' +
   'conversation-skin.directive.ts');

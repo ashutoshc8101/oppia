@@ -17,9 +17,9 @@
  */
 
 require('base-components/base-content.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-editor.directive.ts');
 
 require('services/alerts.service.ts');
 require('services/date-time-format.service.ts');

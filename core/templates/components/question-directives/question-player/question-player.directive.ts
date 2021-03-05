@@ -35,34 +35,34 @@ require(
   'components/forms/custom-forms-directives/apply-validation.directive.ts');
 require(
   'components/forms/custom-forms-directives/require-is-float.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-bool-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-choices-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-custom-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-dict-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/schema-based-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-expression-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-float-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-html-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/schema-based-int-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
-  'schema-based-list-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-bool-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-choices-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-custom-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-dict-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-expression-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-float-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-html-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-int-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/' +
+//   'schema-based-list-editor.directive.ts');
 require(
   'components/forms/schema-based-editors/' +
   'schema-based-unicode-editor.directive.ts');

@@ -22,8 +22,8 @@ require('pages/interaction-specs.constants.ajs.ts');
 require(
   'components/common-layout-directives/common-elements/' +
   'confirm-or-cancel-modal.controller.ts');
-require(
-  'components/forms/schema-based-editors/schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-editor.directive.ts');
 require('directives/angular-html-bind.directive.ts');
 require(
   'pages/story-editor-page/navbar/story-editor-navbar-breadcrumb.directive.ts');

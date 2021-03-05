@@ -38,13 +38,13 @@
   <div ng-if="translationEditorIsOpen" class="protractor-test-state-translation-editor">
     <div ng-if="activeWrittenTranslation.isHtml()">
       <ck-editor-copy-toolbar></ck-editor-copy-toolbar>
-      <schema-based-editor schema="HTML_SCHEMA"
-                           local-value="activeWrittenTranslation.translation">
+      <schema-based-editor [schema]="HTML_SCHEMA"
+                           [local-value]="activeWrittenTranslation.translation">
       </schema-based-editor>
     </div>
     <div ng-if="activeWrittenTranslation.isUnicode()">
-      <schema-based-editor schema="UNICODE_SCHEMA"
-                           local-value="activeWrittenTranslation.translation">
+      <schema-based-editor [schema]="UNICODE_SCHEMA"
+                           [local-value]="activeWrittenTranslation.translation">
       </schema-based-editor>
     </div>
 

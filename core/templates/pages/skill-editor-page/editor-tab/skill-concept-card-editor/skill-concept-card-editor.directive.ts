@@ -21,8 +21,8 @@ require(
   'confirm-or-cancel-modal.controller.ts');
 require(
   'components/review-material-editor/review-material-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/schema-based-editor.directive.ts');
+// require(
+//   'components/forms/schema-based-editors/schema-based-editor.directive.ts');
 require('directives/angular-html-bind.directive.ts');
 require(
   'pages/skill-editor-page/editor-tab/skill-concept-card-editor/' +

@@ -28,8 +28,8 @@
       <div ng-show="data.correctAnswer !== null">
         <strong>Explanation:</strong>
         <schema-based-editor class="protractor-test-explanation-textarea"
-                             schema="EXPLANATION_FORM_SCHEMA"
-                             local-value="data.explanationHtml">
+                             [schema]="EXPLANATION_FORM_SCHEMA"
+                             [local-value]="data.explanationHtml">
         </schema-based-editor>
       </div>
     </div>

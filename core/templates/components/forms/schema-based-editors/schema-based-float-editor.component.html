@@ -1,0 +1,81 @@
+<!-- <span [(ngModel)]="localValue">
+  <span #floatForm="ngForm">
+    <span *ngIf="!expressionMode">
+      <input type="number" step="any" autocomplete="off" [(ngModel)]="localValue" class="form-control display-inline">    
+    </span>
+  </span>
+</span> -->
+
+<!-- <span [(ngModel)]="localValue" ui-validate="'$ctrl.validate($value)'"> -->
+<form #floatForm="ngForm">
+  <span *ngIf="!expressionMode">
+    <!-- apply-validation validators="$ctrl.validators()" -->
+    <!-- name="floatValue" ng-attr-placeholder="<['I18N_FORMS_TYPE_NUMBER' | translate]>" -->
+    <input type="number" step="any" autocomplete="off" [(ngModel)]="localValue" class="form-control display-inline oppia-float-form-input protractor-test-float-form-input"
+            name="floatValue"
+            [attr.focus-on]="labelForFocusTarget" (keypress)="onKeypress($event)"
+            (blur)="onBlur()" (focus)="onFocus()"
+            (change)="generateErrors()" #floatValue="ngModel">
+
+    <span class="oppia-form-error oppia-numeric-input-error" *ngIf="errorString">
+      {{ errorString }}
+    </span>
+    <span *ngIf="hasLoaded && !isUserCurrentlyTyping && hasFocusedAtLeastOnce"
+          class="position-absolute oppia-form-container"
+          tabindex="-1" [attr.focus-on]="labelForErrorFocusTarget">
+      <span *ngIf="floatValue.isFloat" class="oppia-form-error" [attr.aria-live]="assertive" [translate]="I18N_FORMS_TYPE_NUMBER_INVALID_DECIMAL"></span>
+      <span *ngIf="floatValue.isFloat"
+            class="oppia-form-error" [attr.aria-live]="assertive" [translate]="I18N_FORMS_TYPE_NUMBER_AT_LEAST" translate-values="{minValue: minValue}">
+      </span> 
+      <span *ngIf="!floatValue.isFloat"
+            class="oppia-form-error" aria-live="assertive" translate="I18N_FORMS_TYPE_NUMBER_AT_MOST" translate-values="{maxValue: maxValue}">
+      </span>
+    </span>
+  </span>
+</form>
+
+
+<!-- <span ng-model="$ctrl.localValue" ui-validate="'$ctrl.validate($value)'">
+  <span ng-form="$ctrl.floatForm">
+    <span ng-if="!expressionMode">
+      <input type="number" step="any" autocomplete="off" ng-model="$ctrl.localValue" class="form-control display-inline oppia-float-form-input protractor-test-float-form-input"
+             name="floatValue" ng-attr-placeholder="<['I18N_FORMS_TYPE_NUMBER' | translate]>"
+             focus-on="<[$ctrl.labelForFocusTarget()]>" ng-keypress="$ctrl.onKeypress($event)"
+             apply-validation validators="$ctrl.validators()"
+             ng-blur="$ctrl.onBlur()" ng-focus="$ctrl.onFocus()"
+             ng-change="$ctrl.generateErrors()">
+
+      <span class="oppia-form-error oppia-numeric-input-error" ng-if="$ctrl.errorString">
+        <[$ctrl.errorString]>
+      </span>
+      <span ng-if="$ctrl.hasLoaded && !$ctrl.isUserCurrentlyTyping && $ctrl.hasFocusedAtLeastOnce"
+            class="position-absolute oppia-form-container"
+            tabindex="-1" focus-on="<[$ctrl.labelForErrorFocusTarget]>">
+        <span ng-if="$ctrl.floatForm.floatValue.$error.isFloat && $ctrl.floatForm.floatValue.$viewValue" class="oppia-form-error" aria-live="assertive" translate="I18N_FORMS_TYPE_NUMBER_INVALID_DECIMAL"></span>
+        <span ng-if="!$ctrl.floatForm.floatValue.$error.isFloat && $ctrl.floatForm.floatValue.$error.isAtLeast"
+              class="oppia-form-error" aria-live="assertive" translate="I18N_FORMS_TYPE_NUMBER_AT_LEAST" translate-values="{minValue: minValue}">
+        </span>
+        <span ng-if="!$ctrl.floatForm.floatValue.$error.isFloat && $ctrl.floatForm.floatValue.$error.isAtMost"
+              class="oppia-form-error" aria-live="assertive" translate="I18N_FORMS_TYPE_NUMBER_AT_MOST" translate-values="{maxValue: maxValue}">
+        </span>
+      </span>
+    </span>
+  </span>
+</span> -->
+
+<style>
+  .oppia-numeric-input-error {
+    margin-top: 10px;
+  }
+  input.oppia-float-form-input {
+    -moz-appearance: textfield;
+  }
+  input.oppia-float-form-input::-webkit-outer-spin-button,
+  input.oppia-float-form-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .oppia-form-container {
+    font-size: 0.85em;
+  }
+</style>

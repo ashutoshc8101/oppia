@@ -1,0 +1,4 @@
+<select class="form-control" [(ngModel)]="localValue" required
+        [attr.disabled]="isDisabled">
+        <option *ngFor="let choice of choices">{{ choice }}</option>
+</select>

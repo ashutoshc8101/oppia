@@ -38,6 +38,7 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    SchemaBasedEditorModule,
     SharedComponentsModule
   ],
   declarations: [
@@ -48,7 +49,7 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   entryComponents: [
     OppiaAdminProdModeActivitiesTabComponent,
     OppiaAngularRootComponent,
-    AdminFeaturesTabComponent
+    AdminFeaturesTabComponent,
   ],
   providers: [
     {
@@ -71,6 +72,7 @@ class AdminPageModule {
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { downgradeModule } from '@angular/upgrade/static';
+import { SchemaBasedEditorModule } from 'components/forms/schema-based-editors/schema-based-editor.module';
 
 const bootstrapFn = (extraProviders: StaticProvider[]) => {
   const platformRef = platformBrowserDynamic(extraProviders);
