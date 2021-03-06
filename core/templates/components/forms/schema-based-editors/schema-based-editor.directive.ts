@@ -20,9 +20,6 @@ require(
   'components/forms/custom-forms-directives/apply-validation.directive.ts');
 require(
   'components/forms/schema-based-editors/' +
-  'schema-based-bool-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
   'schema-based-choices-editor.directive.ts');
 require(
   'components/forms/schema-based-editors/' +
@@ -66,6 +63,11 @@ angular.module('oppia').directive('schemaBasedEditor', [
       },
       template: require('./schema-based-editor.directive.html'),
       controllerAs: '$ctrl',
-      controller: [function() {}]
+      controller: [function() {
+        let ctrl = this;
+        ctrl.updateLocalValue = function($event) {
+          ctrl.localValue = $event;
+        };
+      }]
     };
   }]);

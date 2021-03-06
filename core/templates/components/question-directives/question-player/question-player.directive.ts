@@ -37,9 +37,6 @@ require(
   'components/forms/custom-forms-directives/require-is-float.directive.ts');
 require(
   'components/forms/schema-based-editors/' +
-  'schema-based-bool-editor.directive.ts');
-require(
-  'components/forms/schema-based-editors/' +
   'schema-based-choices-editor.directive.ts');
 require(
   'components/forms/schema-based-editors/' +

@@ -32,13 +32,15 @@ import { OppiaAdminProdModeActivitiesTabComponent } from
   './activities-tab/admin-prod-mode-activities-tab.component';
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
+import { SchemaBasedEditorModule } from 'components/forms/schema-based-editors/schema-based-editor.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    SchemaBasedEditorModule
   ],
   declarations: [
     OppiaAdminProdModeActivitiesTabComponent,
