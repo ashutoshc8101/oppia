@@ -49,6 +49,7 @@ describe('Classroom page functionality', function() {
       'Boolean', async function(elem) {
         await elem.setValue(true);
       });
+    await users.logout();
   });
 
   beforeEach(async function() {
