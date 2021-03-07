@@ -49,19 +49,22 @@ angular.module('oppia').directive('topNavigationBar', [
       controllerAs: '$ctrl',
       controller: [
         '$http', '$rootScope', '$scope', '$timeout', '$translate', '$window',
-        'ClassroomBackendApiService', 'DebouncerService', 'DeviceInfoService',
-        'I18nLanguageCodeService', 'NavigationService', 'SearchService',
-        'SidebarStatusService', 'SiteAnalyticsService', 'UserService',
-        'WindowDimensionsService', 'LABEL_FOR_CLEARING_FOCUS', 'LOGOUT_URL',
+        'AlertsService', 'AuthService', 'ClassroomBackendApiService',
+        'DebouncerService', 'DeviceInfoService', 'I18nLanguageCodeService',
+        'NavigationService', 'SearchService', 'SidebarStatusService',
+        'SiteAnalyticsService', 'UserService', 'WindowDimensionsService',
+        'LABEL_FOR_CLEARING_FOCUS', 'LOGOUT_URL',
         function(
             $http, $rootScope, $scope, $timeout, $translate, $window,
-            ClassroomBackendApiService, DebouncerService, DeviceInfoService,
-            I18nLanguageCodeService, NavigationService, SearchService,
-            SidebarStatusService, SiteAnalyticsService, UserService,
-            WindowDimensionsService, LABEL_FOR_CLEARING_FOCUS, LOGOUT_URL) {
+            AlertsService, AuthService, ClassroomBackendApiService,
+            DebouncerService, DeviceInfoService, I18nLanguageCodeService,
+            NavigationService, SearchService, SidebarStatusService,
+            SiteAnalyticsService, UserService, WindowDimensionsService,
+            LABEL_FOR_CLEARING_FOCUS,
+              LOGOUT_URL) {
           var ctrl = this;
           ctrl.directiveSubscriptions = new Subscription();
-          var NAV_MODE_SIGNUP = 'signup';
+          var NAV_MODE_SIGNUP = '/signup';
           var NAV_MODES_WITH_CUSTOM_LOCAL_NAV = [
             'create', 'explore', 'collection', 'collection_editor',
             'topics_and_skills_dashboard', 'topic_editor', 'skill_editor',
@@ -79,21 +82,15 @@ angular.module('oppia').directive('topNavigationBar', [
             return UrlInterpolationService.getStaticImageUrl(imagePath);
           };
           ctrl.onLoginButtonClicked = function() {
-            UserService.getLoginUrlAsync().then(
-              function(loginUrl) {
-                if (loginUrl) {
-                  SiteAnalyticsService.registerStartLoginEvent('loginButton');
-                  $timeout(function() {
-                    $window.location = loginUrl;
-                  }, 150);
-                } else {
-                  $window.location.reload();
-                }
-              }
-            );
+            SiteAnalyticsService.registerStartLoginEvent('loginButton');
+            AuthService.signInAsync().then(
+              () => $window.location = (
+                `signup?return_url=${$window.location.pathname}`),
+              err => AlertsService.addWarning(err.message));
           };
           ctrl.onLogoutButtonClicked = function() {
             $window.localStorage.removeItem('last_uploaded_audio_lang');
+            AuthService.signOutAsync();
           };
           /**
            * Opens the submenu.

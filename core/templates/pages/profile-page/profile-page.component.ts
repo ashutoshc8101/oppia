@@ -35,11 +35,13 @@ require('pages/profile-page/profile-page-backend-api.service');
 angular.module('oppia').component('profilePage', {
   template: require('./profile-page.component.html'),
   controller: [
-    '$log', '$rootScope', '$scope', 'DateTimeFormatService', 'LoaderService',
-    'UrlInterpolationService', 'UserService', 'WindowRef',
+    '$log', '$rootScope', '$scope', 'AlertsService', 'AuthService',
+    'DateTimeFormatService', 'LoaderService', 'UrlInterpolationService',
+    'WindowRef',
     function(
-        $log, $rootScope, $scope, DateTimeFormatService, LoaderService,
-        UrlInterpolationService, UserService, WindowRef) {
+        $log, $rootScope, $scope, AlertsService, AuthService,
+        DateTimeFormatService, LoaderService, UrlInterpolationService,
+        WindowRef) {
       var ctrl = this;
       const ProfilePageBackendApiService = (
         OppiaAngularRootComponent.profilePageBackendApiService);
@@ -119,15 +121,11 @@ angular.module('oppia').component('profilePage', {
 
           ctrl.changeSubscriptionStatus = function() {
             if (ctrl.userNotLoggedIn) {
-              UserService.getLoginUrlAsync().then(
-                function(loginUrl) {
-                  if (loginUrl) {
-                    WindowRef.nativeWindow.location.href = loginUrl;
-                  } else {
-                    WindowRef.nativeWindow.location.reload();
-                  }
-                }
-              );
+              AuthService.signInAsync().then(
+                () => WindowRef.nativeWindow.location.href = (
+                  '/signup?return_url=' +
+                  WindowRef.nativeWindow.location.pathname),
+                err => AlertsService.addWarning(err.message));
             } else {
               if (!ctrl.isAlreadySubscribed) {
                 ProfilePageBackendApiService.subscribeAsync(

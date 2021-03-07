@@ -43,12 +43,12 @@ angular.module('oppia').component('storyViewerPage', {
   template: require('./story-viewer-page.component.html'),
   controller: [
     '$rootScope', '$window', 'AlertsService', 'AssetsBackendApiService',
-    'LoaderService', 'StoryViewerBackendApiService',
+    'AuthService', 'LoaderService', 'StoryViewerBackendApiService',
     'UrlInterpolationService', 'UrlService', 'UserService',
     'ENTITY_TYPE', 'FATAL_ERROR_CODES',
     function(
         $rootScope, $window, AlertsService, AssetsBackendApiService,
-        LoaderService, StoryViewerBackendApiService,
+        AuthService, LoaderService, StoryViewerBackendApiService,
         UrlInterpolationService, UrlService, UserService,
         ENTITY_TYPE, FATAL_ERROR_CODES) {
       var ctrl = this;
@@ -97,11 +97,9 @@ angular.module('oppia').component('storyViewerPage', {
       };
 
       ctrl.signIn = function() {
-        UserService.getLoginUrlAsync().then(
-          loginUrl => {
-            loginUrl ? $window.location = loginUrl : (
-              $window.location.reload());
-          });
+        AuthService.signInAsync().then(
+          () => $window.location = `/signup?return_url=${$window.location.pathname}`,
+          err => AlertsService.addWarning(err.message));
       };
 
       ctrl.getExplorationUrl = function(node) {

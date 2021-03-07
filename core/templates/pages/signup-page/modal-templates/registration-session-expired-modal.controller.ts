@@ -20,21 +20,15 @@ require('services/user.service.ts');
 
 angular.module('oppia').controller(
   'RegistrationSessionExpiredModalController', [
-    '$scope', '$timeout', '$uibModalInstance', '$window', 'UserService',
+    '$scope', '$timeout', '$uibModalInstance', '$window', 'AlertsService',
+    'AuthService',
     function(
-        $scope, $timeout, $uibModalInstance, $window, UserService) {
+        $scope, $timeout, $uibModalInstance, $window, AlertsService,
+        AuthService) {
       $scope.continueRegistration = function() {
-        UserService.getLoginUrlAsync().then(
-          function(loginUrl) {
-            if (loginUrl) {
-              $timeout(function() {
-                $window.location = loginUrl;
-              }, 150);
-            } else {
-              $window.location.reload();
-            }
-          }
-        );
+        AuthService.signInAsync().then(
+          () => $window.location = `/signup?return_url=${$window.location.pathname}`,
+          err => AlertsService.addWarning(err.message));
         $uibModalInstance.dismiss('cancel');
       };
     }

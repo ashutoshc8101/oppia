@@ -23,6 +23,8 @@ import { WindowRef } from 'services/contextual/window-ref.service';
 import constants from 'assets/constants';
 import { Component } from '@angular/core';
 import { downgradeComponent } from '@angular/upgrade/static';
+import { AuthService } from 'services/auth.service';
+import { AlertsService } from 'services/alerts.service';
 
 @Component({
   selector: 'login-required-message',
@@ -34,9 +36,9 @@ export class LoginRequiredMessageComponent {
   OPPIA_AVATAR_LINK_URL: string;
 
   constructor(
-    private readonly siteAnalyticsService: SiteAnalyticsService,
+    private readonly alertsService: AlertsService,
+    private readonly authService: AuthService,
     private readonly urlInterpolationService: UrlInterpolationService,
-    private readonly userService: UserService,
     private readonly windowRef: WindowRef) {}
 
   ngOnInit(): void {
@@ -47,18 +49,11 @@ export class LoginRequiredMessageComponent {
   }
 
   onLoginButtonClicked(): void {
-    this.userService.getLoginUrlAsync().then(
-      (loginUrl) => {
-        if (loginUrl) {
-          this.siteAnalyticsService.registerStartLoginEvent('loginButton');
-          setTimeout(() => {
-            this.windowRef.nativeWindow.location.href = loginUrl;
-          }, 150);
-        } else {
-          this.windowRef.nativeWindow.location.reload();
-        }
-      }
-    );
+    const signUpUrl = (
+      '/signup?return_url=' + this.windowRef.nativeWindow.location.pathname);
+    this.authService.signInAsync().then(
+      () => this.windowRef.nativeWindow.location.href = signUpUrl,
+      err => this.alertsService.addWarning(err.message));
   }
 }
 
