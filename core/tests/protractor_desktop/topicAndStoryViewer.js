@@ -154,14 +154,12 @@ describe('Topic and Story viewer functionality', function() {
   });
 
   it('should play through story and save progress on login.', async function() {
-    await users.login('creator@storyViewer.com');
     await topicAndStoryViewerPage.get(
       'math', 'topic-tasv-one', 'story-player-tasv-one');
     await topicAndStoryViewerPage.expectCompletedLessonCountToBe(0);
     await topicAndStoryViewerPage.expectUncompletedLessonCountToBe(3);
     await topicAndStoryViewerPage.goToChapterIndex(0);
     await explorationPlayerPage.submitAnswer('Continue', null);
-    await users.logout();
 
     await topicAndStoryViewerPage.login(
       'newStoryViewer@storyviewer.com', 'newStoryViewer');
@@ -176,7 +174,8 @@ describe('Topic and Story viewer functionality', function() {
   it(
     'should check for topic description, stories and revision cards',
     async function() {
-      await users.login('creator@storyViewer.com');
+      await users.createAndLoginAdminUser(
+        'creator1@storyViewer.com', 'creatorStoryViewer1');
       await topicViewerPage.get('math', 'Topic TASV1');
       await topicViewerPage.expectTopicInformationToBe('Description');
       await topicViewerPage.expectStoryCountToBe(1);
