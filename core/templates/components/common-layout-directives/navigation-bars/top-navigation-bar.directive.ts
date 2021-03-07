@@ -85,12 +85,13 @@ angular.module('oppia').directive('topNavigationBar', [
             SiteAnalyticsService.registerStartLoginEvent('loginButton');
             AuthService.signInAsync().then(
               () => $window.location = (
-                `signup?return_url=${$window.location.pathname}`),
+                `/signup?return_url=${$window.location.pathname}`),
               err => AlertsService.addWarning(err.message));
           };
           ctrl.onLogoutButtonClicked = function() {
             $window.localStorage.removeItem('last_uploaded_audio_lang');
-            AuthService.signOutAsync();
+            AuthService.signOutAsync().then(
+              () => $window.location = LOGOUT_URL);
           };
           /**
            * Opens the submenu.
