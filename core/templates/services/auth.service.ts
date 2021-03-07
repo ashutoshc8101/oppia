@@ -108,8 +108,7 @@ export class AuthService {
     provider.addScope('email');
     // Always prompt the user to select an account, even when they only own one.
     provider.setCustomParameters({prompt: 'select_account'});
-    await this.angularFireAuth.signInWithRedirect(provider);
-    return await this.angularFireAuth.getRedirectResult();
+    return this.angularFireAuth.signInWithPopup(provider);
   }
 }
 
