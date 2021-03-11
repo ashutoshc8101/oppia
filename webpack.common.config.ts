@@ -745,10 +745,10 @@ module.exports = {
   externals: {
     jquery: 'jQuery'
   },
-  optimization: {
-    runtimeChunk: 'single',
-    splitChunks: {
-      chunks: 'all'
-    },
-  }
+  // optimization: {
+  //   runtimeChunk: 'single',
+  //   splitChunks: {
+  //     chunks: 'all'
+  //   },
+  // }
 };

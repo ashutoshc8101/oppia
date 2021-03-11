@@ -16,16 +16,15 @@
  * @fileoverview Module for the about page.
  */
 
-import { APP_INITIALIZER, NgModule, StaticProvider } from '@angular/core';
+import { APP_INITIALIZER, ChangeDetectorRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { downgradeComponent } from '@angular/upgrade/static';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AboutPageComponent } from './about-page.component';
 import { RequestInterceptor } from 'services/request-interceptor.service';
-import { SharedComponentsModule } from 'components/shared-component.module';
-import { OppiaAngularRootComponent } from
-  'components/oppia-angular-root.component';
+// import { SharedComponentsModule } from 'components/shared-component.module';
+// import { OppiaAngularRootComponent } from
+//   'components/oppia-angular-root.component';
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
 
@@ -33,17 +32,22 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   imports: [
     BrowserModule,
     HttpClientModule,
-    SharedComponentsModule
+    // SharedComponentsModule
   ],
   declarations: [
     AboutPageComponent,
-    OppiaAngularRootComponent
+    TranslatePipe,
+    BackgroundBannerComponent,
+    // OppiaAngularRootComponent
   ],
   entryComponents: [
     AboutPageComponent,
-    OppiaAngularRootComponent
+    BackgroundBannerComponent,
+    // OppiaAngularRootComponent
   ],
   providers: [
+    TranslateService,
+    UtilsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,
@@ -55,30 +59,33 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
       deps: [PlatformFeatureService],
       multi: true
     }
-  ]
+  ],
+  bootstrap: [AboutPageComponent]
 })
 class AboutPageModule {
   // Empty placeholder method to satisfy the `Compiler`.
-  ngDoBootstrap() {}
 }
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { downgradeModule } from '@angular/upgrade/static';
+import { TranslatePipe } from 'filters/translate.pipe';
+import { BackgroundBannerComponent } from 'components/common-layout-directives/common-elements/background-banner.component';
+import { TranslateService } from 'services/translate.service';
+import { UtilsService } from 'services/utils.service';
 
-const bootstrapFn = (extraProviders: StaticProvider[]) => {
-  const platformRef = platformBrowserDynamic(extraProviders);
-  return platformRef.bootstrapModule(AboutPageModule);
-};
-const downgradedModule = downgradeModule(bootstrapFn);
+platformBrowserDynamic()
+  .bootstrapModule(AboutPageModule)
+  .catch(err => console.log(err));
 
-declare var angular: ng.IAngularStatic;
+// Const downgradedModule = downgradeModule(bootstrapFn);
 
-angular.module('oppia').requires.push(downgradedModule);
+// declare var angular: ng.IAngularStatic;
 
-angular.module('oppia').directive(
-  // This directive is the downgraded version of the Angular component to
-  // bootstrap the Angular 8.
-  'oppiaAngularRoot',
-  downgradeComponent({
-    component: OppiaAngularRootComponent
-  }) as angular.IDirectiveFactory);
+// angular.module('oppia').requires.push(downgradedModule);
+
+// angular.module('oppia').directive(
+//   // This directive is the downgraded version of the Angular component to
+//   // bootstrap the Angular 8.
+//   'oppiaAngularRoot',
+//   downgradeComponent({
+//     component: OppiaAngularRootComponent
+//   }) as angular.IDirectiveFactory);

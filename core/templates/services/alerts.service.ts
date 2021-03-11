@@ -170,5 +170,5 @@ export class AlertsService {
   }
 }
 
-angular.module('oppia').factory(
-  'AlertsService', downgradeInjectable(AlertsService));
+// angular.module('oppia').factory(
+//   'AlertsService', downgradeInjectable(AlertsService));

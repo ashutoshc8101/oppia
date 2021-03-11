@@ -244,6 +244,6 @@ export class UrlInterpolationService {
   }
 }
 
-angular.module('oppia').factory(
-  'UrlInterpolationService',
-  downgradeInjectable(UrlInterpolationService));
+// angular.module('oppia').factory(
+//   'UrlInterpolationService',
+//   downgradeInjectable(UrlInterpolationService));

@@ -17,7 +17,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { downgradeComponent } from '@angular/upgrade/static';
 
 import { AboutPageConstants } from './about-page.constants';
 import { UrlInterpolationService } from
@@ -115,5 +114,5 @@ export class AboutPageComponent implements OnInit {
     };
   }
 }
-angular.module('oppia').directive(
-  'aboutPage', downgradeComponent({component: AboutPageComponent}));
+// angular.module('oppia').directive(
+//   'aboutPage', downgradeComponent({component: AboutPageComponent}));
