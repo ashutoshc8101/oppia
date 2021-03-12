@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="oppia" itemscope itemtype="http://schema.org/Organization">
+<html itemscope itemtype="http://schema.org/Organization">
   <head>
     @load('base-components/header.template.html', {"title": "Oppia"})
     <base href="/search/">
@@ -15,8 +15,7 @@
     </style>
   </head>
   <body>
-    <oppia-root>
-      <div ng-controller="Base">
+      <div>
         <base-content>
           <navbar-breadcrumb>
             <search-bar class="protractor-library-page-search-bar" enable-dropup="false"></search-bar>
@@ -31,8 +30,6 @@
           </page-footer>
         </base-content>
       </div>
-
-    </oppia-root>
     @load('pages/footer_js_libs.html')
   </body>
 </html>

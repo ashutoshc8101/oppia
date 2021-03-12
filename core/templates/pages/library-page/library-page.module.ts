@@ -32,13 +32,13 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   imports: [
     BrowserModule,
     HttpClientModule,
-    SharedComponentsModule
+    // SharedComponentsModule
   ],
   declarations: [
-    OppiaAngularRootComponent
+    // OppiaAngularRootComponent
   ],
   entryComponents: [
-    OppiaAngularRootComponent
+    // OppiaAngularRootComponent
   ],
   providers: [
     {
@@ -60,22 +60,6 @@ class LibraryPageModule {
 }
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { downgradeModule } from '@angular/upgrade/static';
 
-const bootstrapFn = (extraProviders: StaticProvider[]) => {
-  const platformRef = platformBrowserDynamic(extraProviders);
-  return platformRef.bootstrapModule(LibraryPageModule);
-};
-const downgradedModule = downgradeModule(bootstrapFn);
-
-declare var angular: ng.IAngularStatic;
-
-angular.module('oppia').requires.push(downgradedModule);
-
-angular.module('oppia').directive(
-  // This directive is the downgraded version of the Angular component to
-  // bootstrap the Angular 8.
-  'oppiaAngularRoot',
-  downgradeComponent({
-    component: OppiaAngularRootComponent
-  }) as angular.IDirectiveFactory);
+platformBrowserDynamic().bootstrapModule(LibraryPageModule)
+  .catch(err => console.log(err));

@@ -98,5 +98,5 @@ export class BrowserCheckerService {
   }
 }
 
-// angular.module('oppia').factory(
-//   'BrowserCheckerService', downgradeInjectable(BrowserCheckerService));
+angular.module('oppia').factory(
+  'BrowserCheckerService', downgradeInjectable(BrowserCheckerService));

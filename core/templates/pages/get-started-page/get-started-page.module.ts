@@ -33,13 +33,13 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   imports: [
     BrowserModule,
     HttpClientModule,
-    SharedComponentsModule
   ],
   declarations: [
-    OppiaAngularRootComponent
+    TranslatePipe,
+    BackgroundBannerComponent
   ],
   entryComponents: [
-    OppiaAngularRootComponent
+    BackgroundBannerComponent
   ],
   providers: [
     {
@@ -61,22 +61,8 @@ class GetStartedPageModule {
 }
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { downgradeModule } from '@angular/upgrade/static';
+import { TranslatePipe } from 'filters/translate.pipe';
+import { BackgroundBannerComponent } from 'components/common-layout-directives/common-elements/background-banner.component';
 
-const bootstrapFn = (extraProviders: StaticProvider[]) => {
-  const platformRef = platformBrowserDynamic(extraProviders);
-  return platformRef.bootstrapModule(GetStartedPageModule);
-};
-const downgradedModule = downgradeModule(bootstrapFn);
-
-declare var angular: ng.IAngularStatic;
-
-angular.module('oppia').requires.push(downgradedModule);
-
-angular.module('oppia').directive(
-  // This directive is the downgraded version of the Angular component to
-  // bootstrap the Angular 8.
-  'oppiaAngularRoot',
-  downgradeComponent({
-    component: OppiaAngularRootComponent
-  }) as angular.IDirectiveFactory);
+platformBrowserDynamic().bootstrapModule(GetStartedPageModule)
+  .catch(err => console.log(err));

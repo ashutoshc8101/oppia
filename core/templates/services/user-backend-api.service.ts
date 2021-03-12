@@ -109,7 +109,3 @@ export class UserBackendApiService {
       this.USER_CONTRIBUTION_RIGHTS_DATA_URL).toPromise();
   }
 }
-
-angular.module('oppia').factory(
-  'UserBackendApiService',
-  downgradeInjectable(UserBackendApiService));

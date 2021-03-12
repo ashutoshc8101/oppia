@@ -23,6 +23,7 @@ import { UrlInterpolationService } from
   'domain/utilities/url-interpolation.service.ts';
 import { WindowRef } from
   'services/contextual/window-ref.service.ts';
+import { downgradeComponent } from '@angular/upgrade/static';
 
 interface CreditNames {
   letter: string;
@@ -114,5 +115,5 @@ export class AboutPageComponent implements OnInit {
     };
   }
 }
-// angular.module('oppia').directive(
-//   'aboutPage', downgradeComponent({component: AboutPageComponent}));
+angular.module('oppia').directive(
+  'aboutPage', downgradeComponent({component: AboutPageComponent}));

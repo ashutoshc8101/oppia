@@ -60,6 +60,6 @@ export class PlatformFeatureBackendApiService {
   }
 }
 
-// angular.module('oppia').factory(
-//   'PlatformFeatureBackendApiService',
-//   downgradeInjectable(PlatformFeatureBackendApiService));
+angular.module('oppia').factory(
+  'PlatformFeatureBackendApiService',
+  downgradeInjectable(PlatformFeatureBackendApiService));

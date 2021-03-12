@@ -288,7 +288,8 @@ class BaseHandler(webapp2.RequestHandler):
         Raises:
             PageNotFoundException. Page not found error (error code 404).
         """
-        raise self.PageNotFoundException
+        self.render_template('oppia/index.html')
+        return
 
     def post(self, *args):  # pylint: disable=unused-argument
         """Base method to handle POST requests.
@@ -464,12 +465,14 @@ class BaseHandler(webapp2.RequestHandler):
         logging.error(b''.join(traceback.format_exception(*sys.exc_info())))
 
         if isinstance(exception, self.PageNotFoundException):
-            logging.warning('Invalid URL requested: %s', self.request.uri)
-            self.error(404)
-            self._render_exception(
-                404, {
-                    'error': 'Could not find the page %s.' % self.request.uri})
-            return
+            pass
+            # logging.warning('Invalid URL requested: %s', self.request.uri)
+            # self.error(404)
+            # self._render_exception(
+            #     404, {
+            #         'error': 'Could not find the page %s.' % self.request.uri})
+            # self.render_template('oppia/index.html')
+            # return
 
         logging.error('Exception raised: %s', exception)
 

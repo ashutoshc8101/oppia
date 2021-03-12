@@ -16,16 +16,12 @@
  * @fileoverview Module for the teach page.
  */
 
-import { APP_INITIALIZER, NgModule, StaticProvider } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { downgradeComponent } from '@angular/upgrade/static';
 
 import { TeachPageComponent } from './teach-page.component';
-import { OppiaAngularRootComponent } from
-  'components/oppia-angular-root.component';
-import { SharedComponentsModule } from 'components/shared-component.module';
 import { RequestInterceptor } from 'services/request-interceptor.service';
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
@@ -34,16 +30,15 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   imports: [
     BrowserModule,
     HttpClientModule,
-    SharedComponentsModule
   ],
   declarations: [
     TeachPageComponent,
-    OppiaAngularRootComponent
+    TranslatePipe
   ],
   entryComponents: [
     TeachPageComponent,
-    OppiaAngularRootComponent
   ],
+  bootstrap: [TeachPageComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -64,22 +59,6 @@ class SplashPageModule {
 }
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { downgradeModule } from '@angular/upgrade/static';
-
-const bootstrapFn = (extraProviders: StaticProvider[]) => {
-  const platformRef = platformBrowserDynamic(extraProviders);
-  return platformRef.bootstrapModule(SplashPageModule);
-};
-const downgradedModule = downgradeModule(bootstrapFn);
-
-declare var angular: ng.IAngularStatic;
-
-angular.module('oppia').requires.push(downgradedModule);
-
-angular.module('oppia').directive(
-  // This directive is the downgraded version of the Angular component to
-  // bootstrap the Angular 8.
-  'oppiaAngularRoot',
-  downgradeComponent({
-    component: OppiaAngularRootComponent
-  }) as angular.IDirectiveFactory);
+import { TranslatePipe } from 'filters/translate.pipe';
+platformBrowserDynamic().bootstrapModule(SplashPageModule)
+  .catch(err => console.log(err));

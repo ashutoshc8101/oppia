@@ -394,5 +394,5 @@ export class UrlService {
   }
 }
 
-// angular.module('oppia').factory(
-//   'UrlService', downgradeInjectable(UrlService));
+angular.module('oppia').factory(
+  'UrlService', downgradeInjectable(UrlService));

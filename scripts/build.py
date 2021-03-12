@@ -36,6 +36,7 @@ ASSETS_OUT_DIR = os.path.join('build', 'assets', '')
 
 THIRD_PARTY_STATIC_DIR = os.path.join('third_party', 'static')
 THIRD_PARTY_GENERATED_DEV_DIR = os.path.join('third_party', 'generated', '')
+THIRD_PARTY_GENERATED_DEV_NGX_DIR = os.path.join('third_party', 'ngx_generated', '')
 THIRD_PARTY_GENERATED_OUT_DIR = os.path.join(
     'build', 'third_party', 'generated', '')
 
@@ -72,6 +73,7 @@ WEBPACK_DIRNAMES_TO_DIRPATHS = {
 HASHES_JSON_FILENAME = 'hashes.json'
 HASHES_JSON_FILEPATH = os.path.join('assets', HASHES_JSON_FILENAME)
 MANIFEST_FILE_PATH = os.path.join('manifest.json')
+MANIFEST_FILE_PATH_NGX = os.path.join('manifest_ngx.json')
 
 REMOVE_WS = re.compile(r'\s{2,}').sub
 
@@ -80,6 +82,7 @@ YUICOMPRESSOR_DIR = os.path.join(
 PARENT_DIR = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 UGLIFY_FILE = os.path.join('node_modules', 'uglify-js', 'bin', 'uglifyjs')
 WEBPACK_FILE = os.path.join('node_modules', 'webpack', 'bin', 'webpack.js')
+ANGULAR_CLI_FILE = os.path.join('node_modules', '@angular','cli', 'bin', 'ng')
 WEBPACK_DEV_CONFIG = 'webpack.dev.config.ts'
 WEBPACK_DEV_SOURCE_MAPS_CONFIG = 'webpack.dev.sourcemap.config.ts'
 WEBPACK_PROD_CONFIG = 'webpack.prod.config.ts'
@@ -483,6 +486,7 @@ def get_dependency_directory(dependency):
         dependency_dir = dependency['targetDir']
     else:
         dependency_dir = dependency['targetDirPrefix'] + dependency['version']
+    
     return os.path.join(THIRD_PARTY_STATIC_DIR, dependency_dir)
 
 
@@ -555,7 +559,7 @@ def get_font_filepaths(dependency_bundle, dependency_dir):
     return font_filepaths
 
 
-def get_dependencies_filepaths():
+def get_dependencies_filepaths(ngx=False):
     """Extracts dependencies filepaths from manifest.json file into
     a dictionary.
 
@@ -570,7 +574,10 @@ def get_dependencies_filepaths():
         'css': [],
         'fonts': []
     }
-    with python_utils.open_file(MANIFEST_FILE_PATH, 'r') as json_file:
+
+    FILE_PATH = MANIFEST_FILE_PATH_NGX if ngx else MANIFEST_FILE_PATH
+
+    with python_utils.open_file(FILE_PATH, 'r') as json_file:
         manifest = json.loads(
             json_file.read(), object_pairs_hook=collections.OrderedDict)
     frontend_dependencies = manifest['dependencies']['frontend']
@@ -612,7 +619,7 @@ def minify_third_party_libs(third_party_directory_path):
     safe_delete_file(third_party_css_filepath)
 
 
-def build_third_party_libs(third_party_directory_path):
+def build_third_party_libs(third_party_directory_path, ngx=False):
     """Joins all third party css files into single css file and js files into
     single js file. Copies both files and all fonts into third party folder.
     """
@@ -627,7 +634,7 @@ def build_third_party_libs(third_party_directory_path):
     webfonts_dir = os.path.join(
         third_party_directory_path, WEBFONTS_RELATIVE_DIRECTORY_PATH)
 
-    dependency_filepaths = get_dependencies_filepaths()
+    dependency_filepaths = get_dependencies_filepaths(ngx)
     ensure_directory_exists(third_party_js_filepath)
     with python_utils.open_file(
         third_party_js_filepath, 'w+') as third_party_js_file:
@@ -660,6 +667,20 @@ def build_using_webpack(config_path):
         common.NODE_BIN_PATH, WEBPACK_FILE, config_path)
     subprocess.check_call(cmd, shell=True)
 
+
+def build_using_ng_cli():
+    """Execute angular-cli build process. This takes all TypeScript files we have in
+    /templates and generates JS bundles according the require() imports
+    and also compiles HTML pages into the /backend_prod_files/webpack_bundles
+    folder. The files are later copied into /build/webpack_bundles.
+    """
+    
+    python_utils.PRINT('Building angular-cli')
+
+    # cmd = '%s %s --config %s' % (
+    #     common.NODE_BIN_PATH, WEBPACK_FILE, config_path)
+    cmd = '%s build --deploy-url=/webpack_bundles/oppia/' % ANGULAR_CLI_FILE
+    subprocess.check_call(cmd, shell=True)
 
 def hash_should_be_inserted(filepath):
     """Returns if the file should be renamed to include hash in
@@ -1334,7 +1355,9 @@ def main(args=None):
 
     # Regenerate /third_party/generated from scratch.
     safe_delete_directory_tree(THIRD_PARTY_GENERATED_DEV_DIR)
+    safe_delete_directory_tree(THIRD_PARTY_GENERATED_DEV_NGX_DIR)
     build_third_party_libs(THIRD_PARTY_GENERATED_DEV_DIR)
+    build_third_party_libs(THIRD_PARTY_GENERATED_DEV_NGX_DIR, ngx=True)
 
     # If minify_third_party_libs_only is set to True, skips the rest of the
     # build process once third party libs are minified.
@@ -1351,6 +1374,7 @@ def main(args=None):
         prod_env=options.prod_env,
         emulator_mode=not options.deploy_mode,
         maintenance_mode=options.maintenance_mode)
+    
     if options.prod_env:
         minify_third_party_libs(THIRD_PARTY_GENERATED_DEV_DIR)
         hashes = generate_hashes()
@@ -1368,7 +1392,7 @@ def main(args=None):
             deploy_mode=options.deploy_mode,
             maintenance_mode=options.maintenance_mode)
         generate_build_directory(hashes)
-
+        build_using_ng_cli()
     save_hashes_to_file(dict())
 
 

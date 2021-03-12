@@ -1,29 +1,34 @@
 <!DOCTYPE html>
-<html ng-app="oppia" itemscope itemtype="http://schema.org/Organization">
+<html itemscope itemtype="http://schema.org/Organization">
 
   <head>
-    @load('base-components/header.template.html', {"title": "Donate - Oppia"})
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
+    <meta name="description" content="Learn any subject through free and interactive lessons in easy-to-follow language. Oppia provides a step-by-step learning process to master any skills you want.">
+    <meta itemprop="name" content="<%= htmlWebpackPlugin.options.meta.name %>">
+    <meta itemprop="description" content="<%= htmlWebpackPlugin.options.meta.description %>">
+    <!-- The og tags are for Facebook sharing. -->
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.meta.name %>">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Oppia">
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.meta.description %>">
+
+    <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+    <title itemprop="name">Oppia</title>
+    @load('pages/header_css_libs.html')
+    <script src="/third_party/static/jquery-3.5.1/jquery.min.js"></script>
+    <script src="/third_party/static/jqueryui-1.12.1/jquery-ui.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js"></script>
+    <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-57KK7PG"></script>
+    <script src="/third_party/static/jquery-ui-touch-punch-0.3.1/jquery.ui.touch-punch-improved.js"></script>
   </head>
 
   <body>
-    <oppia-root>
-      <div ng-controller="Base">
-        <base-content>
-          <navbar-breadcrumb>
-            <ul class="nav navbar-nav oppia-navbar-breadcrumb">
-              <li>
-                <span class="oppia-navbar-breadcrumb-separator"></span>
-                Donate
-              </li>
-            </ul>
-          </navbar-breadcrumb>
-
           <content>
             <donate-page></donate-page>
           </content>
-        </base-content>
-      </div>
-    </oppia-root>
-    @load('pages/footer_js_libs.html')
+
+    @load('pages/footer_js_libs_ngx.html')
   </body>
 </html>
