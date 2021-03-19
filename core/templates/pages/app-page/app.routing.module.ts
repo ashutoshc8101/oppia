@@ -1,6 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
+import { AuthGuard } from 'core/templates/guards/auth.guard';
 import { AboutPageComponent } from 'pages/about-page/about-page.component';
 import { DonatePageComponent } from 'pages/donate-page/donate-page.component';
 import { ErrorPageComponent } from 'pages/error-pages/error-page.component';
@@ -18,6 +19,11 @@ const routes: Route[] = [
   {
     path: 'credits',
     redirectTo: 'about'
+  },
+  {
+    path: 'loggedIn',
+    redirectTo: 'donate',
+    canActivate: [AuthGuard]
   },
   {
     path: '**',

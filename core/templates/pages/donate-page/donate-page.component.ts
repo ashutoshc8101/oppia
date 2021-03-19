@@ -26,6 +26,7 @@ import { UrlInterpolationService } from
 import { WindowDimensionsService } from
   'services/contextual/window-dimensions.service.ts';
 import { WindowRef } from 'services/contextual/window-ref.service';
+import { UserService } from 'services/user.service';
 
 
 @Component({
@@ -41,7 +42,8 @@ export class DonatePageComponent implements OnInit {
     private siteAnalyticsService: SiteAnalyticsService,
     private urlInterpolationService: UrlInterpolationService,
     private windowDimensionService: WindowDimensionsService,
-    private windowRef: WindowRef
+    private windowRef: WindowRef,
+    private userService: UserService
   ) {}
   ngOnInit(): void {
     this.windowIsNarrow = this.windowDimensionService.isWindowNarrow();
@@ -49,6 +51,14 @@ export class DonatePageComponent implements OnInit {
       '/general/opp_donate_text.svg');
     this.pageTitleService.setPageTitle(
       'Donate | Make a Positive Impact | Oppia');
+    this.userService.getUserInfoAsync().then((user) => {
+      console.log(user);
+    }, (err) => {
+      console.log(err);
+    });
+    this.userService.getUserContributionRightsDataAsync().then((data) => {
+      console.log(data);
+    });
   }
 
   onDonateThroughAmazon(): boolean {
