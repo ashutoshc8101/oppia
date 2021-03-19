@@ -18,6 +18,7 @@
 
 import { Component } from '@angular/core';
 import { downgradeComponent } from '@angular/upgrade/static';
+import { UserService } from 'services/user.service';
 
 @Component({
   selector: 'terms-page',
@@ -27,6 +28,19 @@ import { downgradeComponent } from '@angular/upgrade/static';
 export class TermsPageComponent {
   scrollTo(el: HTMLElement): void {
     el.scrollIntoView({behavior: 'smooth'});
+  }
+
+  constructor(
+    private userService: UserService
+  ) {}
+
+  ngOnInit(): void {
+    this.userService.getUserInfoAsync().then((user) => {
+      console.log(user);
+    });
+    this.userService.getUserContributionRightsDataAsync().then((data) => {
+      console.log(data);
+    });
   }
 }
 
