@@ -925,10 +925,10 @@ def managed_firebase_auth_emulator():
         FIREBASE_PATH, 'emulators:start', '--only', 'auth',
         '--project', feconf.OPPIA_PROJECT_ID,
     ]
-    with contextlib2.ExitStack() as stack:
-        # OK to use shell=True here because we are passing string literals and
-        # constants, so no risk of shell-injection attacks.
-        yield stack.enter_context(managed_process(emulator_args, shell=True))
+    # OK to use shell=True here because we are passing string literals and
+    # constants, so no risk of shell-injection attacks.
+    with managed_process(emulator_args, shell=True):
+        yield
 
 
 @contextlib.contextmanager

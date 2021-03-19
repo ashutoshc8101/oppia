@@ -40,10 +40,17 @@ var scrollToTop = async function() {
 // We will report all console logs of level greater than this.
 var CONSOLE_LOG_THRESHOLD = 900;
 var CONSOLE_ERRORS_TO_IGNORE = [];
+var CONSOLE_PATTERNS_TO_IGNORE = [
+  /localhost:9099/,
+];
 
 var checkForConsoleErrors = async function(errorsToIgnore) {
   var irrelevantErrors = errorsToIgnore.concat(CONSOLE_ERRORS_TO_IGNORE);
   var browserLogs = await browser.manage().logs().get('browser');
+  browserLogs = browserLogs.filter(function(browserLog) {
+    return CONSOLE_PATTERNS_TO_IGNORE.every(
+      pattern => browserLog.message.match(pattern) === null);
+  });
   var fatalErrors = [];
   // The mobile tests run on the latest version of Chrome.
   // The newer versions report 'Slow Network' as a console error.
@@ -78,7 +85,6 @@ var SERVER_URL_PREFIX = 'http://localhost:9001';
 var EDITOR_URL_SLICE = '/create/';
 var PLAYER_URL_SLICE = '/explore/';
 var USER_PREFERENCES_URL = '/preferences';
-var LOGIN_URL_SUFFIX = '/_ah/login';
 var MODERATOR_URL_SUFFIX = '/moderator';
 // Note that this only works in dev, due to the use of cache slugs in prod.
 var SCRIPTS_URL_SLICE = '/assets/scripts/';
@@ -238,7 +244,6 @@ exports.isInDevMode = isInDevMode;
 exports.SERVER_URL_PREFIX = SERVER_URL_PREFIX;
 exports.USER_PREFERENCES_URL = USER_PREFERENCES_URL;
 exports.EDITOR_URL_SLICE = EDITOR_URL_SLICE;
-exports.LOGIN_URL_SUFFIX = LOGIN_URL_SUFFIX;
 exports.MODERATOR_URL_SUFFIX = MODERATOR_URL_SUFFIX;
 exports.SCRIPTS_URL_SLICE = SCRIPTS_URL_SLICE;
 exports.FIRST_STATE_DEFAULT_NAME = FIRST_STATE_DEFAULT_NAME;
