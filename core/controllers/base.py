@@ -57,8 +57,18 @@ def load_template(filename):
         str. The HTML file content.
     """
     filepath = os.path.join(feconf.FRONTEND_TEMPLATES_DIR, filename)
-    with python_utils.open_file(filepath, 'r') as f:
+    # with python_utils.open_file(filepath, 'r') as f:
+    #     html_text = f.read()
+    html_text = ''
+    try:
+        f = python_utils.open_file(filepath, 'r')
         html_text = f.read()
+    except IOError:
+        try:
+            f = python_utils.open_file(os.path.join(feconf.FRONTEND_TEMPLATES_DIR2, filename), 'r')
+            html_text = f.read()
+        except IOError:
+            raise IOError
     return html_text
 
 
@@ -288,7 +298,7 @@ class BaseHandler(webapp2.RequestHandler):
         Raises:
             PageNotFoundException. Page not found error (error code 404).
         """
-        self.render_template('oppia/index.html')
+        self.render_template('index.html')
         return
 
     def post(self, *args):  # pylint: disable=unused-argument

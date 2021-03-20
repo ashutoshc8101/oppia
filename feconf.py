@@ -76,6 +76,9 @@ OBJECT_TEMPLATES_DIR = os.path.join('extensions', 'objects', 'templates')
 FRONTEND_TEMPLATES_DIR = (
     os.path.join('webpack_bundles') if constants.DEV_MODE else
     os.path.join('backend_prod_files', 'webpack_bundles'))
+FRONTEND_TEMPLATES_DIR2 = (
+    os.path.join('dist/oppia')
+)
 DEPENDENCIES_TEMPLATES_DIR = (
     os.path.join(EXTENSIONS_DIR_PREFIX, 'extensions', 'dependencies'))
 

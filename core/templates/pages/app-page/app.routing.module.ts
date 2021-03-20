@@ -5,6 +5,10 @@ import { AuthGuard } from 'core/templates/guards/auth.guard';
 import { AboutPageComponent } from 'pages/about-page/about-page.component';
 import { DonatePageComponent } from 'pages/donate-page/donate-page.component';
 import { ErrorPageComponent } from 'pages/error-pages/error-page.component';
+import { AdminComponent } from './components/admin.component';
+import { LoggedInComponent } from './components/loggedIn.component';
+import { MaintainerComponent } from './components/maintainer.component';
+import { SuperAdminComponent } from './components/suger-admin';
 
 
 const routes: Route[] = [
@@ -22,12 +26,35 @@ const routes: Route[] = [
   },
   {
     path: 'loggedIn',
-    redirectTo: 'donate',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { roles: ['user'] },
+    component: LoggedInComponent
+  },
+  {
+    path: 'maintainer-role',
+    canActivate: [AuthGuard],
+    data: { roles: ['moderator', 'admin'] },
+    component: MaintainerComponent
+  },
+  {
+    path: 'admin-role',
+    canActivate: [AuthGuard],
+    data: { roles: ['admin', 'superadmin'] },
+    component: AdminComponent
+  },
+  {
+    path: 'super-admin-role',
+    canActivate: [AuthGuard],
+    data: { roles: ['superadmin'] },
+    component: SuperAdminComponent
+  },
+  {
+    path: 'not-found',
+    component: ErrorPageComponent
   },
   {
     path: '**',
-    component: ErrorPageComponent
+    redirectTo: 'not-found'
   }
 ];
 

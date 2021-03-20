@@ -149,7 +149,7 @@ def main(args=None):
         time.sleep(10)
     background_processes.append(subprocess.Popen([
         ANGULAR_CLI_FILE,
-        'build', '--deploy-url=/webpack_bundles/oppia/', '--watch'
+        'build', '--deploy-url=/dist/oppia/', '--watch'
     ]))
 
     time.sleep(10)

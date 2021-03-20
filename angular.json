@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "webpack_bundles/oppia",
+            "outputPath": "dist/oppia",
             "index": "core/templates/pages/app-page/index.html",
             "main": "core/templates/pages/app-page/main.ts",
             "tsConfig": "tsconfig.json",

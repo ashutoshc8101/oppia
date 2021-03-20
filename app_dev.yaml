@@ -51,6 +51,13 @@ handlers:
   secure: always
   application_readable: true
   expiration: "0"
+
+- url: /dist/oppia
+  static_dir: dist/oppia
+  secure: always
+  application_readable: true
+  expiration: "0"
+
 - url: /assets
   static_dir: assets
   secure: always
