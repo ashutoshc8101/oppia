@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
 import { WindowRef } from 'services/contextual/window-ref.service';
+import { UserService } from 'services/user.service';
 
 class MockUserInfo {
   isLoggedIn(): boolean {
+    return true;
+  }
+
+  canCreateCollections(): boolean {
+    return true;
+  }
+
+  isTopicManager(): boolean {
     return false;
   }
 
@@ -31,41 +41,85 @@ class MockUserService {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanLoad, CanActivate {
   private userService = new MockUserService();
   constructor(
     private router: Router,
     private windowRef: WindowRef
   ) {}
-
-  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-  Promise<boolean> {
+  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree |
+  Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
     return this.userService.getUserInfoAsync().then((user) => {
       if (route.data.roles.indexOf('user') > -1) {
         if (user.isLoggedIn()) {
           return true;
         } else {
           this.windowRef.nativeWindow.location.assign('/');
-          return true;
+          return false;
         }
       }
 
-      if (route.data.roles.indexOf('moderator') > -1) {
-        if (user.isModerator()) {
+      if (route.data.roles.indexOf('collection-editor') > -1 &&
+        user.canCreateCollections()) {
+        return true;
+      }
+
+      if (route.data.roles.indexOf('topic-manager') > -1 &&
+      user.isTopicManager()) {
+        return true;
+      }
+
+      if (route.data.roles.indexOf('moderator') > -1 && user.isModerator()) {
+        return true;
+      }
+
+      if (route.data.roles.indexOf('admin') > -1 && user.isAdmin()) {
+        return true;
+      }
+
+      if (route.data.roles.indexOf('superadmin') > -1 && user.isSuperAdmin()) {
+        return true;
+      }
+
+      this.router.navigate(['not-found']);
+      return false;
+    }, (error) => {
+      return false;
+    });
+  }
+
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+  Promise<boolean | UrlTree> {
+    return this.userService.getUserInfoAsync().then((user) => {
+      if (route.data.roles.indexOf('user') > -1) {
+        if (user.isLoggedIn()) {
           return true;
+        } else {
+          this.windowRef.nativeWindow.location.assign('/');
+          return false;
         }
       }
 
-      if (route.data.roles.indexOf('admin') > -1) {
-        if (user.isAdmin()) {
-          return true;
-        }
+      if (route.data.roles.indexOf('collection-editor') > -1 &&
+        user.canCreateCollections()) {
+        return true;
       }
 
-      if (route.data.roles.indexOf('superadmin') > -1) {
-        if (user.isSuperAdmin()) {
-          return true;
-        }
+      if (route.data.roles.indexOf('topic-manager') > -1 &&
+      user.isTopicManager()) {
+        return true;
+      }
+
+      if (route.data.roles.indexOf('moderator') > -1 && user.isModerator()) {
+        return true;
+      }
+
+      if (route.data.roles.indexOf('admin') > -1 && user.isAdmin()) {
+        return true;
+      }
+
+      if (route.data.roles.indexOf('superadmin') > -1 && user.isSuperAdmin()) {
+        return true;
       }
 
       this.router.navigate(['not-found']);

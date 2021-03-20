@@ -17,7 +17,6 @@
  */
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -28,8 +27,9 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
 
 @NgModule({
   imports: [
-    BrowserModule,
+    CommonModule,
     HttpClientModule,
+    DonatePageRoutingModule
     // SharedComponentsModule
   ],
   declarations: [
@@ -52,7 +52,8 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
       deps: [PlatformFeatureService],
       multi: true
     }
-  ]
+  ],
+  bootstrap: [DonatePageRootComponent]
 })
 export class DonatePageModule {
   // Empty placeholder method to satisfy the `Compiler`.
@@ -60,6 +61,9 @@ export class DonatePageModule {
 }
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { DonatePageRoutingModule } from './donate-page.routing.module';
+import { DonatePageRootComponent } from './donate-page-root.component';
+import { CommonModule } from '@angular/common';
 
 platformBrowserDynamic()
   .bootstrapModule(DonatePageModule)

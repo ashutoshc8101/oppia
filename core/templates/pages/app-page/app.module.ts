@@ -16,7 +16,6 @@ import { SuperAdminComponent } from './components/suger-admin';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DonatePageModule,
     AboutPageModule,
     ErrorPageModule,
   ],

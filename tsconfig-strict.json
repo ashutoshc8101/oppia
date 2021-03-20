@@ -16,6 +16,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
+    "module": "esnext",
     "baseUrl": ".",
     "paths": {
       "app.constants": ["core/templates/app.constants"],

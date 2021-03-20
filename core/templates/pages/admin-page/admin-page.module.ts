@@ -64,9 +64,9 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
     }
   ]
 })
-class AdminPageModule {
+export class AdminPageModule {
   // Empty placeholder method to satisfy the `Compiler`.
-  ngDoBootstrap() {}
+  ngDoBootstrap(): void {}
 }
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
