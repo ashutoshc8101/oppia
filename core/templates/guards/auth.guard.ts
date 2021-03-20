@@ -43,10 +43,12 @@ class MockUserService {
 })
 export class AuthGuard implements CanLoad, CanActivate {
   private userService = new MockUserService();
+
   constructor(
     private router: Router,
     private windowRef: WindowRef
   ) {}
+
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree |
   Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
     return this.userService.getUserInfoAsync().then((user) => {
@@ -54,7 +56,7 @@ export class AuthGuard implements CanLoad, CanActivate {
         if (user.isLoggedIn()) {
           return true;
         } else {
-          this.windowRef.nativeWindow.location.assign('/');
+          this.windowRef.nativeWindow.location.assign('/signup');
           return false;
         }
       }

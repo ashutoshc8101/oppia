@@ -1149,7 +1149,7 @@ let AuthGuard = class AuthGuard {
                     return true;
                 }
                 else {
-                    this.windowRef.nativeWindow.location.assign('/');
+                    this.windowRef.nativeWindow.location.assign('/signup');
                     return false;
                 }
             }

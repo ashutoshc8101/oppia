@@ -86,7 +86,10 @@ export class AuthService {
 
   /** Assumes that angularFireAuth is not null. */
   private async emulatorSignInAsync(): Promise<firebase.auth.UserCredential> {
-    const email = prompt('Please enter the email address to sign-in with');
+    const email = prompt(
+      'Please enter the email address to sign-in with ' +
+      '(prefilled with superadmin email)',
+      'testadmin@example.com');
     const password = await md5(email);
     try {
       return await this.angularFireAuth.signInWithEmailAndPassword(

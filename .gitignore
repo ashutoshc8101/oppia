@@ -16,6 +16,7 @@ local_compiled_js/*
 local_compiled_js_for_test/*
 core/templates/prod/*
 webpack_bundles/*
+dist/oppia/*
 core/tests/.browserstack.env
 node_modules/*
 .coverage*
@@ -47,6 +48,7 @@ yarn-error.log
 # directories for dev and prod. Resource directories for prod are generated
 # via build.py and should not be committed to the repo.
 build/*
+dist
 
 # app.yaml is generated dynamically so needs to be ignored.
 app.yaml
