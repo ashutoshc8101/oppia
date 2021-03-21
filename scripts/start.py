@@ -147,12 +147,12 @@ def main(args=None):
 
         # Give webpack few seconds to do the initial compilation.
         time.sleep(10)
-    background_processes.append(subprocess.Popen([
-        ANGULAR_CLI_FILE,
-        'build', '--deploy-url=/dist/oppia/', '--watch'
-    ]))
+        background_processes.append(subprocess.Popen([
+            ANGULAR_CLI_FILE,
+            'build', '--deploy-url=/dist/oppia/', '--watch', '--prod'
+        ]))
 
-    time.sleep(10)
+        time.sleep(10)
 
     common.start_redis_server()
 

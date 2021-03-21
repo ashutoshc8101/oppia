@@ -682,7 +682,7 @@ def build_using_ng_cli():
 
     # cmd = '%s %s --config %s' % (
     #     common.NODE_BIN_PATH, WEBPACK_FILE, config_path)
-    cmd = '%s build --deploy-url=/webpack_bundles/oppia/' % ANGULAR_CLI_FILE
+    cmd = '%s build --deploy-url=/dist/oppia/ --prod' % ANGULAR_CLI_FILE
     subprocess.check_call(cmd, shell=True)
 
 def hash_should_be_inserted(filepath):
