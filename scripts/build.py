@@ -671,7 +671,7 @@ def build_using_webpack(config_path):
     subprocess.check_call(cmd, shell=True)
 
 
-def build_using_ng_cli():
+def build_using_ng_cli(enable_sourcemap=False):
     """Execute angular-cli build process. This takes all TypeScript files we have in
     /templates and generates JS bundles according the require() imports
     and also compiles HTML pages into the /backend_prod_files/webpack_bundles
@@ -683,6 +683,7 @@ def build_using_ng_cli():
     # cmd = '%s %s --config %s' % (
     #     common.NODE_BIN_PATH, WEBPACK_FILE, config_path)
     cmd = '%s build --deploy-url=/dist/oppia/ --prod' % ANGULAR_CLI_FILE
+    cmd = cmd + (' --source-map' if enable_sourcemap)
     subprocess.check_call(cmd, shell=True)
 
 def hash_should_be_inserted(filepath):
@@ -1395,7 +1396,7 @@ def main(args=None):
             deploy_mode=options.deploy_mode,
             maintenance_mode=options.maintenance_mode)
         generate_build_directory(hashes)
-        build_using_ng_cli()
+        build_using_ng_cli(options.source_maps)
     save_hashes_to_file(dict())
 
 

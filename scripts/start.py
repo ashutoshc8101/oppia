@@ -146,7 +146,6 @@ def main(args=None):
             '--config', webpack_config_file, '--watch']))
 
         # Give webpack few seconds to do the initial compilation.
-        time.sleep(10)
         background_processes.append(subprocess.Popen([
             ANGULAR_CLI_FILE,
             'build', '--deploy-url=/dist/oppia/', '--watch', '--prod'

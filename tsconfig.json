@@ -7,7 +7,7 @@
     "outDir": "local_compiled_js_for_test",
     "rootDir": ".",
     "target": "es6",
-    "sourceMap": true,
+    "sourceMap": false,
     "typeRoots": ["./node_modules/@types"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
