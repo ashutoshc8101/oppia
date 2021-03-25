@@ -28,33 +28,6 @@
               "core/templates/pages/app-page/assets"
             ],
             "sourceMap": true,
-            "styles" : [
-              "third_party/generated/css/third_party.css",
-              "core/templates/css/oppia.css",
-              "core/templates/css/oppia-material.css"
-            ],
-            "scripts": [
-              {
-                "input" : "third_party/static/jquery-3.5.1/jquery.min.js",
-                "inject" : true,
-                "bundleName" : "jquery"
-              },
-              {
-                "input" : "third_party/static/jqueryui-1.12.1/jquery-ui.min.js",
-                "inject" : true,
-                "bundleName" : "jquery-ui"
-              },
-              {
-                "input" : "third_party/static/jquery-ui-touch-punch-0.3.1/jquery.ui.touch-punch-improved.js",
-                "inject" : true,
-                "bundleName" : "jquery-ui-touch-punch-improved"
-              },
-              {
-                "input" : "third_party/ngx_generated/js/third_party.js",
-                "inject": true,
-                "bundleName" : "third-party"
-              }
-            ],
             "poll": 1000
           },
           "configurations": {
@@ -73,7 +46,17 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false
+              "vendorChunk": false,
+              "styles" : [
+              "third_party/generated/css/third_party.css",
+              "core/templates/css/oppia.css",
+              "core/templates/css/oppia-material.css"
+              ],
+              "scripts": ["third_party/static/jquery-3.5.1/jquery.min.js",
+                 "third_party/static/jqueryui-1.12.1/jquery-ui.min.js",
+                 "third_party/static/jquery-ui-touch-punch-0.3.1/jquery.ui.touch-punch-improved.js",
+                 "third_party/ngx_generated/js/third_party.js"
+              ]
             }
           }
         },
@@ -88,9 +71,17 @@
               "**/node_modules/**"
             ]
           }
-        }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "core/templates/pages/app-page/main.ts",
+            "tsConfig": "tsconfig.json",
+            "karmaConfig": "core/tests/karma.conf.ts"        
+          }
       }
     }
   },
   "defaultProject": "oppia"
+}
 }

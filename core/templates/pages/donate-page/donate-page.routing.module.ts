@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { DonatePageComponent } from './donate-page.component';
+import { DonatePageRootComponent } from './donate-page-root.component';
 
 const routes: Route[] = [
   {
     path: '',
-    component: DonatePageComponent
+    component: DonatePageRootComponent
   }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forChild(routes)
+  ],
+  exports: [
+    RouterModule
   ]
 })
 

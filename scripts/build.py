@@ -683,7 +683,8 @@ def build_using_ng_cli(enable_sourcemap=False):
     # cmd = '%s %s --config %s' % (
     #     common.NODE_BIN_PATH, WEBPACK_FILE, config_path)
     cmd = '%s build --deploy-url=/dist/oppia/ --prod' % ANGULAR_CLI_FILE
-    cmd = cmd + (' --source-map' if enable_sourcemap)
+    if enable_sourcemap:
+        cmd = cmd + ' --source-map'
     subprocess.check_call(cmd, shell=True)
 
 def hash_should_be_inserted(filepath):

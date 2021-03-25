@@ -34,6 +34,7 @@ from . import install_third_party_libs
 # the given path is absolute.
 DTSLINT_TYPE_TESTS_DIR_RELATIVE_PATH = os.path.join('typings', 'tests')
 TYPESCRIPT_DIR_RELATIVE_PATH = os.path.join('node_modules', 'typescript', 'lib')
+ANGULAR_CLI_FILE = os.path.join('node_modules', '@angular','cli', 'bin', 'ng')
 
 _PARSER = argparse.ArgumentParser(
     description="""
@@ -117,12 +118,20 @@ def main(args=None):
             os.path.join(common.NODE_MODULES_PATH, 'karma', 'bin', 'karma'),
             'start', os.path.join('core', 'tests', 'karma.conf.ts'),
             '--prodEnv']
+        
+        cmd = [
+            ANGULAR_CLI_FILE, 'test'
+        ]
     else:
         build.main(args=[])
 
         cmd = [
             os.path.join(common.NODE_MODULES_PATH, 'karma', 'bin', 'karma'),
             'start', os.path.join('core', 'tests', 'karma.conf.ts')]
+
+        cmd = [
+            ANGULAR_CLI_FILE, 'test'
+        ]
 
     task = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     output_lines = []
