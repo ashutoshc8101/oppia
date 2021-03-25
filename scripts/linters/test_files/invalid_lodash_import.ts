@@ -17,4 +17,4 @@
  * used by scripts/linters/general_purpose_linter.py.
  */
 
-import { cloneDeep } from 'lodash';
+import   { cloneDeep } from 'lodash';

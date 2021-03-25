@@ -42,9 +42,8 @@ class MockUserService {
   providedIn: 'root'
 })
 export class AuthGuard implements CanLoad, CanActivate {
-  private userService = new MockUserService();
-
   constructor(
+    private userService: UserService,
     private router: Router,
     private windowRef: WindowRef
   ) {}

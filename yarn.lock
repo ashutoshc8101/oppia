@@ -121,6 +121,11 @@
     ora "5.0.0"
     rxjs "6.6.2"
 
+"@angular-eslint/builder@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/builder/-/builder-2.0.2.tgz#39490333cb384e02051670526a23f75889553b1b"
+  integrity sha512-bs5ITrQNEaVD+oonrpJN17VSqZ1+094NIsvfkaQ4wQb22sc7BkDAMB2lcfhXgyH1mN+0bw1SP7DYuHSo3+r4Jw==
+
 "@angular/animations@^10.2.2":
   version "10.2.4"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-10.2.4.tgz#6c222aa1f4efd078f4c7388235ef5b9144bf80a4"

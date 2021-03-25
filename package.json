@@ -17,6 +17,7 @@
   "homepage": "https://github.com/oppia/oppia#readme",
   "devDependencies": {
     "@angular-devkit/build-angular": "0.1002.2",
+    "@angular-eslint/builder": "^2.0.2",
     "@angular/cli": "10.2.2",
     "@angular/compiler-cli": "10.2.2",
     "@lhci/cli": "^0.6.0",

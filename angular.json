@@ -60,16 +60,28 @@
             }
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "tsConfig": [
-              "tsconfig.json",
-              "tsconfig-strict.json"
+            "browserTarget": "oppia:build",
+            "proxyConfig": "proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "oppia:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "eslintConfig": ".eslintrc",
+            "cache": true,
+            "force": true,
+            "lintFilePatterns": [
+              "core/**/*.ts"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "ignorePath": ".eslintignore"
           }
         },
         "test": {
@@ -79,7 +91,19 @@
             "tsConfig": "tsconfig.json",
             "karmaConfig": "core/tests/karma.conf.ts"        
           }
-      }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "core/tests/protractor.conf.js",
+            "devServerTarget": "ng-routing-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ng-routing-app:serve:production"
+            }
+          }
+        }
     }
   },
   "defaultProject": "oppia"
