@@ -13,31 +13,65 @@
 // limitations under the License.
 
 /**
- * @fileoverview Directive for the side navigation bar.
+ * @fileoverview Component for the side navigation bar.
  */
 
-require('domain/utilities/url-interpolation.service.ts');
+import { Component } from '@angular/core';
+import { downgradeComponent } from '@angular/upgrade/static';
+import { UrlInterpolationService } from 'domain/utilities/url-interpolation.service';
+import { WindowRef } from 'services/contextual/window-ref.service';
 
-angular.module('oppia').directive('sideNavigationBar', [
-  'UrlInterpolationService', function(UrlInterpolationService) {
-    return {
-      restrict: 'E',
-      scope: {},
-      bindToController: {},
-      template: require('./side-navigation-bar.directive.html'),
-      controllerAs: '$ctrl',
-      controller: ['$window', function($window) {
-        var ctrl = this;
-        ctrl.getStaticImageUrl = function(imagePath) {
-          return UrlInterpolationService.getStaticImageUrl(imagePath);
-        };
-        ctrl.$onInit = function() {
-          ctrl.currentUrl = $window.location.pathname;
-          ctrl.classroomSubmenuIsShown = false;
-        };
-        ctrl.toggleClassroomSubmenu = function() {
-          ctrl.classroomSubmenuIsShown = !ctrl.classroomSubmenuIsShown;
-        };
-      }]
-    };
-  }]);
+@Component({
+  selector: 'side-navigation-bar',
+  templateUrl: './side-navigation-bar.directive.html'
+})
+export class SideNavigationBarComponent {
+  currentUrl: string;
+  classroomSubmenuIsShown: boolean = false;
+
+  constructor(
+    private windowRef: WindowRef,
+    private urlInterpolationService: UrlInterpolationService
+  ) {}
+
+  getStaticImageUrl(imagePath: string): string {
+    return this.urlInterpolationService.getStaticImageUrl(imagePath);
+  }
+
+  ngOnInit(): void {
+    this.currentUrl = this.windowRef.nativeWindow.location.pathname;
+  }
+
+  toggleClassroomSubmenu(): void {
+    this.classroomSubmenuIsShown = !this.classroomSubmenuIsShown;
+  }
+}
+
+angular.module('oppia').directive('sideNavigationBar',
+  downgradeComponent({ component: SideNavigationBarComponent }));
+
+// Require('domain/utilities/url-interpolation.service.ts');
+
+// angular.module('oppia').directive('sideNavigationBar', [
+//   'UrlInterpolationService', function(UrlInterpolationService) {
+//     return {
+//       restrict: 'E',
+//       scope: {},
+//       bindToController: {},
+//       template: require('./side-navigation-bar.directive.html'),
+//       controllerAs: '$ctrl',
+//       controller: ['$window', function($window) {
+//         var ctrl = this;
+//         ctrl.getStaticImageUrl = function(imagePath) {
+//           return UrlInterpolationService.getStaticImageUrl(imagePath);
+//         };
+//         ctrl.$onInit = function() {
+//           ctrl.currentUrl = $window.location.pathname;
+//           ctrl.classroomSubmenuIsShown = false;
+//         };
+//         ctrl.toggleClassroomSubmenu = function() {
+//           ctrl.classroomSubmenuIsShown = !ctrl.classroomSubmenuIsShown;
+//         };
+//       }]
+//     };
+//   }]);
