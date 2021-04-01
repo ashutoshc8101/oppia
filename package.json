@@ -124,6 +124,8 @@
     "@angular/router": "^10.2.2",
     "@angular/upgrade": "^10.2.2",
     "@ng-bootstrap/ng-bootstrap": "^8.0.0",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "@types/angular-translate": "^2.16.2",
     "angular": "^1.8.2",
     "angular-cookies": "^1.8.2",
