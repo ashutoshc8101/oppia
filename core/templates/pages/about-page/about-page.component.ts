@@ -24,6 +24,7 @@ import { UrlInterpolationService } from
 import { WindowRef } from
   'services/contextual/window-ref.service.ts';
 import { downgradeComponent } from '@angular/upgrade/static';
+import { PageTitleService } from 'services/page-title.service';
 
 interface CreditNames {
   letter: string;
@@ -62,8 +63,11 @@ export class AboutPageComponent implements OnInit {
     this.TAB_ID_ABOUT, this.TAB_ID_FOUNDATION, this.TAB_ID_CREDITS];
   constructor(
     private urlInterpolationService: UrlInterpolationService,
-    private windowRef: WindowRef) {
+    private windowRef: WindowRef,
+    private pageTitleService: PageTitleService) {
   }
+
+
 
   getCredits(startLetter: string): string[] {
     const results = AboutPageConstants.CREDITS_CONSTANTS.filter(

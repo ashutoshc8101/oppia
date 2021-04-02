@@ -676,10 +676,7 @@ module.exports = {
       },
     }),
   ],
-  module: {   },
-  ts: {
-      configFileName : 'dev.tsconfig.json'
-  }
+  module: {
     rules: [{
       test: /\.ts$/,
       include: [
