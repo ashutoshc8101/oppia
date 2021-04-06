@@ -1,0 +1,97 @@
+<script src="runtime-es2015.js" type="module"></script><script src="runtime-es5.js" nomodule defer></script><script src="polyfills-es5.js" nomodule defer></script><script src="polyfills-es2015.js" type="module"></script><script src="vendor-es2015.js" type="module"></script><script src="vendor-es5.js" nomodule defer></script><script src="main-es2015.js" type="module"></script><script src="main-es5.js" nomodule defer></script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
+  <meta name="description" content="Learn any subject through free and interactive lessons in easy-to-follow language. Oppia provides a step-by-step learning process to master any skills you want.">
+  <meta itemprop="name" content="<%= htmlWebpackPlugin.options.meta.name %>">
+  <meta itemprop="description" content="<%= htmlWebpackPlugin.options.meta.description %>">
+  <!-- The og tags are for Facebook sharing. -->
+  <meta property="og:title" content="<%= htmlWebpackPlugin.options.meta.name %>">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Oppia">
+  <meta property="og:description" content="<%= htmlWebpackPlugin.options.meta.description %>">
+
+  <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+  <title itemprop="name">Oppia</title>
+  
+  <link rel="preload" href="/third_party/generated/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/third_party/generated/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" type="text/css" media="screen"
+        href="https://fonts.googleapis.com/css2?family=Capriola&family=Roboto:wght@400;500;700&family=Noto+Serif:ital@0;1&display=swap">
+  <link rel="stylesheet" type="text/css" media="screen"
+        href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap">
+  <link rel="stylesheet" type="text/css" media="screen"
+        href="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.css">
+  <link rel="stylesheet" type="text/css" media="screen"
+        href="/third_party/generated/css/third_party.css">
+
+  <link rel="stylesheet" type="text/css" media="screen"
+        href="/templates/css/oppia.css">
+  <link rel="stylesheet" type="text/css" media="screen"
+        href="/templates/css/oppia-material.css">
+
+  
+  <script src="/third_party/static/jquery-3.5.1/jquery.min.js"></script>
+  <script src="/third_party/static/jqueryui-1.12.1/jquery-ui.min.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js"></script>
+  <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-57KK7PG"></script>
+  <script src="/third_party/static/jquery-ui-touch-punch-0.3.1/jquery.ui.touch-punch-improved.js"></script>
+</head>
+<body>
+    <app-root></app-root>
+
+    <script>
+      window.angular = {
+        $$minErr() { },
+        module(str) {
+          return {
+            directive(name, object) {
+              return this;
+            },
+            info() {
+              return this;
+            },
+            factory(name, object) {
+              return this;
+            },
+            provider(name) {
+              return this;
+            },
+            filter(name, object) {
+              return this;
+            },
+            run(str) {
+              return this;
+            },
+            constant() {
+              return this;
+            }
+          };
+        }
+      };
+    </script>
+    <noscript>
+      <div class="oppia-page-cards-container">
+        <div class="md-default-theme oppia-page-card oppia-long-text">
+          <!-- Note to developers: We replicate the translated text inline because, without JavaScript enabled, the translation engine doesn't kick in.-->
+          <h2>
+            <span translate="I18N_SPLASH_JAVASCRIPT_ERROR_TITLE">We Need JavaScript in Your Browser</span>
+            <i class="material-icons">&#xE811;</i>
+          </h2>
+          <p translate="I18N_SPLASH_JAVASCRIPT_ERROR_DESCRIPTION"
+            translate-values="{hrefUrl: 'http://www.enable-javascript.com/'}">
+            Oppia is a free, open-source learning platform full of interactive activities called
+            'explorations'. Sadly, Oppia requires JavaScript to be enabled in your web browser in
+            order to function properly and your web browser has JavaScript disabled. If you need
+            help enabling JavaScript, <a href="http://www.enable-javascript.com">click here.</a>
+          </p>
+          <p translate="I18N_SPLASH_JAVASCRIPT_ERROR_THANKS">Thank you.</p>
+        </div>
+      </div>
+    </noscript>
+
+  <script src="/third_party/ngx_generated/js/third_party.js"></script>
+</html>

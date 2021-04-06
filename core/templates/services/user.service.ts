@@ -106,6 +106,5 @@ export class UserService {
     }
 }
 
-angular.module('oppia').factory(
-  'UserService',
-  downgradeInjectable(UserService));
+angular.module('oppia')
+  .factory('UserService', downgradeInjectable(UserService));

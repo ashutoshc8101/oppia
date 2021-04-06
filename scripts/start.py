@@ -39,7 +39,7 @@ from . import common # isort:skip  pylint: disable=wrong-import-position, wrong-
 
 import feconf # isort:skip  pylint: disable=wrong-import-position, wrong-import-order
 import python_utils # isort:skip  pylint: disable=wrong-import-position, wrong-import-order
-
+ANGULAR_CLI_FILE = os.path.join('node_modules', '@angular','cli', 'bin', 'ng')
 
 _PARSER = argparse.ArgumentParser(
     description="""
@@ -147,6 +147,12 @@ def main(args=None):
 
         # Give webpack few seconds to do the initial compilation.
         time.sleep(10)
+    background_processes.append(subprocess.Popen([
+        ANGULAR_CLI_FILE,
+        'build', '--deploy-url=/webpack_bundles/oppia/', '--watch'
+    ]))
+
+    time.sleep(10)
 
     common.start_redis_server()
 

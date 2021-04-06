@@ -49,7 +49,3 @@ export class LoaderService {
     LoaderService.loadingMessageChangedEventEmitter.emit('');
   }
 }
-
-angular.module('oppia').factory(
-  'LoaderService',
-  downgradeInjectable(LoaderService));

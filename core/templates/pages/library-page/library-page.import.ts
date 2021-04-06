@@ -19,23 +19,23 @@
 import 'core-js/es7/reflect';
 import 'zone.js';
 
-import 'angular-ui-sortable';
-import uiValidate from 'angular-ui-validate';
-import ngInfiniteScroll from 'ng-infinite-scroll';
+// import 'angular-ui-sortable';
+// import uiValidate from 'angular-ui-validate';
+// import ngInfiniteScroll from 'ng-infinite-scroll';
 
-angular.module('oppia', [
-  require('angular-cookies'), 'headroom', 'ngAnimate', ngInfiniteScroll,
-  'ngMaterial', 'ngSanitize', 'ngTouch', 'pascalprecht.translate',
-  'toastr', 'ui.bootstrap', 'ui.sortable', uiValidate
-]);
+// angular.module('oppia', [
+//   require('angular-cookies'), 'headroom', 'ngAnimate', ngInfiniteScroll,
+//   'ngMaterial', 'ngSanitize', 'ngTouch', 'pascalprecht.translate',
+//   'toastr', 'ui.bootstrap', 'ui.sortable', uiValidate
+// ]);
 
 // The module needs to be loaded directly after jquery since it defines the
 // main module the elements are attached to.
 require('pages/library-page/library-page.module.ts');
-require('App.ts');
-require('base-components/oppia-root.directive.ts');
+// require('App.ts');
+// require('base-components/oppia-root.directive.ts');
 
-require('base-components/base-content.directive.ts');
-require('pages/library-page/library-page.component.ts');
-require('pages/library-page/library-footer/library-footer.component.ts');
-require('pages/library-page/search-bar/search-bar.component.ts');
+// require('base-components/base-content.directive.ts');
+// require('pages/library-page/library-page.component.ts');
+// require('pages/library-page/library-footer/library-footer.component.ts');
+// require('pages/library-page/search-bar/search-bar.component.ts');

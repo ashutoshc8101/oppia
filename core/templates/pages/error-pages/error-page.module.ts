@@ -18,14 +18,10 @@
 
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule, StaticProvider } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { downgradeComponent } from '@angular/upgrade/static';
 
 import { ErrorPageComponent } from './error-page.component';
-import { OppiaAngularRootComponent } from
-  'components/oppia-angular-root.component';
-import { SharedComponentsModule } from 'components/shared-component.module';
 import { RequestInterceptor } from 'services/request-interceptor.service';
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
@@ -34,15 +30,13 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   imports: [
     BrowserModule,
     HttpClientModule,
-    SharedComponentsModule
+    TranslatePipeModule
   ],
   declarations: [
     ErrorPageComponent,
-    OppiaAngularRootComponent
   ],
   entryComponents: [
     ErrorPageComponent,
-    OppiaAngularRootComponent
   ],
   providers: [
     {
@@ -58,28 +52,13 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
     }
   ]
 })
-class ErrorPageModule {
+export class ErrorPageModule {
   // Empty placeholder method to satisfy the `Compiler`.
-  ngDoBootstrap() {}
+  ngDoBootstrap(): void {}
 }
 
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { downgradeModule } from '@angular/upgrade/static';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'; 
+import { TranslatePipeModule } from 'filters/translate.pipe.module';
 
-const bootstrapFn = (extraProviders: StaticProvider[]) => {
-  const platformRef = platformBrowserDynamic(extraProviders);
-  return platformRef.bootstrapModule(ErrorPageModule);
-};
-const downgradedModule = downgradeModule(bootstrapFn);
-
-declare var angular: ng.IAngularStatic;
-
-angular.module('oppia').requires.push(downgradedModule);
-
-angular.module('oppia').directive(
-  // This directive is the downgraded version of the Angular component to
-  // bootstrap the Angular 8.
-  'oppiaAngularRoot',
-  downgradeComponent({
-    component: OppiaAngularRootComponent
-  }) as angular.IDirectiveFactory);
+platformBrowserDynamic().bootstrapModule(ErrorPageModule)
+  .catch(err => console.log(err));

@@ -17,7 +17,6 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { downgradeComponent } from '@angular/upgrade/static';
 
 import { UrlInterpolationService } from
   'domain/utilities/url-interpolation.service';
@@ -46,7 +45,3 @@ export class ErrorPageComponent implements OnInit {
     return Number(this.statusCode);
   }
 }
-
-angular.module('oppia').directive(
-  'errorPage', downgradeComponent(
-    {component: ErrorPageComponent}));

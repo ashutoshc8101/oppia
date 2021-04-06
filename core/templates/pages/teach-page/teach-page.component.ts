@@ -16,7 +16,6 @@
  * @fileoverview Component for the teach page.
  */
 import { Component, OnInit } from '@angular/core';
-import { downgradeComponent } from '@angular/upgrade/static';
 
 import splashConstants from 'assets/constants';
 import { UrlInterpolationService } from
@@ -160,6 +159,3 @@ export class TeachPageComponent implements OnInit {
     return this.urlInterpolationService.getStaticImageUrl(imagePath);
   }
 }
-
-angular.module('oppia').directive('teachPage',
-  downgradeComponent({component: TeachPageComponent}));

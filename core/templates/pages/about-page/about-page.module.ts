@@ -32,11 +32,11 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   imports: [
     BrowserModule,
     HttpClientModule,
+    TranslatePipeModule
     // SharedComponentsModule
   ],
   declarations: [
     AboutPageComponent,
-    TranslatePipe,
     BackgroundBannerComponent,
     // OppiaAngularRootComponent
   ],
@@ -59,18 +59,18 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
       deps: [PlatformFeatureService],
       multi: true
     }
-  ],
-  bootstrap: [AboutPageComponent]
+  ]
 })
-class AboutPageModule {
+export class AboutPageModule {
   // Empty placeholder method to satisfy the `Compiler`.
+  ngDoBootstrap(): void { }
 }
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { TranslatePipe } from 'filters/translate.pipe';
 import { BackgroundBannerComponent } from 'components/common-layout-directives/common-elements/background-banner.component';
 import { TranslateService } from 'services/translate.service';
 import { UtilsService } from 'services/utils.service';
+import { TranslatePipeModule } from 'filters/translate.pipe.module';
 
 platformBrowserDynamic()
   .bootstrapModule(AboutPageModule)

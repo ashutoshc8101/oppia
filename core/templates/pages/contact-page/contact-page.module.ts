@@ -16,15 +16,9 @@
  * @fileoverview Module for the collection player page.
  */
 
-import { APP_INITIALIZER, NgModule, StaticProvider } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { downgradeComponent } from '@angular/upgrade/static';
-import { HttpClientModule } from '@angular/common/http';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from 'services/request-interceptor.service';
-import { SharedComponentsModule } from 'components/shared-component.module';
-import { OppiaAngularRootComponent } from
-  'components/oppia-angular-root.component';
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
 
@@ -32,13 +26,15 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   imports: [
     BrowserModule,
     HttpClientModule,
-    SharedComponentsModule
+    // SharedComponentsModule
   ],
   declarations: [
-    OppiaAngularRootComponent
+    BackgroundBannerComponent,
+    // OppiaAngularRootComponent
   ],
   entryComponents: [
-    OppiaAngularRootComponent
+    BackgroundBannerComponent,
+    // OppiaAngularRootComponent
   ],
   providers: [
     {
@@ -54,28 +50,15 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
     }
   ]
 })
-class ContactPageModule {
+export class ContactPageModule {
   // Empty placeholder method to satisfy the `Compiler`.
-  ngDoBootstrap() {}
+  ngDoBootstrap(): void { }
 }
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { downgradeModule } from '@angular/upgrade/static';
+import { BrowserModule } from '@angular/platform-browser';
+import { BackgroundBannerComponent } from 'components/common-layout-directives/common-elements/background-banner.component';
 
-const bootstrapFn = (extraProviders: StaticProvider[]) => {
-  const platformRef = platformBrowserDynamic(extraProviders);
-  return platformRef.bootstrapModule(ContactPageModule);
-};
-const downgradedModule = downgradeModule(bootstrapFn);
-
-declare var angular: ng.IAngularStatic;
-
-angular.module('oppia').requires.push(downgradedModule);
-
-angular.module('oppia').directive(
-  // This directive is the downgraded version of the Angular component to
-  // bootstrap the Angular 8.
-  'oppiaAngularRoot',
-  downgradeComponent({
-    component: OppiaAngularRootComponent
-  }) as angular.IDirectiveFactory);
+platformBrowserDynamic()
+  .bootstrapModule(ContactPageModule)
+  .catch(err => console.log(err));

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="oppia" itemscope itemtype="http://schema.org/Organization">
+<html itemscope itemtype="http://schema.org/Organization">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -8,13 +8,9 @@
     @load('pages/header_js_libs.html')
   </head>
   <body>
-    <oppia-root>
-      <div ng-controller="Base">
         <base-content>
           <maintenance-page></maintenance-page>
         </base-content>
-      </div>
-    </oppia-root>
     @load('pages/footer_js_libs.html')
   </body>
 </html>

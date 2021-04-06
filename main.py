@@ -91,7 +91,6 @@ class FrontendErrorHandler(base.BaseHandler):
         logging.error('Frontend error: %s' % self.payload.get('error'))
         self.render_json(self.values)
 
-
 class WarmupPage(base.BaseHandler):
     """Handles warmup requests."""
 
@@ -210,7 +209,7 @@ URLS = MAPREDUCE_HANDLERS + [
     get_redirect_route(r'/splash', SplashRedirectPage),
 
     get_redirect_route(r'/foundation', pages.FoundationRedirectPage),
-    get_redirect_route(r'/credits', pages.AboutRedirectPage),
+    # get_redirect_route(r'/credits', pages.AboutRedirectPage),
     get_redirect_route(r'/participate', pages.TeachRedirectPage),
     get_redirect_route(r'/site_guidelines', pages.TeachRedirectPage),
     get_redirect_route(r'/console_errors', pages.ConsoleErrorPage),
@@ -857,6 +856,9 @@ for subject in feconf.AVAILABLE_LANDING_PAGES:
             get_redirect_route(
                 r'/%s/%s' % (subject, topic),
                 custom_landing_pages.TopicLandingPage))
+
+# If not found at the backend, it redirects to frontend angular router.
+# URLS.append(get_redirect_route(r'/<:.*>', custom_landing_pages.RedirectToAngular))
 
 # 404 error handler (Needs to be at the end of the URLS list).
 URLS.append(get_redirect_route(r'/<:.*>', base.Error404Handler))

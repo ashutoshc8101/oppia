@@ -1,20 +1,9 @@
 <!DOCTYPE html>
-<html ng-app="oppia" itemscope itemtype="http://schema.org/Organization">
+<html itemscope itemtype="http://schema.org/Organization">
   <head>
     @load('base-components/header.template.html', {"title": "Get Started - Oppia"})
   </head>
   <body>
-    <oppia-root>
-      <div ng-controller="Base">
-        <base-content>
-          <navbar-breadcrumb>
-            <ul class="nav navbar-nav oppia-navbar-breadcrumb">
-              <li>
-                <span class="oppia-navbar-breadcrumb-separator"></span>
-                Get Started
-              </li>
-            </ul>
-          </navbar-breadcrumb>
           <content>
             <div class="oppia-static-header">
               <h1 translate="I18N_GET_STARTED_PAGE_HEADING" class="protractor-test-get-started-page"></h1>
@@ -72,9 +61,6 @@
             <div class="oppia-footer-padding-below-banner">
             </div>
           </content>
-        </base-content>
-      </div>
-
       <style>
         .oppia-get-started h2 {
           font-size: 1.17em;
@@ -87,7 +73,6 @@
         }
       </style>
 
-    </oppia-root>
     @load('pages/footer_js_libs.html')
   </body>
 </html>
