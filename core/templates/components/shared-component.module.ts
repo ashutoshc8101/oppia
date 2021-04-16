@@ -63,25 +63,18 @@ import { ProfileLinkTextComponent } from
 import { ThumbnailDisplayComponent } from './forms/custom-forms-directives/thumbnail-display.component';
 import { TakeBreakModalComponent } from 'pages/exploration-player-page/templates/take-break-modal.component';
 import { AuthService } from 'services/auth.service';
-<<<<<<< HEAD
-=======
 import { AudioFileUploaderComponent } from './forms/custom-forms-directives/audio-file-uploader.component';
 import { FocusOnDirective } from '../directives/focus-on.directive';
->>>>>>> upstream/develop
 import { ThreadTableComponent } from 'pages/exploration-editor-page/feedback-tab/thread-table/thread-table.component';
 import { TruncatePipe } from 'filters/string-utility-filters/truncate.pipe';
 import { SchemaBasedEditorDirective } from './forms/schema-based-editors/schema-based-editor.directive';
 import { SummaryListHeaderComponent } from './state-directives/answer-group-editor/summary-list-header.component';
-<<<<<<< HEAD
-
-=======
 import { OutcomeFeedbackEditorComponent } from './state-directives/outcome-editor/outcome-feedback-editor.component';
 import { WrapTextWithEllipsisPipe } from 'filters/string-utility-filters/wrap-text-with-ellipsis.pipe';
 import { PromoBarComponent } from './common-layout-directives/common-elements/promo-bar.component';
 import { DynamicContentModule } from './angular-html-bind/dynamic-content.module';
 import { ObjectComponentsModule } from 'objects/object-components.module';
 import { OnScreenKeyboardComponent } from './on-screen-keyboard/on-screen-keyboard.component';
->>>>>>> upstream/develop
 
 // TODO(#11462): Delete these conditional values once firebase auth is launched.
 const firebaseAuthModules = AuthService.firebaseAuthIsEnabled ? [
@@ -101,11 +94,8 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
   imports: [
     CommonModule,
     BrowserModule,
-<<<<<<< HEAD
-=======
     MaterialModule,
     DynamicContentModule,
->>>>>>> upstream/develop
     NgbTooltipModule,
     FormsModule,
     ObjectComponentsModule,
@@ -122,12 +112,9 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     BackgroundBannerComponent,
     ExplorationEmbedButtonModalComponent,
     ExplorationSummaryTileDirective,
-<<<<<<< HEAD
-=======
     FilterForMatchingSubstringPipe,
     FocusOnDirective,
     ImageUploaderComponent,
->>>>>>> upstream/develop
     KeyboardShortcutHelpModalComponent,
     LazyLoadingComponent,
     LoadingDotsComponent,
@@ -145,11 +132,8 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     SubtopicSummaryTileDirective,
     SummaryListHeaderComponent,
     TakeBreakModalComponent,
-<<<<<<< HEAD
-=======
     WrapTextWithEllipsisPipe,
     ThumbnailDisplayComponent,
->>>>>>> upstream/develop
     ThreadTableComponent,
     ThumbnailDisplayComponent,
     TranslatePipe,
@@ -184,17 +168,12 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     FormsModule,
     MaterialModule,
     NgbTooltipModule,
-<<<<<<< HEAD
-=======
     NgbModalModule,
     ObjectComponentsModule,
->>>>>>> upstream/develop
     // Components, directives, and pipes.
     AudioFileUploaderComponent,
     BackgroundBannerComponent,
     ExplorationSummaryTileDirective,
-<<<<<<< HEAD
-=======
     LazyLoadingComponent,
     SchemaBasedEditorDirective,
     FilterForMatchingSubstringPipe,
@@ -204,7 +183,6 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     OnScreenKeyboardComponent,
     OutcomeFeedbackEditorComponent,
     SchemaBasedEditorDirective,
->>>>>>> upstream/develop
     SharingLinksComponent,
     SkillSelectorComponent,
     SocialButtonsComponent,
