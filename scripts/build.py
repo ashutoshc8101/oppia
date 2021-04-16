@@ -124,6 +124,8 @@ PAGES_IN_APP_YAML = (
     'webpack_bundles/contact-page.mainpage.html',
     'webpack_bundles/donate-page.mainpage.html',
     'webpack_bundles/get-started-page.mainpage.html',
+    'webpack_bundles/login-page.mainpage.html',
+    'webpack_bundles/logout-page.mainpage.html',
     'webpack_bundles/privacy-page.mainpage.html',
     'webpack_bundles/teach-page.mainpage.html',
     'webpack_bundles/terms-page.mainpage.html',
@@ -666,7 +668,7 @@ def build_using_webpack(config_path):
 
     python_utils.PRINT('Building webpack')
 
-    cmd = '%s %s --config %s' % (
+    cmd = '%s --max-old-space-size=2400 %s --config %s' % (
         common.NODE_BIN_PATH, WEBPACK_FILE, config_path)
     subprocess.check_call(cmd, shell=True)
 

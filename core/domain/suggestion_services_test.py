@@ -1285,7 +1285,7 @@ class SuggestionIntegrationTests(test_utils.GenericTestBase):
         self.author_id = self.get_user_id_from_email(self.AUTHOR_EMAIL)
         self.reviewer_id = self.editor_id
 
-        self.editor = user_services.UserActionsInfo(self.editor_id)
+        self.editor = user_services.get_user_actions_info(self.editor_id)
 
         # Login and create exploration and suggestions.
         self.login(self.EDITOR_EMAIL)
@@ -1294,7 +1294,8 @@ class SuggestionIntegrationTests(test_utils.GenericTestBase):
         exploration = (
             self.save_new_linear_exp_with_state_names_and_interactions(
                 self.EXP_ID, self.editor_id, ['State 1', 'State 2'],
-                ['TextInput'], category='Algebra'))
+                ['TextInput'], category='Algebra',
+                correctness_feedback_enabled=True))
 
         self.old_content = state_domain.SubtitledHtml(
             'content', '<p>old content</p>').to_dict()

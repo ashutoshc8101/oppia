@@ -86,16 +86,13 @@ angular.module('oppia').directive('adminRolesTab', [
           ctrl.setStatusMessage('Processing query...');
 
           AdminTaskManagerService.startTask();
-          ctrl.result = {};
-          $http.get(ADMIN_ROLE_HANDLER_URL, {
-            params: {
-              filter_criterion: formResponse.filterCriterion,
-              role: formResponse.role,
-              username: formResponse.username
-            }
-          }).then(function(response) {
-            ctrl.result = response.data;
-            if (Object.keys(ctrl.result).length === 0) {
+          ctrl.userRolesResult = {};
+          AdminBackendApiService.viewUsersRoleAsync(
+            formResponse.filterCriterion, formResponse.role,
+            formResponse.username
+          ).then((userRoles) => {
+            ctrl.userRolesResult = userRoles;
+            if (Object.keys(ctrl.userRolesResult).length === 0) {
               ctrl.resultRolesVisible = false;
               ctrl.setStatusMessage('No results.');
             } else {
@@ -151,15 +148,13 @@ angular.module('oppia').directive('adminRolesTab', [
           }
           ctrl.setStatusMessage('Processing query...');
           AdminTaskManagerService.startTask();
+          ctrl.contributionReviewersResult = {};
           if (formResponse.filterCriterion === USER_FILTER_CRITERION_ROLE) {
-            $http.get(
-              '/getcontributorusershandler', {
-                params: {
-                  category: formResponse.category,
-                  language_code: formResponse.languageCode
-                }
-              }).then(function(response) {
-              ctrl.result.usernames = response.data.usernames;
+            AdminBackendApiService.viewContributionReviewersAsync(
+              formResponse.category, formResponse.languageCode
+            ).then((usersObject) => {
+              ctrl.contributionReviewersResult.usernames = (
+                usersObject.usernames);
               ctrl.contributionReviewersDataFetched = true;
               ctrl.setStatusMessage('Success.');
               refreshFormData();
@@ -176,8 +171,8 @@ angular.module('oppia').directive('adminRolesTab', [
               translationLanguages = getLanguageDescriptions(
                 response.data.can_review_translation_for_language_codes);
               voiceoverLanguages = getLanguageDescriptions(
-                response.data.can_review_voiceover_for_language_codes);
-              ctrl.result = {
+                contributionRights.can_review_voiceover_for_language_codes);
+              ctrl.contributionReviewersResult = {
                 translationLanguages: translationLanguages,
                 voiceoverLanguages: voiceoverLanguages,
                 questions: response.data.can_review_questions,
@@ -185,6 +180,10 @@ angular.module('oppia').directive('adminRolesTab', [
               };
               ctrl.contributionReviewersDataFetched = true;
               ctrl.setStatusMessage('Success.');
+              // TODO(#8521): Remove the use of $rootScope.$apply()
+              // once the directive is migrated to angular.
+              $rootScope.$apply();
+              refreshFormData();
             }, handleErrorResponse);
           }
           AdminTaskManagerService.finishTask();
@@ -319,7 +318,8 @@ angular.module('oppia').directive('adminRolesTab', [
           refreshFormData();
           ctrl.resultRolesVisible = false;
           ctrl.contributionReviewersDataFetched = false;
-          ctrl.result = {};
+          ctrl.userRolesResult = {};
+          ctrl.contributionReviewersResult = {};
           ctrl.setStatusMessage('');
 
           ctrl.languageCodesAndDescriptions = (
@@ -370,9 +370,11 @@ angular.module('oppia').directive('adminRolesTab', [
           });
         };
 
-        ctrl.clearReviewersData = function() {
+        ctrl.clearResults = function() {
           ctrl.contributionReviewersDataFetched = false;
-          ctrl.result = {};
+          ctrl.resultRolesVisible = false;
+          ctrl.userRolesResult = {};
+          ctrl.contributionReviewersResult = {};
         };
       }]
     };

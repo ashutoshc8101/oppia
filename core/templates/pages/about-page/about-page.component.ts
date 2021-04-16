@@ -20,11 +20,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { AboutPageConstants } from './about-page.constants';
 import { UrlInterpolationService } from
-  'domain/utilities/url-interpolation.service.ts';
-import { WindowRef } from
-  'services/contextual/window-ref.service.ts';
+  'domain/utilities/url-interpolation.service';
 import { downgradeComponent } from '@angular/upgrade/static';
 import { PageTitleService } from 'services/page-title.service';
+import { WindowRef } from 'services/contextual/window-ref.service';
 
 interface CreditNames {
   letter: string;
