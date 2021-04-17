@@ -24,7 +24,6 @@ const routes: Route[] = [
     path: 'credits',
     redirectTo: 'about'
   },
- 
   {
     path: 'collection-creator-role',
     canActivate: [AuthGuard],

@@ -3,7 +3,7 @@ import { PageTitleService } from 'services/page-title.service';
 
 @Component({
   selector: 'donate-page-root',
-  template: '<router-outlet></router-outlet>',
+  template: '<donate-page></donate-page>'
 })
 export class DonatePageRootComponent {
   constructor(

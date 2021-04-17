@@ -407,6 +407,8 @@ class BaseHandler(webapp2.RequestHandler):
                     'error-iframed.mainpage.html', iframe_restriction=None)
             elif values['status_code'] == 503:
                 self.render_template('maintenance-page.mainpage.html')
+            elif values['status_code'] == 404:
+                self.render_template('index.mainpage.html')
             else:
                 self.render_template(
                     'error-page-%s.mainpage.html' % values['status_code'])

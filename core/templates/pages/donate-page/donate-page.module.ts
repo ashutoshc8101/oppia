@@ -29,15 +29,17 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
   imports: [
     CommonModule,
     HttpClientModule,
-    DonatePageRoutingModule
+    DonatePageRoutingModule,
     // SharedComponentsModule
   ],
   declarations: [
     DonatePageComponent,
+    DonatePageRootComponent
     // OppiaAngularRootComponent
   ],
   entryComponents: [
     DonatePageComponent,
+    DonatePageRootComponent
     // OppiaAngularRootComponent
   ],
   providers: [
@@ -53,7 +55,7 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
       multi: true
     }
   ],
-  bootstrap: [DonatePageRootComponent]
+  bootstrap: [DonatePageRootComponent, DonatePageComponent]
 })
 export class DonatePageModule {
   // Empty placeholder method to satisfy the `Compiler`.
@@ -64,6 +66,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { DonatePageRoutingModule } from './donate-page.routing.module';
 import { DonatePageRootComponent } from './donate-page-root.component';
 import { CommonModule } from '@angular/common';
+import { SharedComponentsModule } from 'components/shared-component.module';
 
 platformBrowserDynamic()
   .bootstrapModule(DonatePageModule)
