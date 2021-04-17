@@ -18,10 +18,10 @@ Routes added for demostration:
 
 Demo video for routing:
 
+https://user-images.githubusercontent.com/24855641/115121013-281cfd80-9fce-11eb-8f98-a6f08d87eab6.mp4
+
 
 Demo video for ng cli:
 
 https://user-images.githubusercontent.com/24855641/115121012-26ebd080-9fce-11eb-9c52-719b35bef03c.mp4
 
-
-https://user-images.githubusercontent.com/24855641/115121013-281cfd80-9fce-11eb-8f98-a6f08d87eab6.mp4
