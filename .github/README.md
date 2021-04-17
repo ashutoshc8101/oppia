@@ -18,6 +18,10 @@ Routes added for demostration:
 
 Demo video for routing:
 
+I have removed the angular js directives from the pages shown in the video.
+Final product will include top navigation bar and footer. 
+I haven't used them in this video as they are not migrated yet.
+
 https://user-images.githubusercontent.com/24855641/115121013-281cfd80-9fce-11eb-8f98-a6f08d87eab6.mp4
 
 
