@@ -1,53 +1,27 @@
-# [Oppia](https://www.oppia.org) [![Actions](https://github.com/oppia/oppia/workflows/End-to-End%20tests/badge.svg?branch=develop)](https://github.com/oppia/oppia/actions?query=branch%3Adevelop+workflow%3A%22End-to-End+tests%22) [![CircleCI](https://circleci.com/gh/oppia/oppia/tree/develop.svg?style=svg)](https://circleci.com/gh/oppia/oppia/tree/develop) [![Join the chat at https://gitter.im/oppia/oppia-chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/oppia/oppia-chat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Thank You GSoC Mentors for taking the time to visit this branch.
 
-Oppia is an online learning tool that enables anyone to easily create and share interactive activities (called 'explorations'). These activities simulate a one-on-one conversation with a tutor, making it possible for students to learn by doing while getting feedback.
+- I have migrated donate page and about page to angular router in this branch.
+- Both frontend and backend routing works together here.
+- Webpack and angular cli compiles their own part of the codebase.
 
-In addition to developing the Oppia platform, the team is also developing and piloting a set of free and effective [lessons](https://www.oppia.org/fractions) on basic mathematics. These lessons are targeted at learners who lack access to educational resources.
+Demo:
+- When a developer runs `python -m scripts.start` command, both webpack and angular cli compiles their parts of the codebase.
+- If you visit /donate or /about, they are routed using angular-router
+- I have added few routes to demostrate the usage of the route guard.
+Routes added for demostration: 
+- /loggedIn : Only accessible if user is logged in.
+- /collection-creator-role: This route is only accessible when the user has the role
+- /topic-manager-role: Only user with topic-manager role can access this route.
+- /moderator-role: Moderator role is required to access this page.
+- /admin-role: Only user with admin role can access this page.
+- /super-admin-role: Only user with super admin role can access this page.
 
-Oppia is written using Python and AngularJS, and is built on top of Google App Engine.
-
-  * [Oppia.org community site](https://www.oppia.org)
-  * [User Documentation](https://oppia.github.io/)
-  * [Contributors' wiki](https://github.com/oppia/oppia/wiki)
-  * [Developer mailing list](http://groups.google.com/group/oppia-dev)
-  * [File an issue](https://github.com/oppia/oppia/issues/new/choose)
-
-<p align="center">
-  <a href="http://www.youtube.com/watch?v=Ntcw0H0hwPU" target="_blank" rel="noopener">
-    <img src="https://cloud.githubusercontent.com/assets/8845039/16814722/b219cac0-4954-11e6-9573-c37557d1b410.png">
-  </a>
-</p>
-
-## Installation
-
-Please refer to the [Installing Oppia page](https://github.com/oppia/oppia/wiki/Installing-Oppia) for full instructions.
-
-## Contributing
-
-The Oppia project is built by the community for the community. We welcome contributions from everyone, especially new contributors.
-
-You can help with Oppia's development in many ways, including art, coding, design and documentation.
-  * **Developers**: please see [this wiki page](https://github.com/oppia/oppia/wiki/Contributing-code-to-Oppia#setting-things-up) for instructions on how to set things up and commit changes.
-  * **All other contributors**: please see our [general contributor guidelines](https://github.com/oppia/oppia/wiki).
+Demo video for routing:
 
 
-## Support
+Demo video for ng cli:
 
-If you have any feature requests or bug reports, please log them on our [issue tracker](https://github.com/oppia/oppia/issues/new/choose).
-
-Please report security issues directly to admin@oppia.org.
+https://user-images.githubusercontent.com/24855641/115121012-26ebd080-9fce-11eb-9c52-719b35bef03c.mp4
 
 
-## License
-
-The Oppia code is released under the [Apache v2 license](https://github.com/oppia/oppia/blob/develop/LICENSE).
-
-
-## Keeping in touch
-
-  * [Blog](https://medium.com/oppia-org)
-  * [Discussion forum](http://groups.google.com/group/oppia)
-  * [Announcements mailing list](http://groups.google.com/group/oppia-announce)
-  * Social media: [YouTube](https://www.youtube.com/channel/UC5c1G7BNDCfv1rczcBp9FPw), [FB](https://www.facebook.com/oppiaorg), [Twitter](https://twitter.com/oppiaorg)
-
-We also have public chat rooms on Gitter: [https://gitter.im/oppia/oppia-chat](https://gitter.im/oppia/oppia-chat). Drop by and say hello!
+https://user-images.githubusercontent.com/24855641/115121013-281cfd80-9fce-11eb-8f98-a6f08d87eab6.mp4
