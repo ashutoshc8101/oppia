@@ -38,7 +38,7 @@ export class ModeratorPageComponent {
   allCommits: CommitMessage[] = [];
   allFeedbackMessages: ThreadMessage[] = [];
   // Map of exploration ids to objects containing a single key: title.
-  explorationData: ExplorationDict[] = [];
+  explorationData: { [key: string]: ExplorationDict } = {};
 
   displayedFeaturedActivityReferences: ActivityIdTypeDict[] = [];
   lastSavedFeaturedActivityReferences: ActivityIdTypeDict[] = [];
@@ -107,7 +107,7 @@ export class ModeratorPageComponent {
         this.displayedFeaturedActivityReferences = response
           .featured_activity_references;
         this.lastSavedFeaturedActivityReferences =
-          [...this.displayedFeaturedActivityReferences];
+          {...this.displayedFeaturedActivityReferences};
       });
   }
 
@@ -116,8 +116,8 @@ export class ModeratorPageComponent {
       .getLocaleAbbreviatedDatetimeString(millisSinceEpoch);
   }
 
-  isMessageFromExploration(message: ThreadMessage): boolean {
-    return message.entityType === AppConstants.ENTITY_TYPE.EXPLORATION;
+  isMessageFromExploration(explorationId: string): string {
+    return '/create/' + explorationId;
   }
 
   getExplorationCreateUrl(explorationId: string): string {

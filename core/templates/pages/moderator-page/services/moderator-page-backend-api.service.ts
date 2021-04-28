@@ -42,20 +42,20 @@ export interface ActivityIdTypeDict {
   type: string
 }
 
-export interface RecentCommitResponse {
+interface RecentCommitResponse {
   'results': CommitMessage[],
   'cursor': string,
   'more': boolean,
   'exp_ids_to_exp_data': ExplorationDict[],
 }
 
-export interface RecentFeedbackMessages {
+interface RecentFeedbackMessages {
   'results': ThreadMessageBackendDict[],
   'cursor': string,
   'more': boolean
 }
 
-export interface FeaturedActivityResponse {
+interface FeaturedActivityResponse {
   'featured_activity_references': ActivityIdTypeDict[]
 }
 
@@ -68,7 +68,7 @@ export class ModeratorPageBackendApiService {
   ) {}
 
   saveFeaturedActivityReferences(
-      activityReferencesToSave: ActivityIdTypeDict[]): Promise<Object> {
+      activityReferencesToSave: object): Promise<Object> {
     return this.httpClient.post('/moderatorhandler/featured', {
       featured_activity_reference_dicts: activityReferencesToSave
     }, {}).toPromise();
