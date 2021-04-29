@@ -90,20 +90,39 @@ export class ExplorationEngineService {
      private statsReportingService: StatsReportingService,
      private urlService: UrlService
    ) {
-     this._explorationId = this.contextService.getExplorationId();
-     this.version = this.urlService.getExplorationVersionFromUrl();
-     this._editorPreviewMode = this.contextService
-       .isInExplorationEditorPage();
-     this._questionPlayerMode = this.contextService.isInQuestionPlayerMode();
+     let pathnameArray = this.urlService.getPathname().split('/');
+     let explorationContext = false;
 
-     if (!this._questionPlayerMode &&
+     for (let i = 0; i < pathnameArray.length; i++) {
+       if (pathnameArray[i] === 'explore' ||
+            pathnameArray[i] === 'create' ||
+            pathnameArray[i] === 'skill_editor' ||
+            pathnameArray[i] === 'embed') {
+         explorationContext = true;
+         break;
+       }
+     }
+
+     if (explorationContext) {
+       this._explorationId = this.contextService.getExplorationId();
+       this.version = this.urlService.getExplorationVersionFromUrl();
+       this._editorPreviewMode = this.contextService
+         .isInExplorationEditorPage();
+       this._questionPlayerMode = this.contextService.isInQuestionPlayerMode();
+       if (!this._questionPlayerMode &&
        !('skill_editor' === this.urlService.getPathname()
          .split('/')[1].replace(/"/g, "'"))) {
-       this.readOnlyExplorationBackendApiService
-         .loadExploration(this._explorationId, this.version)
-         .then((exploration) => {
-           this.version = exploration.version;
-         });
+         this.readOnlyExplorationBackendApiService
+           .loadExploration(this._explorationId, this.version)
+           .then((exploration) => {
+             this.version = exploration.version;
+           });
+       }
+     } else {
+       this._explorationId = 'test_id';
+       this.version = 1;
+       this._editorPreviewMode = false;
+       this._questionPlayerMode = false;
      }
    }
 

@@ -427,6 +427,7 @@ export const angularServices: [string, Type<{}>][] = [
   ['ExplorationDataBackendApiService', ExplorationDataBackendApiService],
   ['ExplorationDataService', ExplorationDataService],
   ['ExplorationDiffService', ExplorationDiffService],
+  ['ExplorationEngineService', ExplorationEngineService],
   ['ExplorationFeaturesBackendApiService',
     ExplorationFeaturesBackendApiService],
   ['ExplorationFeaturesService', ExplorationFeaturesService],
