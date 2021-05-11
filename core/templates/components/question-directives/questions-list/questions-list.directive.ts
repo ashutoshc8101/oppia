@@ -42,11 +42,10 @@ require(
   'pages/topic-editor-page/modal-templates/' +
   'questions-list-select-skill-and-difficulty-modal.controller.ts');
 
-require('domain/editor/undo_redo/undo-redo.service.ts');
+require('domain/editor/undo_redo/question-undo-redo.service.ts');
 require('domain/question/editable-question-backend-api.service.ts');
 require('domain/question/QuestionObjectFactory.ts');
 require('domain/skill/MisconceptionObjectFactory.ts');
-require('domain/skill/ShortSkillSummaryObjectFactory.ts');
 require('domain/skill/skill-backend-api.service.ts');
 require('domain/utilities/url-interpolation.service.ts');
 require('filters/format-rte-preview.filter.ts');
@@ -61,6 +60,7 @@ require('services/image-local-storage.service.ts');
 require('services/contextual/window-dimensions.service.ts');
 require('services/stateful/focus-manager.service.ts');
 
+import { ShortSkillSummary } from 'domain/skill/short-skill-summary.model';
 import { SkillDifficulty } from 'domain/skill/skill-difficulty.model';
 import { Subscription } from 'rxjs';
 
@@ -92,7 +92,7 @@ angular.module('oppia').directive('questionsList', [
         'MisconceptionObjectFactory',
         'QuestionObjectFactory', 'QuestionUndoRedoService',
         'QuestionValidationService', 'QuestionsListService',
-        'ShortSkillSummaryObjectFactory', 'SkillBackendApiService',
+        'SkillBackendApiService',
         'SkillEditorRoutingService',
         'UtilsService', 'WindowDimensionsService',
         'DEFAULT_SKILL_DIFFICULTY', 'INTERACTION_SPECS',
@@ -104,7 +104,7 @@ angular.module('oppia').directive('questionsList', [
             MisconceptionObjectFactory,
             QuestionObjectFactory, QuestionUndoRedoService,
             QuestionValidationService, QuestionsListService,
-            ShortSkillSummaryObjectFactory, SkillBackendApiService,
+            SkillBackendApiService,
             SkillEditorRoutingService,
             UtilsService, WindowDimensionsService,
             DEFAULT_SKILL_DIFFICULTY, INTERACTION_SPECS,
@@ -303,6 +303,7 @@ angular.module('oppia').directive('questionsList', [
           };
 
           ctrl.changeLinkedSkillDifficulty = function() {
+            ctrl.isSkillDifficultyChanged = true;
             if (ctrl.newQuestionSkillIds.length === 1) {
               ctrl.newQuestionSkillDifficulties = (
                 [ctrl.linkedSkillsWithDifficulty[0].getDifficulty()]);
@@ -350,6 +351,7 @@ angular.module('oppia').directive('questionsList', [
               ctrl.editorIsOpen = true;
             }
             ctrl.skillLinkageModificationsArray = [];
+            ctrl.isSkillDifficultyChanged = false;
           };
 
           ctrl.populateMisconceptions = function(skillIds) {
@@ -370,6 +372,7 @@ angular.module('oppia').directive('questionsList', [
           ctrl.editQuestion = function(
               questionSummaryForOneSkill, skillDescription, difficulty) {
             ctrl.skillLinkageModificationsArray = [];
+            ctrl.isSkillDifficultyChanged = false;
             if (ctrl.editorIsOpen) {
               return;
             }
@@ -405,7 +408,7 @@ angular.module('oppia').directive('questionsList', [
                           misconception);
                       });
                     ctrl.associatedSkillSummaries.push(
-                      ShortSkillSummaryObjectFactory.create(
+                      ShortSkillSummary.create(
                         skillDict.id, skillDict.description));
                   });
                 }
@@ -489,7 +492,14 @@ angular.module('oppia').directive('questionsList', [
                   return summary.getId() !== skillId;
                 });
           };
-          ctrl.isQuestionValid = function() {
+          ctrl.isQuestionSavable = function() {
+            // Not savable if there are no changes.
+            if (!QuestionUndoRedoService.hasChanges() && (
+              ctrl.skillLinkageModificationsArray &&
+              ctrl.skillLinkageModificationsArray.length === 0
+            ) && !ctrl.isSkillDifficultyChanged) {
+              return false;
+            }
             let questionIdValid = QuestionValidationService.isQuestionValid(
               ctrl.question, ctrl.misconceptionsBySkill);
             if (!ctrl.questionIsBeingUpdated) {
@@ -543,7 +553,7 @@ angular.module('oppia').directive('questionsList', [
               }
 
               ctrl.associatedSkillSummaries.push(
-                ShortSkillSummaryObjectFactory.create(
+                ShortSkillSummary.create(
                   summary.id, summary.description));
               ctrl.skillLinkageModificationsArray = [];
               ctrl.skillLinkageModificationsArray.push({

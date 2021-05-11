@@ -22,7 +22,6 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { downgradeComponent } from '@angular/upgrade/static';
-import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from 'services/request-interceptor.service';
 import { SharedComponentsModule } from 'components/shared-component.module';
@@ -30,12 +29,20 @@ import { OppiaAngularRootComponent } from
   'components/oppia-angular-root.component';
 
 import { CkEditorCopyToolbarComponent } from 'components/ck-editor-helpers/ck-editor-copy-toolbar/ck-editor-copy-toolbar.component';
+import { InteractionExtensionsModule } from 'interactions/interactions.module';
 import { TranslationLanguageSelectorComponent } from
   './translation-language-selector/translation-language-selector.component';
 import { LoginRequiredMessageComponent } from './login-required-message/login-required-message.component';
 import { LoginRequiredModalContent } from './modal-templates/login-required-modal.component';
+
+import { OpportunitiesListItemComponent } from './opportunities-list-item/opportunities-list-item.component';
+import { OpportunitiesListComponent } from './opportunities-list/opportunities-list.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
+import { TranslationModalComponent } from './modal-templates/translation-modal.component';
+import { TranslationOpportunitiesComponent } from './translation-opportunities/translation-opportunities.component';
+
 
 @NgModule({
   imports: [
@@ -48,21 +55,32 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
         deps: [HttpClient]
       }
     }),
-    SharedComponentsModule
+    InteractionExtensionsModule,
+    SharedComponentsModule,
+    NgbModalModule,
+    SharedFormsModule
   ],
   declarations: [
     OppiaAngularRootComponent,
     CkEditorCopyToolbarComponent,
     LoginRequiredMessageComponent,
     LoginRequiredModalContent,
+    OpportunitiesListItemComponent,
+    OpportunitiesListComponent,
     TranslationLanguageSelectorComponent,
+    TranslationOpportunitiesComponent,
+    TranslationModalComponent
   ],
   entryComponents: [
     OppiaAngularRootComponent,
     CkEditorCopyToolbarComponent,
     LoginRequiredMessageComponent,
     LoginRequiredModalContent,
+    OpportunitiesListItemComponent,
+    OpportunitiesListComponent,
     TranslationLanguageSelectorComponent,
+    TranslationOpportunitiesComponent,
+    TranslationModalComponent
   ],
   providers: [
     {
@@ -85,6 +103,7 @@ class ContributorDashboardPageModule {
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { downgradeModule } from '@angular/upgrade/static';
+import { SharedFormsModule } from 'components/forms/shared-forms.module';
 
 const bootstrapFn = (extraProviders: StaticProvider[]) => {
   const platformRef = platformBrowserDynamic(extraProviders);

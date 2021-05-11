@@ -22,12 +22,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { downgradeComponent } from '@angular/upgrade/static';
-import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from 'services/request-interceptor.service';
 import { SharedComponentsModule } from 'components/shared-component.module';
 import { OppiaAngularRootComponent } from
   'components/oppia-angular-root.component';
+import { InteractionExtensionsModule } from 'interactions/interactions.module';
 import { ContentLanguageSelectorComponent } from
   // eslint-disable-next-line max-len
   'pages/exploration-player-page/layout-directives/content-language-selector.component';
@@ -35,6 +35,7 @@ import { SkillEditorNavbarBreadcrumbComponent } from 'pages/skill-editor-page/na
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
 import { DeleteMisconceptionModalComponent } from './modal-templates/delete-misconception-modal.component';
+import { SkillDescriptionEditorComponent } from './editor-tab/skill-description-editor/skill-description-editor.component';
 
 @NgModule({
   imports: [
@@ -47,19 +48,22 @@ import { DeleteMisconceptionModalComponent } from './modal-templates/delete-misc
         deps: [HttpClient]
       }
     }),
+    InteractionExtensionsModule,
     SharedComponentsModule
   ],
   declarations: [
     ContentLanguageSelectorComponent,
     OppiaAngularRootComponent,
     DeleteMisconceptionModalComponent,
-    SkillEditorNavbarBreadcrumbComponent
+    SkillEditorNavbarBreadcrumbComponent,
+    SkillDescriptionEditorComponent
   ],
   entryComponents: [
     ContentLanguageSelectorComponent,
     OppiaAngularRootComponent,
     DeleteMisconceptionModalComponent,
-    SkillEditorNavbarBreadcrumbComponent
+    SkillEditorNavbarBreadcrumbComponent,
+    SkillDescriptionEditorComponent
   ],
   providers: [
     {

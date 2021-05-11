@@ -20,14 +20,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule, StaticProvider } from '@angular/core';
 import { createTranslateLoader } from 'pages/translte-loader.factory';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { downgradeComponent } from '@angular/upgrade/static';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { RequestInterceptor } from 'services/request-interceptor.service';
 import { SharedComponentsModule } from 'components/shared-component.module';
 import { OppiaAngularRootComponent } from
   'components/oppia-angular-root.component';
+import { InteractionExtensionsModule } from 'interactions/interactions.module';
 import { ContentLanguageSelectorComponent } from
   // eslint-disable-next-line max-len
   'pages/exploration-player-page/layout-directives/content-language-selector.component';
@@ -45,6 +45,7 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
         deps: [HttpClient]
       }
     }),
+    InteractionExtensionsModule,
     SharedComponentsModule
   ],
   declarations: [

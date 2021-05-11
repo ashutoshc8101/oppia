@@ -30,6 +30,7 @@ import { OppiaAngularRootComponent } from
   'components/oppia-angular-root.component';
 import { platformFeatureInitFactory, PlatformFeatureService } from
   'services/platform-feature.service';
+import { NotificationsDashboardPageComponent } from './notifications-dashboard-page.component';
 
 @NgModule({
   imports: [
@@ -45,9 +46,11 @@ import { platformFeatureInitFactory, PlatformFeatureService } from
     SharedComponentsModule
   ],
   declarations: [
+    NotificationsDashboardPageComponent,
     OppiaAngularRootComponent
   ],
   entryComponents: [
+    NotificationsDashboardPageComponent,
     OppiaAngularRootComponent
   ],
   providers: [

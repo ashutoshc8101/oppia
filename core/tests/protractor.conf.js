@@ -1,8 +1,10 @@
+var FirebaseAdmin = require('firebase-admin');
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 var glob = require('glob');
 var path = require('path');
 var Constants = require('./protractor_utils/ProtractorConstants');
 var DOWNLOAD_PATH = path.resolve(__dirname, Constants.DOWNLOAD_PATH);
+var exitCode = 0;
 
 var suites = {
     // The tests on Travis are run individually to parallelize
@@ -346,6 +348,13 @@ exports.config = {
     // Set a wide enough window size for the navbar in the library pages to
     // display fully.
     browser.driver.manage().window().setSize(1285, 1000);
+
+    // Configure the Firebase Admin SDK to communicate with the emulator.
+    process.env.FIREBASE_AUTH_EMULATOR_HOST = 'localhost:9099';
+    FirebaseAdmin.initializeApp({projectId: 'dev-project-id'});
+
+    // Navigate to the splash page so that tests can begin on an Angular page.
+    browser.driver.get('http://localhost:9001');
   },
 
   // The params object will be passed directly to the protractor instance,
@@ -404,10 +413,26 @@ exports.config = {
 
   SELENIUM_PROMISE_MANAGER: false,
 
+  // A callback function called once tests are finished. onComplete can
+  // optionally return a promise, which Protractor will wait for before
+  // shutting down webdriver.
+
+  // At this point, tests will be done but global objects will still be
+  // available.
+  onComplete: function(success){
+    if (!success) {
+      exitCode = 1;
+    }
+  },
+
   // ----- The cleanup step -----
   //
   // A callback function called once the tests have finished running and
   // the webdriver instance has been shut down. It is passed the exit code
   // (0 if the tests passed or 1 if not).
-  onCleanUp: function() {}
+  onCleanUp: function() {
+    if (exitCode !== 0){
+      process.exit(exitCode);
+    }
+  }
 };
