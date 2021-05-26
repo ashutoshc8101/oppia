@@ -104,6 +104,7 @@ import { TranslateCustomParser } from 'pages/translate-custom-parser';
 import { MissingTranslationCustomHandler } from 'pages/missing-translations-handler';
 import constants from 'assets/constants';
 import { I18nLanguageCodeService } from 'services/i18n-language-code.service';
+import { I18nFooterComponent } from '../I18nFooter';
 
 const toastrConfig = {
   allowHtml: false,
@@ -201,6 +202,7 @@ const toastrConfig = {
     CollectionSummaryTileComponent,
     ExplorationEmbedButtonModalComponent,
     FilterForMatchingSubstringPipe,
+    I18nFooterComponent,
     KeyboardShortcutHelpModalComponent,
     LazyLoadingComponent,
     LimitToPipe,
@@ -260,6 +262,7 @@ const toastrConfig = {
     TakeBreakModalComponent,
     StateSkillEditorComponent,
     ExplorationEmbedButtonModalComponent,
+    I18nFooterComponent,
     OutcomeFeedbackEditorComponent,
     KeyboardShortcutHelpModalComponent,
     PromoBarComponent,
@@ -300,6 +303,7 @@ const toastrConfig = {
     CreateActivityButtonComponent,
     CreateActivityModalComponent,
     ExplorationSummaryTileComponent,
+    I18nFooterComponent,
     CollectionSummaryTileComponent,
     LazyLoadingComponent,
     LoadingMessageComponent,
