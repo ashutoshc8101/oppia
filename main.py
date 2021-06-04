@@ -107,15 +107,15 @@ class HomePageRedirectPage(base.BaseHandler):
 
     @acl_decorators.open_access
     def get(self):
-        if self.user_id and user_services.has_fully_registered_account(
-                self.user_id):
-            user_settings = user_services.get_user_settings(
-                self.user_id)
-            default_dashboard = user_settings.default_dashboard
-            if default_dashboard == constants.DASHBOARD_TYPE_CREATOR:
-                self.redirect(feconf.CREATOR_DASHBOARD_URL)
-            else:
-                self.redirect(feconf.LEARNER_DASHBOARD_URL)
+if self.user_id and user_services.has_fully_registered_account(
+        self.user_id):
+    user_settings = user_services.get_user_settings(
+        self.user_id)
+    default_dashboard = user_settings.default_dashboard
+    if default_dashboard == constants.DASHBOARD_TYPE_CREATOR:
+        self.redirect(feconf.CREATOR_DASHBOARD_URL)
+    else:
+        self.redirect(feconf.LEARNER_DASHBOARD_URL)
         else:
             self.render_template('splash-page.mainpage.html')
 
@@ -780,6 +780,11 @@ URLS = MAPREDUCE_HANDLERS + [
     get_redirect_route(
         '/classroom_promos_status_handler',
         classroom.ClassroomPromosStatusHandler),
+
+    get_redirect_route(
+        '/classroom_page_accessiblity_status_handler',
+        classroom.classroom.ClassroomPageIsAccessibleHandler
+    ),
 
     get_redirect_route(r'/emaildashboard', email_dashboard.EmailDashboardPage),
     get_redirect_route(

@@ -44,7 +44,6 @@ class ContributorDashboardPage(base.BaseHandler):
             raise self.PageNotFoundException
         self.render_template('contributor-dashboard-page.mainpage.html')
 
-
 class ContributionOpportunitiesHandler(base.BaseHandler):
     """Provides data for opportunities available in different categories."""
 

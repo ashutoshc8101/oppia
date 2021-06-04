@@ -29,6 +29,23 @@ export default {
   // fragment in the controller is invalid.
   "DEFAULT_CLASSROOM_URL_FRAGMENT": "math",
 
+  "ROLES_DATA": {
+    "ROLE_ID_GUEST": "GUEST",
+    "ROLE_ID_BANNED_USER": "BANNED_USER",
+    "ROLE_ID_LEARNER": "LEARNER",
+    "ROLE_ID_EXPLORATION_EDITOR": "EXPLORATION_EDITOR",
+    "ROLE_ID_COLLECTION_EDITOR": "COLLECTION_EDITOR",
+    "ROLE_ID_TOPIC_MANAGER": "TOPIC_MANAGER",
+    "ROLE_ID_MODERATOR": "MODERATOR",
+    "ROLE_ID_ADMIN": "ADMIN",
+    "ROLE_ID_SUPERADMIN": "SUPERADMIN",
+
+    "ALLOWED_USER_ROLES": [
+      "GUEST", "BANNED_USER", "LEARNER", "ROLE_ID_EXPLORATION_EDITOR",
+      "COLLECTION_EDITOR", "TOPIC_MANAGER", "MODERATOR",
+      "ADMIN"]
+  },
+
   "ALL_CATEGORIES": ["Algebra", "Algorithms", "Architecture", "Arithmetic",
     "Art", "Astronomy", "Biology", "Business", "Calculus", "Chemistry",
     "Combinatorics", "Computing", "Economics", "Education", "Engineering",

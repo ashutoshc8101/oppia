@@ -33,14 +33,14 @@ angular.module('oppia').controller('Base', [
   'MetaTagCustomizationService', 'SidebarStatusService',
   'UrlInterpolationService', 'UrlService', 'DEV_MODE',
   'SITE_FEEDBACK_FORM_URL', 'SITE_NAME', 'SUPPORTED_SITE_LANGUAGES',
-  function(
-      $document, $rootScope, $scope, AlertsService, BackgroundMaskService,
-      CsrfTokenService, DocumentAttributeCustomizationService, LoaderService,
-      MetaTagCustomizationService, SidebarStatusService,
-      UrlInterpolationService, UrlService, DEV_MODE,
-      SITE_FEEDBACK_FORM_URL, SITE_NAME, SUPPORTED_SITE_LANGUAGES) {
+  function (
+    $document, $rootScope, $scope, AlertsService, BackgroundMaskService,
+    CsrfTokenService, DocumentAttributeCustomizationService, LoaderService,
+    MetaTagCustomizationService, SidebarStatusService,
+    UrlInterpolationService, UrlService, DEV_MODE,
+    SITE_FEEDBACK_FORM_URL, SITE_NAME, SUPPORTED_SITE_LANGUAGES) {
     var ctrl = this;
-    $scope.getAssetUrl = function(path) {
+    $scope.getAssetUrl = function (path) {
       return UrlInterpolationService.getFullStaticAssetUrl(path);
     };
 
@@ -48,7 +48,7 @@ angular.module('oppia').controller('Base', [
     $scope.isSidebarShown = () => SidebarStatusService.isSidebarShown();
     $scope.closeSidebarOnSwipe = () => SidebarStatusService.closeSidebar();
 
-    $scope.skipToMainContent = function() {
+    $scope.skipToMainContent = function () {
       var mainContentElement = document.getElementById(
         'oppia-main-content');
 
@@ -59,7 +59,7 @@ angular.module('oppia').controller('Base', [
       mainContentElement.scrollIntoView();
       mainContentElement.focus();
     };
-    ctrl.$onInit = function() {
+    ctrl.$onInit = function () {
       $scope.siteName = SITE_NAME;
       $scope.currentLang = 'en';
       $scope.direction = 'ltr';
@@ -115,7 +115,7 @@ angular.module('oppia').controller('Base', [
       ]);
 
       // Listener function to catch the change in language preference.
-      $rootScope.$on('$translateChangeSuccess', function(evt, response) {
+      $rootScope.$on('$translateChangeSuccess', function (evt, response) {
         $scope.currentLang = response.language;
         for (var i = 0; i < SUPPORTED_SITE_LANGUAGES.length; i++) {
           if (SUPPORTED_SITE_LANGUAGES[i].id === $scope.currentLang) {
@@ -128,7 +128,7 @@ angular.module('oppia').controller('Base', [
       DocumentAttributeCustomizationService.addAttribute(
         'lang', $scope.currentLang);
       // TODO(sll): Use 'touchstart' for mobile.
-      $document.on('click', function() {
+      $document.on('click', function () {
         SidebarStatusService.onDocumentClick();
       });
     };

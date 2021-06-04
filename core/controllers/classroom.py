@@ -96,3 +96,15 @@ class DefaultClassroomRedirectPage(base.BaseHandler):
     def get(self):
         """Handles GET requests."""
         self.redirect('/learn/%s' % constants.DEFAULT_CLASSROOM_URL_FRAGMENT)
+
+class ClassroomPageIsAccessibleHandler(base.BaseHandler):
+    """The handler for checking whether the classroom page is accessible."""
+
+    @acl_decorators.open_access
+    def get(self, _):
+        """Handles GET requests."""
+
+        self.render_json({
+            'classroom_page_is_enabled': (
+                config_domain.CLASSROOM_PAGE_IS_ACCESSIBLE.value)
+        });

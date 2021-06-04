@@ -97,6 +97,10 @@ export class UserService {
           return this.userContributionRightsInfo;
         });
     }
+
+    async getUserPreferences(): Promise<PreferencesBackendDict> {
+      return this.userBackendApiService.getUserPreferences();
+    }
 }
 
 angular.module('oppia').factory(

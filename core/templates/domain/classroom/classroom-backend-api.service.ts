@@ -110,6 +110,8 @@ export class ClassroomBackendApiService {
     });
   }
 
+  async
+
   get onInitializeTranslation(): EventEmitter<void> {
     return this._initializeTranslationEventEmitter;
   }

@@ -93,6 +93,11 @@ export class UserBackendApiService {
       this.PREFERENCES_DATA_URL, profileImageUpdateUrlData).toPromise();
   }
 
+  async getUserPreferences(): Promise<PreferencesBackendDict> {
+    return this.http.get<PreferencesBackendDict>(
+      this.PREFERENCES_DATA_URL).toPromise();
+  }
+
   async getLoginUrlAsync(currentUrl: string): Promise<string> {
     const urlParameters = {
       current_url: currentUrl

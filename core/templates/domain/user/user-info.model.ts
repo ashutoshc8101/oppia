@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import constants from "assets/constants";
+
 /**
  * @fileoverview Frontend Model for user info.
  */
@@ -29,26 +31,15 @@ export interface UserInfoBackendDict {
 }
 
 export class UserInfo {
-  _isModerator: boolean;
-  _isAdmin: boolean;
-  _isTopicManager: boolean;
-  _isSuperAdmin: boolean;
-  _canCreateCollections: boolean;
-  _preferredSiteLanguageCode: string;
-  _username: string;
-  _email: string;
-  _isLoggedIn: boolean;
-
+  private _roles: string[];
+  private _preferredSiteLanguageCode: string;
+  private _username: string;
+  private _email: string;
+  private _isLoggedIn: boolean;
   constructor(
-      isModerator: boolean, isAdmin: boolean, isSuperAdmin: boolean,
-      isTopicManager: boolean, canCreateCollections: boolean,
-      preferredSiteLanguageCode: string, username: string,
-      email: string, isLoggedIn: boolean) {
-    this._isModerator = isModerator;
-    this._isAdmin = isAdmin;
-    this._isTopicManager = isTopicManager;
-    this._isSuperAdmin = isSuperAdmin;
-    this._canCreateCollections = canCreateCollections;
+      roles: string[], preferredSiteLanguageCode: string,
+      username: string, email: string, isLoggedIn: boolean) {
+    this._roles = roles;
     this._preferredSiteLanguageCode = preferredSiteLanguageCode;
     this._username = username;
     this._email = email;
@@ -58,34 +49,32 @@ export class UserInfo {
   static createFromBackendDict(
       data: UserInfoBackendDict): UserInfo {
     return new UserInfo(
-      data.is_moderator, data.is_admin, data.is_super_admin,
-      data.is_topic_manager, data.can_create_collections,
-      data.preferred_site_language_code, data.username,
+      data.roles, data.preferred_site_language_code, data.username,
       data.email, data.user_is_logged_in);
   }
   static createDefault(): UserInfo {
-    return new UserInfo(
-      false, false, false, false, false, null, null, null, false);
+    return new UserInfo([], null, null, null, false);
   }
 
   isModerator(): boolean {
-    return this._isModerator;
+    return this._roles.indexOf(constants.ROLES_DATA.ROLE_ID_MODERATOR) > -1;
   }
 
   isAdmin(): boolean {
-    return this._isAdmin;
+    return this._roles.indexOf(constants.ROLES_DATA.ROLE_ID_ADMIN) > -1;
   }
 
   isTopicManager(): boolean {
-    return this._isTopicManager;
+    return this._roles.indexOf(constants.ROLES_DATA.ROLE_ID_TOPIC_MANAGER) > -1;
   }
 
   isSuperAdmin(): boolean {
-    return this._isSuperAdmin;
+    return this._roles.indexOf(constants.ROLES_DATA.ROLE_ID_SUPERADMIN) > -1;
   }
 
   canCreateCollections(): boolean {
-    return this._canCreateCollections;
+    return this._roles.indexOf(
+      constants.ROLES_DATA.ROLE_ID_COLLECTION_EDITOR) > -1;
   }
 
   getPreferredSiteLanguageCode(): string {
@@ -98,6 +87,10 @@ export class UserInfo {
 
   getEmail(): string {
     return this._email;
+  }
+
+  getRoles(): string[] {
+    return this._roles;
   }
 
   isLoggedIn(): boolean {
