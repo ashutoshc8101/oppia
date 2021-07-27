@@ -85,7 +85,7 @@ export class BlogPostData {
   }
 
   get tags(): string[] {
-    return this._tags.slice();
+    return this._tags;
   }
 
   addTag(tag: string): void {
@@ -95,6 +95,10 @@ export class BlogPostData {
   removeTag(tag: string): void {
     let index = this._tags.indexOf(tag);
     this._tags.splice(index, 1);
+  }
+
+  set tags(tags: string[]) {
+    this._tags = tags;
   }
 
   get urlFragment(): string {
