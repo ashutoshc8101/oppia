@@ -48,7 +48,6 @@ declare var angular: ng.IAngularStatic;
     MatButtonToggleModule
   ],
   declarations: [
-    OppiaAngularRootComponent,
     BlogDashboardNavbarBreadcrumbComponent,
     BlogDashboardPageComponent,
     BlogCardComponent,
@@ -57,7 +56,6 @@ declare var angular: ng.IAngularStatic;
     BlogPostActionConfirmationModalComponent,
   ],
   entryComponents: [
-    OppiaAngularRootComponent,
     BlogDashboardNavbarBreadcrumbComponent,
     BlogDashboardPageComponent,
     BlogCardComponent,

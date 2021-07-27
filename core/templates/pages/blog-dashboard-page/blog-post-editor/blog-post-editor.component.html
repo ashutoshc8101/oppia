@@ -35,9 +35,10 @@
         </div>
         <schema-based-editor *ngIf="contentEditorIsActive"
                              [schema]="getSchema.bind(this)"
-                             [(localValue)]="this.blogPostData.content"
-                             (localValueChange)="this.updateContent"
-                             (blur)="updateLocalContentValue">
+                             [headersEnabled]="headersAreEnabledCallback.bind(this)"
+                             [localValue]="blogPostData.content"
+                             (localValueChange)="updateContent($event)"
+                             (blur)="updateLocalContentValue($event)">
         </schema-based-editor>
       </div>
     </div>

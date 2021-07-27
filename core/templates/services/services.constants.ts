@@ -20,6 +20,7 @@ import RTE_COMPONENT_SPECS from 'assets/rich_text_components_definitions';
 
 export const ServicesConstants = {
   PAGE_CONTEXT: {
+    BLOG_DASHBOARD: 'blog_dashboard',
     COLLECTION_EDITOR: 'collection_editor',
     EXPLORATION_EDITOR: 'editor',
     EXPLORATION_PLAYER: 'learner',

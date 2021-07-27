@@ -95,6 +95,8 @@ export class ContextService {
                 pathnameArray[i + 1] === 'exploration')) {
           this.pageContext = ServicesConstants.PAGE_CONTEXT.EXPLORATION_PLAYER;
           return ServicesConstants.PAGE_CONTEXT.EXPLORATION_PLAYER;
+        } else if (pathnameArray[i] === 'blog-dashboard') {
+          this.pageContext = ServicesConstants.PAGE_CONTEXT.BLOG_DASHBOARD;
         } else if (pathnameArray[i] === 'create') {
           this.pageContext = ServicesConstants.PAGE_CONTEXT.EXPLORATION_EDITOR;
           return ServicesConstants.PAGE_CONTEXT.EXPLORATION_EDITOR;
@@ -281,6 +283,7 @@ export class ContextService {
   canAddOrEditComponents(): boolean {
     var currentPageContext = this.getPageContext();
     var allowedPageContext: string[] = [
+      ServicesConstants.PAGE_CONTEXT.BLOG_DASHBOARD,
       ServicesConstants.PAGE_CONTEXT.EXPLORATION_EDITOR,
       ServicesConstants.PAGE_CONTEXT.QUESTION_EDITOR,
       ServicesConstants.PAGE_CONTEXT.COLLECTION_EDITOR,
