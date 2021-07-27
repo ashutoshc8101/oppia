@@ -16,7 +16,7 @@
  * @fileoverview Directive for CK Editor.
  */
 
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { downgradeComponent } from '@angular/upgrade/static';
 import { AppConstants } from 'app.constants';
 import { OppiaAngularRootComponent } from 'components/oppia-angular-root.component';
@@ -38,7 +38,7 @@ interface RteConfig extends CKEDITOR.config {
 
 @Component({
   selector: 'ck-editor-4-rte',
-  template: '<div><div></div>' +
+  template: '<div #compRef><div></div>' +
             '<div contenteditable="true" ' +
             'class="oppia-rte-resizer oppia-rte protractor-test-rte">' +
             '</div></div>',
@@ -51,6 +51,8 @@ export class CkEditor4RteComponent implements AfterViewInit, OnDestroy {
   @Output() valueChange: EventEmitter<string> = new EventEmitter();
   rteHelperService;
   ck: CKEDITOR.editor;
+  @ViewChild('compRef') compRef: ElementRef;
+
   constructor(
     private ckEditorCopyContentService: CkEditorCopyContentService,
     private contextService: ContextService,
@@ -341,9 +343,11 @@ export class CkEditor4RteComponent implements AfterViewInit, OnDestroy {
         .css('padding', '2px 5px 0px');
 
       if (!this.headersEnabled) {
-        // TODO(#12882): Remove the use of jQuery.
-        $('.cke_combo_button')
-          .css('display', 'none');
+        let comboButton = this.compRef.nativeElement.querySelectorAll(
+          '.cke_combo_button');
+        if (comboButton[0]) {
+          comboButton[0].style.display = 'none';
+        }
       }
 
       ck.setData(wrapComponents(this.value));
