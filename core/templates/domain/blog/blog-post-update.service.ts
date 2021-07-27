@@ -18,6 +18,7 @@
 import { Injectable } from '@angular/core';
 import { BlogPostData } from 'domain/blog/blog-post.model';
 import { downgradeInjectable } from '@angular/upgrade/static';
+import { changeEnd } from 'codemirror';
 
 export interface BlogPostChangeDict {
   'title'?: string;
@@ -36,30 +37,36 @@ interface ImageData {
 })
 export class BlogPostUpdateService {
   changeDict: BlogPostChangeDict = {};
+  _blogPostData: BlogPostData;
 
-  setBlogPostTitle(blogPost: BlogPostData, title: string): void {
-    blogPost.title = title;
-    this.changeDict.title = title;
+  set blogPost(blogPost) {
+    this._blogPostData = blogPost;
   }
 
-  setBlogPostThumbnail(blogPost: BlogPostData, image: ImageData[]): void {
+  setBlogPostTitle(title: string): void {
+    if (this._blogPostData.title !== title) {
+      this._blogPostData.title = title;
+      this.changeDict.title = title;
+    }
+  }
+
+  setBlogPostThumbnail(image: ImageData[]): void {
     let filename = image[0].filename;
-    blogPost.thumbnailFilename = filename;
-    this.changeDict.thumbnail_filename = filename;
+    if (this._blogPostData.thumbnailFilename !== filename) {
+      this._blogPostData.thumbnailFilename = filename;
+      this.changeDict.thumbnail_filename = filename;
+    }
   }
 
-  addBlogPostTag(blogPost: BlogPostData, tag: string): void {
-    blogPost.addTag(tag);
-    this.changeDict.tags = blogPost.tags;
+  setBlogPostTags(tags: string[]): void {
+    if (this._blogPostData.tags !== tags) {
+      this._blogPostData.tags = tags ;
+      this.changeDict.tags = tags;
+    }
   }
 
-  removeBlogPostTag(blogPost: BlogPostData, tag: string): void {
-    blogPost.removeTag(tag);
-    this.changeDict.tags = blogPost.tags;
-  }
-
-  setBlogPostContent(blogPost: BlogPostData, content: string): void {
-    blogPost.content = content;
+  setBlogPostContent(content: string): void {
+    this._blogPostData.content = content;
     this.changeDict.content = content;
   }
 

@@ -1,0 +1,206 @@
+<div class="blog-post-editor row">
+  <mat-card class="editor-field-card col-sm-8">
+    <oppia-thumbnail-uploader  [aspectRatio]="'4:3'"
+                               [disabled]="false"
+                               [useLocalStorage]="true"
+                               (imageSave)="updateView()">
+    </oppia-thumbnail-uploader>
+    <div class="blog-post-title d-flex">
+      <div class="title-heading col-sm-2 mr-2 mb-auto text-center">
+        <span class="vertical-sub-align">TITLE</span>
+      </div>
+      <div class="d-block flex-grow-1">
+        <input class="form-control required general-text-format"
+               [(ngModel)]="blogPostData.title"
+               [ngClass]="{'blog-title-input-field': blogPostData.title !== ''}"
+               maxlength="MAX_CHARS_IN_BLOG_POST_TITLE"
+               aria-label="Title"
+               (blur)="updateLocalTitleValue()"
+               autofocus>
+        <span class="oppia-input-box-subtitle">
+          <em>
+            Blog Post title should be at most {{MAX_CHARS_IN_BLOG_POST_TITLE}} characters.
+          </em>
+        </span>
+      </div>
+    </div>
+    <div class="blog-post-content d-flex mt-2">
+      <div class="title-heading col-sm-2 mr-2 mb-auto text-center">
+        <span class="vertical-sub-align">CONTENT</span>
+      </div>
+      <div class="d-block flex-grow-1">
+        <div *ngIf="!contentEditorIsActive" (click)="openContentEditor()" class="blog-post-content-button">
+          <angular-html-bind-wrapper [htmlData]="this.blogPostData.content">
+          </angular-html-bind-wrapper>
+        </div>
+        <schema-based-editor *ngIf="contentEditorIsActive"
+                             [schema]="getSchema.bind(this)"
+                             [(localValue)]="this.blogPostData.content"
+                             (localValueChange)="this.updateContent"
+                             (blur)="updateLocalContentValue">
+        </schema-based-editor>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card class="editor-profile-card col-sm-2">
+    <mat-card-header class="d-block">
+      <div mat-card-avatar class="author-profile mx-auto">
+        <img mat-card-avatar class="profile-image" [src]="authorProfilePictureUrl"
+          alt="Profile image of the author of the blog post">
+        <span class="author-username text-center general-text-format">
+          {{ authorUsername }}
+        </span>
+      </div>
+      <div class="mat-card-header-text d-block mx-0 mt-3">
+        <mat-card-title class="general-text-format">
+          {{ blogPostData.title }}
+        </mat-card-title>
+        <mat-card-subtitle class="sub-text general-text-format">
+          {{ 'I18N_BLOG_POST_EDITOR_LAST_SAVED_PREFIX' | translate }} {{ dateTimeLastSaved }}
+        </mat-card-subtitle>
+      </div>
+    </mat-card-header>
+    <mat-card-content class="text-center">
+      <mat-card-actions>
+        <button mat-button class="mx-2 my-0"
+                [disabled]="blogPostData.validate().lenght > 0"
+                click="saveDraft()">
+          {{ 'I18N_BLOG_DASHBOARD_TAB_DRAFTS' | translate | uppercase }}
+        </button>
+        <button mat-button class="mx-2 my-0"
+                [disabled]="blogPostData.prepublishValidate(maxAllowedTags).length > 0"
+                click="publishBlogPost()">
+          {{ 'I18N_BLOG_DASHBOARD_TAB_PUBLISHED' | translate | uppercase }}
+        </button>
+        <div class="mt-4 text-left">
+          <span class="tag-heading general-text-format">
+            {{ 'I18N_BLOG_POST_EDITOR_TAGS_HEADING' | translate}}
+          </span>
+          <span class="sub-text tag-limit-text general-text-format">
+            {{ 'I18N_BLOG_POST_EDITOR_TAGS_LIMIT_PREFIX' | translate}} {{maxAllowedTags}}
+          </span>
+        </div>
+        <mat-button-toggle-group aria-label="Tags to classify blog post"
+                                 [value]="blogPostData.tags"
+                                 *ngFor="let tag of defaultTagsList"
+                                 multiple="true"
+                                 class="mx-2 my-2 tag">
+          <mat-button-toggle [value]="tag" (change)="onTagChange($event.value)">
+            {{ tag }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+        <button mat-button class="d-block delete-button mx-2 my-0" (click)="deleteBlogPost()">
+          {{ 'I18N_BLOG_POST_EDITOR_DELETE_BUTTON' | translate | uppercase }}
+        </button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</div>
+<style>
+  .blog-post-editor {
+    padding: 10px 50px;
+  }
+
+  .mat-card {
+    margin: 10px
+  }
+
+  .author-username {
+    color: #333;
+    display: block;
+    font: normal normal normal 1.8rem/2.1rem Roboto;
+  }
+
+  .mat-card-avatar.author-profile {
+    text-align: center;
+    height: unset;
+    width: unset;
+  }
+
+  .mat-card-avatar.profile-image {
+    height: 3.750vw;
+    min-height: 48px;
+    min-width: 48px;
+    width: 3.750vw;
+  }
+
+  .general-text-format {
+    font-family: 'Roboto', Arial, sans-serif;
+    text-align: left;
+  }
+
+  .mat-card-title {
+    color: #333;
+    font: normal normal bold 1.6rem/1.9rem Roboto;
+  }
+
+  .sub-text {
+    color: #555;
+    font: italic normal normal 1.2rem/1.4rem Roboto;
+    margin: 0
+  }
+
+  .tag-heading {
+    color: #333;
+    font: normal normal bold 2.0rem/2.4rem Roboto;
+  }
+
+  .tag-limit-text {
+    color: #555;
+  }
+
+  .tag {
+    color: #555555;
+    font: normal normal normal 1.6rem/1.9rem Roboto;
+    line-height: 0;
+    border: 1px solid #333333;
+    border-radius: 2px;
+  }
+
+  .mat-button {
+    background-color: #00609C;
+    height: 2.813vw;
+    width: 13.438vw;
+    color: white;
+  }
+
+  .mat-button:disabled {
+    letter-spacing: 0px;
+    color: #00000061;
+    background-color: #00000061;
+    opacity: 1;
+  }
+
+  .delete-button {
+    background-color: #FFF;
+    color: #333;
+  }
+
+  .tag /deep/ .mat-button-toggle-label-content {
+    line-height: 19px;
+  }
+
+  .blog-title-input-field {
+    font: normal normal bold 28px/33px Roboto;
+    color: #333;
+    border:#FFF;
+    height: unset;
+    padding: 0;
+  }
+
+  .blog-title-input-field:focus {
+    border:1px solid #ced4da;
+    height: calc(1.5em + 0.75rem + 2px);
+  }
+
+  .title-heading {
+    color: #555;
+    font: normal normal normal 1.6rem/1.9rem Roboto;
+    height: 28px;
+    border-right: 2px solid #999;
+  }
+
+  .vertical-sub-align {
+    vertical-align: sub;
+  }
+</style>
