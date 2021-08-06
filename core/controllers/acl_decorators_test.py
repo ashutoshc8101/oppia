@@ -404,6 +404,13 @@ class ClassroomExistDecoratorTests(test_utils.GenericTestBase):
         with self.swap(self, 'testapp', self.mock_testapp):
             self.get_json('/mock_classroom/invalid', expected_status_int=404)
 
+    def test_does_classroom_exists_decorator_can_be_only_with_json_handlers(
+            self):
+        with self.swap(self, 'testapp', self.mock_testapp):
+            with self.swap(feconf, 'HANDLER_TYPE_JSON', 'other_than_json'):
+                self.get_json(
+                    '/mock_classroom/invalid', expected_status_int=500)
+
 
 class CreateExplorationDecoratorTests(test_utils.GenericTestBase):
     """Tests for can_create_exploration decorator."""

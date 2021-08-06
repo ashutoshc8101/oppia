@@ -138,7 +138,7 @@ def does_classroom_exist(handler):
 
     def test_does_classroom_exist(self, classroom_url_fragment, **kwargs):
         """Checks if classroom url fragment provided is valid. If so, return
-        handler or else redirect to the correct classroom.
+        handler or else raise an appropriate exception.
 
         Args:
             classroom_url_fragment: str. The classroom url fragment.
@@ -158,9 +158,11 @@ def does_classroom_exist(handler):
             if self.GET_HANDLER_ERROR_RETURN_TYPE == feconf.HANDLER_TYPE_JSON:
                 raise self.PageNotFoundException
             else:
-                # As this decorator is not expected to be used with other
-                # handler types, raising a internal error here.
-                raise self.InternalErrorException
+                # As this decorator is not expected to be used with other handler types,
+                # raising an exception here.
+                raise Exception(
+                    'does_classroom_exist decorator is expected to be only'
+                    'used with JSON handlers')
 
         return handler(self, classroom_url_fragment, **kwargs)
     test_does_classroom_exist.__wrapped__ = True
