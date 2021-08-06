@@ -158,8 +158,8 @@ def does_classroom_exist(handler):
             if self.GET_HANDLER_ERROR_RETURN_TYPE == feconf.HANDLER_TYPE_JSON:
                 raise self.PageNotFoundException
             else:
-                # As this decorator is not expected to be used with other handler types,
-                # raising an exception here.
+                # As this decorator is not expected to be used with other
+                # handler types, raising an exception here.
                 raise Exception(
                     'does_classroom_exist decorator is expected to be only'
                     'used with JSON handlers')
