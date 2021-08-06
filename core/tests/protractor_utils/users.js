@@ -61,20 +61,6 @@ var login = async function(email, useManualNavigation = true) {
     await browser.get(general.SERVER_URL_PREFIX + general.LOGIN_URL_SUFFIX);
   }
 
-  console.log('==========================');
-  var windowName = await browser.executeScript(
-    'return window.name;'
-  );
-  console.log(windowName);
-  var angular = await browser.executeScript(
-    'return window.angular');
-  console.log(angular);
-  console.log(!!angular);
-  var getAngularTestability = await browser.executeScript(
-    'return window.getAngularTestability'
-  );
-  console.log(getAngularTestability);
-  console.log(!!getAngularTestability);
 
   var loginPage = element(by.css('.protractor-test-login-page'));
   await waitFor.presenceOf(loginPage, 'Login page did not load');
@@ -83,9 +69,11 @@ var login = async function(email, useManualNavigation = true) {
   await action.sendKeys('Email input', emailInput, email);
 
   var signInButton = element(by.css('.protractor-test-sign-in-button'));
+  await browser.waitForAngularEnabled(false);
   await action.click('Sign in button', signInButton);
 
   await waitFor.pageToFullyLoad();
+  await browser.waitForAngularEnabled(true);
 };
 
 var logout = async function() {
