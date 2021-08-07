@@ -78,10 +78,12 @@ var login = async function(email, useManualNavigation = true) {
 
 var logout = async function() {
   await browser.get(general.SERVER_URL_PREFIX + general.LOGOUT_URL_SUFFIX);
+  await browser.waitForAngularEnabled(false);
   // Wait for logout page to load.
   await waitFor.pageToFullyLoad();
   // Wait for redirection to occur.
   await waitFor.pageToFullyLoad();
+  await browser.waitForAngularEnabled(true);
 };
 
 // The user needs to log in immediately before this method is called. Note
