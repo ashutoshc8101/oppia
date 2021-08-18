@@ -56,7 +56,7 @@ var CONSOLE_ERRORS_TO_IGNORE = [
   // In such cases, we ignore the error since it is out of our control.
   _.escapeRegExp(
     'https://pencilcode.net/lib/pencilcodeembed.js - Failed to ' +
-    'load resource: net::ERR_CERT_DATE_INVALID')
+    'load resource: net::ERR_CERT_DATE_INVALID'),
 ];
 
 var checkForConsoleErrors = async function(
@@ -250,10 +250,16 @@ var navigateToTopicsAndSkillsDashboardPage = async function() {
   await openProfileDropdown();
   var topicsAndSkillsDashboardLink = element(by.css(
     '.protractor-test-topics-and-skills-dashboard-link'));
-  await action.click(
-    'Topics and skills dashboard link from dropdown',
-    topicsAndSkillsDashboardLink);
-  await waitFor.pageToFullyLoad();
+  await waitFor.clientSideRedirection(async() => {
+    await action.click(
+      'Topics and skills dashboard link from dropdown',
+      topicsAndSkillsDashboardLink);
+  }, (url) => {
+    return /topics-and-skills-dashboard/.test(url);
+  },
+  async() => {
+    await waitFor.pageToFullyLoad();
+  });
 };
 
 var goOnline = async function() {
