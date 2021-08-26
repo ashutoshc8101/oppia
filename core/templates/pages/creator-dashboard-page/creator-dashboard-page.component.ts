@@ -16,329 +16,337 @@
  * @fileoverview Component for the creator dashboard.
  */
 
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { downgradeComponent } from '@angular/upgrade/static';
+import { AppConstants } from 'app.constants';
+import { ExplorationCreationService } from 'components/entity-creation-services/exploration-creation.service';
+import { RatingComputationService } from 'components/ratings/rating-computation/rating-computation.service';
+import { CollectionSummary } from 'domain/collection/collection-summary.model';
+import { CreatorDashboardBackendApiService } from 'domain/creator_dashboard/creator-dashboard-backend-api.service';
+import { CreatorDashboardStats } from 'domain/creator_dashboard/creator-dashboard-stats.model';
 import { ThreadMessage } from 'domain/feedback_message/ThreadMessage.model';
-require('base-components/base-content.component.ts');
-require(
-  'components/common-layout-directives/common-elements/' +
-  'sharing-links.component.ts');
-require(
-  'components/common-layout-directives/common-elements/' +
-  'background-banner.component.ts');
-require('components/summary-tile/collection-summary-tile.component.ts');
-require('interactions/interactionsRequires.ts');
-require('objects/objectComponentsRequires.ts');
+import { CreatorExplorationSummary } from 'domain/summary/creator-exploration-summary.model';
+import { ProfileSummary } from 'domain/user/profile-summary.model';
+import { UrlInterpolationService } from 'domain/utilities/url-interpolation.service';
+import { ThreadStatusDisplayService } from 'pages/exploration-editor-page/feedback-tab/services/thread-status-display.service';
+import { AlertsService } from 'services/alerts.service';
+import { WindowRef } from 'services/contextual/window-ref.service';
+import { DateTimeFormatService } from 'services/date-time-format.service';
+import { LoaderService } from 'services/loader.service';
+import { UserService } from 'services/user.service';
+import { CreatorDashboardConstants } from './creator-dashboard-page.constants';
 
-require('components/entity-creation-services/exploration-creation.service.ts');
-require('components/ratings/rating-computation/rating-computation.service.ts');
-require('domain/creator_dashboard/creator-dashboard-backend-api.service.ts');
-require('domain/suggestion/SuggestionThreadObjectFactory.ts');
-require('domain/utilities/url-interpolation.service.ts');
-require('filters/string-utility-filters/truncate.filter.ts');
-require(
-  'pages/creator-dashboard-page/suggestion-modal-for-creator-view/' +
-  'suggestion-modal-for-creator-view.service.ts');
-require(
-  'pages/exploration-editor-page/feedback-tab/services/' +
-  'thread-status-display.service.ts');
-require('services/alerts.service.ts');
-require('services/date-time-format.service.ts');
-require('services/suggestions.service.ts');
-require('services/user.service.ts');
-require('pages/creator-dashboard-page/creator-dashboard-page.constants.ajs.ts');
+@Component({
+  selector: 'oppia-creator-dashboard-page',
+  templateUrl: './creator-dashboard-page.component.html'
+})
+export class CreatorDashboardPageComponent {
+  private _EXP_PUBLISH_TEXTS = {
+    defaultText: (
+      'This exploration is private. Publish it to receive statistics.'),
+    smText: 'Publish the exploration to receive statistics.'
+  };
 
-angular.module('oppia').component('creatorDashboardPage', {
-  template: require('./creator-dashboard-page.component.html'),
-  controller: [
-    '$http', '$q', '$rootScope', '$window', 'AlertsService',
-    'CreatorDashboardBackendApiService', 'DateTimeFormatService',
-    'ExplorationCreationService', 'LoaderService',
-    'RatingComputationService', 'SuggestionModalForCreatorDashboardService',
-    'ThreadStatusDisplayService',
-    'UrlInterpolationService', 'UserService',
-    'ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS',
-    'DEFAULT_TWITTER_SHARE_MESSAGE_EDITOR', 'EXPLORATIONS_SORT_BY_KEYS',
-    'EXPLORATION_DROPDOWN_STATS', 'FATAL_ERROR_CODES',
-    'HUMAN_READABLE_EXPLORATIONS_SORT_BY_KEYS',
-    'HUMAN_READABLE_SUBSCRIPTION_SORT_BY_KEYS',
-    'SUBSCRIPTION_SORT_BY_KEYS',
-    function(
-        $http, $q, $rootScope, $window, AlertsService,
-        CreatorDashboardBackendApiService, DateTimeFormatService,
-        ExplorationCreationService, LoaderService,
-        RatingComputationService, SuggestionModalForCreatorDashboardService,
-        ThreadStatusDisplayService,
-        UrlInterpolationService, UserService,
-        ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS,
-        DEFAULT_TWITTER_SHARE_MESSAGE_EDITOR, EXPLORATIONS_SORT_BY_KEYS,
-        EXPLORATION_DROPDOWN_STATS, FATAL_ERROR_CODES,
-        HUMAN_READABLE_EXPLORATIONS_SORT_BY_KEYS,
-        HUMAN_READABLE_SUBSCRIPTION_SORT_BY_KEYS,
-        SUBSCRIPTION_SORT_BY_KEYS) {
-      var ctrl = this;
-      var EXP_PUBLISH_TEXTS = {
-        defaultText: (
-          'This exploration is private. Publish it to receive statistics.'),
-        smText: 'Publish the exploration to receive statistics.'
-      };
+  private _userDashboardDisplayPreference: string = (
+    AppConstants.ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS.CARD);
 
-      var userDashboardDisplayPreference =
-        ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS.CARD;
-      ctrl.setActiveTab = function(newActiveTabName) {
-        ctrl.activeTab = newActiveTabName;
-      };
+  activeTab: string;
+  myExplorationsView: string;
+  publishText: string;
+  currentSortType;
+  isCurrentSortDescending: boolean;
+  currentSubscribersSortType;
+  isCurrentSubscriptionSortDescending: boolean;
+  mySuggestionsList;
+  suggestionsToReviewList;
+  activeThread;
+  canReviewActiveThread: boolean;
+  canCreateCollections: boolean = null;
 
-      ctrl.getExplorationUrl = function(explorationId) {
-        return '/create/' + explorationId;
-      };
+  DEFAULT_EMPTY_TITLE: string = 'Untitled';
+  EXPLORATION_DROPDOWN_STATS = (
+    CreatorDashboardConstants.EXPLORATION_DROPDOWN_STATS);
+  EXPLORATIONS_SORT_BY_KEYS = (
+    CreatorDashboardConstants.EXPLORATIONS_SORT_BY_KEYS);
+  HUMAN_READABLE_EXPLORATIONS_SORT_BY_KEYS = (
+    CreatorDashboardConstants.HUMAN_READABLE_EXPLORATIONS_SORT_BY_KEYS);
+  SUBSCRIPTION_SORT_BY_KEYS = (
+    CreatorDashboardConstants.SUBSCRIPTION_SORT_BY_KEYS);
+  HUMAN_READABLE_SUBSCRIPTION_SORT_BY_KEYS = (
+    CreatorDashboardConstants.HUMAN_READABLE_SUBSCRIPTION_SORT_BY_KEYS);
+  DEFAULT_TWITTER_SHARE_MESSAGE_DASHBOARD = (
+    AppConstants.DEFAULT_TWITTER_SHARE_MESSAGE_EDITOR);
+  explorationsList: CreatorExplorationSummary[];
+  collectionsList: CollectionSummary[];
+  subscribersList: ProfileSummary[];
+  dashboardStats: CreatorDashboardStats;
+  lastWeekStats: CreatorDashboardStats;
+  relativeChangeInTotalPlays: number;
+  emptyDashboardImgUrl: string;
 
-      ctrl.getCollectionUrl = function(collectionId) {
-        return '/collection_editor/create/' + collectionId;
-      };
+  constructor(
+    private httpClient: HttpClient,
+    private windowRef: WindowRef,
+    private alertsService: AlertsService,
+    private creatorDashboardBackendApiService:
+    CreatorDashboardBackendApiService,
+    private dateTimeFormatService: DateTimeFormatService,
+    private explorationCreationService: ExplorationCreationService,
+    private loaderService: LoaderService,
+    private ratingComputationService: RatingComputationService,
+    private threadStatusDisplayService: ThreadStatusDisplayService,
+    private urlInterpolationService: UrlInterpolationService,
+    private userService: UserService
+  ) {}
 
-      ctrl.setMyExplorationsView = function(newViewType) {
-        $http.post('/creatordashboardhandler/data', {
-          display_preference: newViewType,
-        }).then(function() {
-          ctrl.myExplorationsView = newViewType;
-        });
-        userDashboardDisplayPreference = newViewType;
-      };
+  ngOnInit(): void {
+    this.loaderService.showLoadingScreen('Loading');
+    let userInfoPromise = this.userService.getUserInfoAsync();
+    userInfoPromise.then((userInfo) => {
+      this.canCreateCollections = userInfo.canCreateCollections();
+    });
 
-      ctrl.checkMobileView = function() {
-        return ($window.innerWidth < 500);
-      };
+    let dashboardDataPromise = (
+      this.creatorDashboardBackendApiService.fetchDashboardDataAsync());
+    dashboardDataPromise.then((response) => {
+      // The following condition is required for Karma testing. The
+      // Angular HttpClient returns an Observable which when converted
+      // to a promise does not have the 'data' key but the AngularJS
+      // mocks of services using HttpClient use $http which return
+      // promise and the content is contained in the 'data' key.
+      // Therefore the following condition checks for presence of
+      // 'response.data' which would be the case in AngularJS testing
+      // but assigns 'response' if the former is not present which is
+      // the case with HttpClient.
+      this.currentSortType = (
+        CreatorDashboardConstants.EXPLORATIONS_SORT_BY_KEYS.OPEN_FEEDBACK);
+      this.currentSubscribersSortType =
+        this.SUBSCRIPTION_SORT_BY_KEYS.USERNAME;
+      this.isCurrentSortDescending = true;
+      this.isCurrentSubscriptionSortDescending = true;
+      this.explorationsList = response.explorationsList;
+      this.collectionsList = response.collectionsList;
+      this.subscribersList = response.subscribersList;
+      this.dashboardStats = response.dashboardStats;
+      this.lastWeekStats = response.lastWeekStats;
+      this.myExplorationsView = response.displayPreference;
+      this.mySuggestionsList = response.createdSuggestionThreadsList;
+      this.suggestionsToReviewList = response.suggestionThreadsToReviewList;
 
-      ctrl.showUsernamePopover = function(subscriberUsername) {
-        // The popover on the subscription card is only shown if the length
-        // of the subscriber username is greater than 10 and the user hovers
-        // over the truncated username.
-        if (subscriberUsername.length > 10) {
-          return 'mouseenter';
-        } else {
-          return 'none';
-        }
-      };
+      if (this.dashboardStats && this.lastWeekStats) {
+        this.relativeChangeInTotalPlays = (
+          this.dashboardStats.totalPlays - (
+            this.lastWeekStats.totalPlays)
+        );
+      }
 
-      ctrl.updatesGivenScreenWidth = function() {
-        if (ctrl.checkMobileView()) {
-          // For mobile users, the view of the creators
-          // exploration list is shown only in
-          // the card view and can't be switched to list view.
-          ctrl.myExplorationsView = (
-            ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS.CARD);
-          ctrl.publishText = EXP_PUBLISH_TEXTS.smText;
-        } else {
-          // For computer users or users operating in larger screen size
-          // the creator exploration list will come back to its previously
-          // selected view (card or list) when resized from mobile view.
-          ctrl.myExplorationsView = userDashboardDisplayPreference;
-          ctrl.publishText = EXP_PUBLISH_TEXTS.defaultText;
-        }
-      };
-      ctrl.setExplorationsSortingOptions = function(sortType) {
-        if (sortType === ctrl.currentSortType) {
-          ctrl.isCurrentSortDescending = !ctrl.isCurrentSortDescending;
-        } else {
-          ctrl.currentSortType = sortType;
-        }
-      };
+      if (this.explorationsList.length === 0 &&
+        this.collectionsList.length > 0) {
+        this.activeTab = 'myCollections';
+      } else if (this.explorationsList.length === 0 && (
+        this.mySuggestionsList.length > 0 ||
+        this.suggestionsToReviewList.length > 0)) {
+        this.activeTab = 'suggestions';
+      } else {
+        this.activeTab = 'myExplorations';
+      }
+    }, (errorResponse) => {
+      if (AppConstants.FATAL_ERROR_CODES.indexOf(errorResponse.status) !== -1) {
+        this.alertsService.addWarning('Failed to get dashboard data');
+      }
+    });
 
-      ctrl.setSubscriptionSortingOptions = function(sortType) {
-        if (sortType === ctrl.currentSubscribersSortType) {
-          ctrl.isCurrentSubscriptionSortDescending = (
-            !ctrl.isCurrentSubscriptionSortDescending);
-        } else {
-          ctrl.currentSubscribersSortType = sortType;
-        }
-      };
+    Promise.all([userInfoPromise, dashboardDataPromise]).then(() => {
+      this.loaderService.hideLoadingScreen();
+    });
 
-      ctrl.sortSubscriptionFunction = function(entity) {
-        // This function is passed as a custom comparator function to
-        // `orderBy`, so that special cases can be handled while sorting
-        // subscriptions.
-        var value = entity[ctrl.currentSubscribersSortType];
-        if (ctrl.currentSubscribersSortType ===
-            SUBSCRIPTION_SORT_BY_KEYS.IMPACT) {
-          value = (value || 0);
-        }
-        return value;
-      };
+    this.emptyDashboardImgUrl = this.urlInterpolationService.getStaticImageUrl(
+      '/general/empty_dashboard.svg');
+    this.canReviewActiveThread = null;
+    this.updatesGivenScreenWidth();
+    this.windowRef.nativeWindow.addEventListener('resize', () => {
+      this.updatesGivenScreenWidth();
+    });
+  }
 
-      var _fetchMessages = function(threadId) {
-        $http.get('/threadhandler/' + threadId).then(function(response) {
-          var allThreads = ctrl.mySuggestionsList.concat(
-            ctrl.suggestionsToReviewList);
-          for (var i = 0; i < allThreads.length; i++) {
-            if (allThreads[i].threadId === threadId) {
-              allThreads[i].setMessages(response.data.messages.map(
-                m => ThreadMessage.createFromBackendDict(m)));
-              break;
-            }
-          }
-        });
-      };
+  setActiveTab(newActiveTabName: string): void {
+    this.activeTab = newActiveTabName;
+  }
 
-      ctrl.clearActiveThread = function() {
-        ctrl.activeThread = null;
-      };
+  getExplorationUrl(explorationId: string): string {
+    return '/create/' + explorationId;
+  }
 
-      ctrl.setActiveThread = function(threadId) {
-        _fetchMessages(threadId);
-        for (var i = 0; i < ctrl.mySuggestionsList.length; i++) {
-          if (ctrl.mySuggestionsList[i].threadId === threadId) {
-            ctrl.activeThread = ctrl.mySuggestionsList[i];
-            ctrl.canReviewActiveThread = false;
+  getCollectionUrl(collectionId: string): string {
+    return '/collection_editor/create/' + collectionId;
+  }
+
+  setMyExplorationsView(newViewType: string): void {
+    this.httpClient.post('/creatordashboardhandler/data', {
+      display_preference: newViewType
+    }).toPromise().then(() => {
+      this.myExplorationsView = newViewType;
+    });
+    this._userDashboardDisplayPreference = newViewType;
+  }
+
+  checkMobileView(): boolean {
+    return this.windowRef.nativeWindow.innerWidth < 500;
+  }
+
+  showUsernamePopover(subscriberUsername: string): string {
+    // The popover on the subscription card is only shown if the length
+    // of the subscriber username is greater than 10 and the user hovers
+    // over the truncated username.
+    if (subscriberUsername.length > 10) {
+      return 'mouseenter';
+    } else {
+      return 'none';
+    }
+  }
+
+  updatesGivenScreenWidth(): void {
+    if (this.checkMobileView()) {
+      // For mobile users, the view of the creators
+      // exploration list is shown only in
+      // the card view and can't be switched to list view.
+      this.myExplorationsView = (
+        AppConstants.ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS.CARD);
+      this.publishText = this._EXP_PUBLISH_TEXTS.smText;
+    } else {
+      // For computer users or users operating in larger screen size
+      // the creator exploration list will come back to its previously
+      // selected view (card or list) when resized from mobile view.
+      this.myExplorationsView = this._userDashboardDisplayPreference;
+      this.publishText = this._EXP_PUBLISH_TEXTS.defaultText;
+    }
+  }
+
+  setExplorationsSortingOptions(sortType: string): void {
+    if (sortType === this.currentSortType) {
+      this.isCurrentSortDescending = !this.isCurrentSortDescending;
+    } else {
+      this.currentSortType = sortType;
+    }
+  }
+
+  setSubscriptionSortingOptions(sortType: string): void {
+    if (sortType === this.currentSubscribersSortType) {
+      this.isCurrentSubscriptionSortDescending = (
+        !this.isCurrentSubscriptionSortDescending);
+    } else {
+      this.currentSubscribersSortType = sortType;
+    }
+  }
+
+  sortSubscriptionFunction(entity): void {
+    // This function is passed as a custom comparator function to
+    // `orderBy`, so that special cases can be handled while sorting
+    // subscriptions.
+    let value = entity[this.currentSubscribersSortType];
+    if (this.currentSubscribersSortType ===
+        CreatorDashboardConstants.SUBSCRIPTION_SORT_BY_KEYS.IMPACT) {
+      value = (value || 0);
+    }
+    return value;
+  }
+
+  private _fetchMessages(threadId: string): void {
+    this.httpClient.get('/threadhandler/' + threadId).toPromise()
+      .then((response) => {
+        let allThreads = this.mySuggestionsList.concat(
+          this.suggestionsToReviewList);
+
+        for (let i = 0; i < allThreads.length; i++) {
+          if (allThreads[i].threadId === threadId) {
+            allThreads[i].setMessages(response.messages.map(
+              m => ThreadMessage.createFromBackendDict(m)
+            ));
             break;
           }
         }
-        if (!ctrl.activeThread) {
-          for (var i = 0; i < ctrl.suggestionsToReviewList.length; i++) {
-            if (ctrl.suggestionsToReviewList[i].threadId === threadId) {
-              ctrl.activeThread = ctrl.suggestionsToReviewList[i];
-              ctrl.canReviewActiveThread = true;
-              break;
-            }
-          }
-        }
-      };
+      });
+  }
 
-      ctrl.showSuggestionModal = function() {
-        SuggestionModalForCreatorDashboardService.showSuggestionModal(
-          ctrl.activeThread.suggestion.suggestionType,
-          {
-            activeThread: ctrl.activeThread,
-            suggestionsToReviewList: ctrl.suggestionsToReviewList,
-            clearActiveThread: ctrl.clearActiveThread,
-            canReviewActiveThread: ctrl.canReviewActiveThread
-          }
-        );
-      };
+  clearActiveThread(): void {
+    this.activeThread = null;
+  }
 
-      ctrl.sortByFunction = function(entity) {
-        // This function is passed as a custom comparator function to
-        // `orderBy`, so that special cases can be handled while sorting
-        // explorations.
-        var value = entity[ctrl.currentSortType];
-        if (entity.status === 'private') {
-          if (ctrl.currentSortType === EXPLORATIONS_SORT_BY_KEYS.TITLE) {
-            value = (value || ctrl.DEFAULT_EMPTY_TITLE);
-          } else if (ctrl.currentSortType !==
-                    EXPLORATIONS_SORT_BY_KEYS.LAST_UPDATED) {
-            value = 0;
-          }
-        } else if (
-          ctrl.currentSortType === EXPLORATIONS_SORT_BY_KEYS.RATING) {
-          var averageRating = ctrl.getAverageRating(value);
-          value = (averageRating || 0);
-        }
-        return value;
-      };
-
-      ctrl.getCompleteThumbnailIconUrl = function(iconUrl) {
-        return UrlInterpolationService.getStaticImageUrl(iconUrl);
-      };
-      ctrl.$onInit = function() {
-        ctrl.DEFAULT_EMPTY_TITLE = 'Untitled';
-        ctrl.EXPLORATION_DROPDOWN_STATS = EXPLORATION_DROPDOWN_STATS;
-        ctrl.EXPLORATIONS_SORT_BY_KEYS = EXPLORATIONS_SORT_BY_KEYS;
-        ctrl.HUMAN_READABLE_EXPLORATIONS_SORT_BY_KEYS = (
-          HUMAN_READABLE_EXPLORATIONS_SORT_BY_KEYS);
-        ctrl.SUBSCRIPTION_SORT_BY_KEYS = SUBSCRIPTION_SORT_BY_KEYS;
-        ctrl.HUMAN_READABLE_SUBSCRIPTION_SORT_BY_KEYS = (
-          HUMAN_READABLE_SUBSCRIPTION_SORT_BY_KEYS);
-        ctrl.DEFAULT_TWITTER_SHARE_MESSAGE_DASHBOARD = (
-          DEFAULT_TWITTER_SHARE_MESSAGE_EDITOR);
-
-        ctrl.canCreateCollections = null;
-        LoaderService.showLoadingScreen('Loading');
-        var userInfoPromise = UserService.getUserInfoAsync();
-        userInfoPromise.then(function(userInfo) {
-          ctrl.canCreateCollections = userInfo.canCreateCollections();
-          // TODO(#8521): Remove the use of $rootScope.$apply()
-          // once the controller is migrated to angular.
-          $rootScope.$applyAsync();
-        });
-
-        var dashboardDataPromise = (
-          CreatorDashboardBackendApiService.fetchDashboardDataAsync());
-        dashboardDataPromise.then(
-          function(response) {
-            // The following condition is required for Karma testing. The
-            // Angular HttpClient returns an Observable which when converted
-            // to a promise does not have the 'data' key but the AngularJS
-            // mocks of services using HttpClient use $http which return
-            // promise and the content is contained in the 'data' key.
-            // Therefore the following condition checks for presence of
-            // 'response.data' which would be the case in AngularJS testing
-            // but assigns 'response' if the former is not present which is
-            // the case with HttpClient.
-            var responseData = response.data ? response.data : response;
-            ctrl.currentSortType = EXPLORATIONS_SORT_BY_KEYS.OPEN_FEEDBACK;
-            ctrl.currentSubscribersSortType =
-              SUBSCRIPTION_SORT_BY_KEYS.USERNAME;
-            ctrl.isCurrentSortDescending = true;
-            ctrl.isCurrentSubscriptionSortDescending = true;
-            ctrl.explorationsList = responseData.explorationsList;
-            ctrl.collectionsList = responseData.collectionsList;
-            ctrl.subscribersList = responseData.subscribersList;
-            ctrl.dashboardStats = responseData.dashboardStats;
-            ctrl.lastWeekStats = responseData.lastWeekStats;
-            ctrl.myExplorationsView = responseData.displayPreference;
-            ctrl.mySuggestionsList = responseData.createdSuggestionThreadsList;
-            ctrl.suggestionsToReviewList = (
-              responseData.suggestionThreadsToReviewList);
-
-            if (ctrl.dashboardStats && ctrl.lastWeekStats) {
-              ctrl.relativeChangeInTotalPlays = (
-                ctrl.dashboardStats.totalPlays - (
-                  ctrl.lastWeekStats.totalPlays)
-              );
-            }
-
-            if (ctrl.explorationsList.length === 0 &&
-              ctrl.collectionsList.length > 0) {
-              ctrl.activeTab = 'myCollections';
-            } else if (ctrl.explorationsList.length === 0 && (
-              ctrl.mySuggestionsList.length > 0 ||
-              ctrl.suggestionsToReviewList.length > 0)) {
-              ctrl.activeTab = 'suggestions';
-            } else {
-              ctrl.activeTab = 'myExplorations';
-            }
-          },
-          function(errorResponse) {
-            if (FATAL_ERROR_CODES.indexOf(errorResponse.status) !== -1) {
-              AlertsService.addWarning('Failed to get dashboard data');
-            }
-          }
-        );
-
-        $q.all([userInfoPromise, dashboardDataPromise]).then(function() {
-          LoaderService.hideLoadingScreen();
-        });
-
-        ctrl.getAverageRating = RatingComputationService
-          .computeAverageRating;
-        ctrl.getLocaleAbbreviatedDatetimeString = (
-          DateTimeFormatService.getLocaleAbbreviatedDatetimeString);
-        ctrl.getHumanReadableStatus = (
-          ThreadStatusDisplayService.getHumanReadableStatus);
-
-        ctrl.emptyDashboardImgUrl = UrlInterpolationService
-          .getStaticImageUrl('/general/empty_dashboard.svg');
-        ctrl.canReviewActiveThread = null;
-        ctrl.updatesGivenScreenWidth();
-        angular.element($window).on('resize', function() {
-          ctrl.updatesGivenScreenWidth();
-        });
-      };
-
-      ctrl.createNewExploration = function() {
-        ExplorationCreationService.createNewExploration();
-        // TODO(#8521): Remove the use of $rootScope.$apply()
-        // once the directive is migrated to angular.
-        $rootScope.$applyAsync();
-      };
+  setActiveThread(threadId: string): void {
+    this._fetchMessages(threadId);
+    for (let i = 0; i < this.mySuggestionsList.length; i++) {
+      if (this.mySuggestionsList[i].threadId === threadId) {
+        this.activeThread = this.mySuggestionsList[i];
+        this.canReviewActiveThread = false;
+        break;
+      }
     }
-  ]
-});
+    if (!this.activeThread) {
+      for (let i = 0; i < this.suggestionsToReviewList.length; i++) {
+        if (this.suggestionsToReviewList[i].threadId === threadId) {
+          this.activeThread = this.suggestionsToReviewList[i];
+          this.canReviewActiveThread = true;
+          break;
+        }
+      }
+    }
+  }
+
+  showSuggestionModal(): void {
+    // this.suggestionModalForCreatorDashboardService.showSuggestionModal(
+    //   ctrl.activeThread.suggestion.suggestionType,
+    //   {
+    //     activeThread: ctrl.activeThread,
+    //     suggestionsToReviewList: ctrl.suggestionsToReviewList,
+    //     clearActiveThread: ctrl.clearActiveThread,
+    //     canReviewActiveThread: ctrl.canReviewActiveThread
+    //   }
+    // );
+  }
+
+  sortByFunction(entity): void {
+    // This function is passed as a custom comparator function to
+    // `orderBy`, so that special cases can be handled while sorting
+    // explorations.
+    let value = entity[this.currentSortType];
+    if (entity.status === 'private') {
+      if (this.currentSortType ===
+        CreatorDashboardConstants.EXPLORATIONS_SORT_BY_KEYS.TITLE) {
+        value = (value || this.DEFAULT_EMPTY_TITLE);
+      } else if (this.currentSortType !==
+        CreatorDashboardConstants.EXPLORATIONS_SORT_BY_KEYS.LAST_UPDATED) {
+        value = 0;
+      }
+    } else if (
+      this.currentSortType ===
+      CreatorDashboardConstants.EXPLORATIONS_SORT_BY_KEYS.RATING) {
+      let averageRating = (
+        this.ratingComputationService.computeAverageRating(value));
+      value = (averageRating || 0);
+    }
+    return value;
+  }
+
+  createNewExploration(): void {
+    this.explorationCreationService.createNewExploration();
+  }
+
+  getCompleteThumbnailIconUrl(iconUrl: string): string {
+    return this.urlInterpolationService.getStaticImageUrl(iconUrl);
+  }
+
+  getLocaleAbbreviatedDatetimeString(millisSinceEpoch: number): string {
+    return this.dateTimeFormatService.getLocaleAbbreviatedDatetimeString(
+      millisSinceEpoch);
+  }
+
+  getHumanReadableStatus(status: string): string {
+    return this.threadStatusDisplayService.getHumanReadableStatus(status);
+  }
+}
+
+angular.module('oppia').directive('oppiaCreatorDashboardPage',
+  downgradeComponent({
+    component: CreatorDashboardPageComponent
+  }) as angular.IDirectiveFactory);
