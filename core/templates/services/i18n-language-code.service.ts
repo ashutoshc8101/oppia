@@ -69,8 +69,7 @@ export class I18nLanguageCodeService {
 
   setI18nLanguageCode(code: string): void {
     // TODO(#9154): Change I18nLanguageCodeService to "this".
-    if (
-      I18nLanguageCodeService.supportedSiteLanguagesCodes.includes(code)) {
+    if (I18nLanguageCodeService.supportedSiteLanguagesCodes.includes(code)) {
       I18nLanguageCodeService.languageCode = code;
       I18nLanguageCodeService.languageCodeChangeEventEmitter.emit(code);
       this.setUrlLanguageParam(code);
