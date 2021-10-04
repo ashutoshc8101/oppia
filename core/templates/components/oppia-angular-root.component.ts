@@ -97,6 +97,7 @@ import { UrlService } from 'services/contextual/url.service';
 import { DocumentAttributeCustomizationService } from 'services/contextual/document-attribute-customization.service';
 import { WindowRef } from 'services/contextual/window-ref.service';
 import { CookieService } from 'ngx-cookie';
+import { AlertsService } from 'services/alerts.service';
 
 const componentMap = {
   Collapsible: {
@@ -131,6 +132,7 @@ export class OppiaAngularRootComponent implements AfterViewInit {
     public initialized: EventEmitter<void> = new EventEmitter();
   direction: string = 'ltr';
 
+  static alertsService: AlertsService;
   static classroomBackendApiService: ClassroomBackendApiService;
   static contextService: ContextService;
   static i18nLanguageCodeService: I18nLanguageCodeService;
@@ -144,10 +146,12 @@ export class OppiaAngularRootComponent implements AfterViewInit {
   static storyViewerBackendApiService: StoryViewerBackendApiService;
   static translateService: TranslateService;
   static translateCacheService: TranslateCacheService;
+  static windowRef: WindowRef;
   static ajsValueProvider: (string, unknown) => void;
   static injector: Injector;
 
   constructor(
+    private alertsService: AlertsService,
     private classroomBackendApiService: ClassroomBackendApiService,
     private cookieService: CookieService,
     private documentAttributeCustomizationService:
@@ -195,6 +199,8 @@ export class OppiaAngularRootComponent implements AfterViewInit {
         this.ngZone
       );
     });
+    OppiaAngularRootComponent.alertsService = (
+      this.alertsService);
     OppiaAngularRootComponent.classroomBackendApiService = (
       this.classroomBackendApiService);
     OppiaAngularRootComponent.i18nLanguageCodeService = (
@@ -212,6 +218,7 @@ export class OppiaAngularRootComponent implements AfterViewInit {
     OppiaAngularRootComponent.translateService = this.translateService;
     OppiaAngularRootComponent.translateCacheService = (
       this.translateCacheService);
+    OppiaAngularRootComponent.windowRef = this.windowRef;
     OppiaAngularRootComponent.injector = this.injector;
 
     // Initialize dynamic meta tags.
