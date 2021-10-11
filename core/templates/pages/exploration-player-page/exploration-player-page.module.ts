@@ -64,6 +64,7 @@ import { MyHammerConfig, toastrConfig } from 'pages/oppia-root/app.module';
     SwitchContentLanguageRefreshRequiredModalComponent,
     LearnerAnswerInfoCard,
     ExplorationSuccessfullyFlaggedModalComponent,
+    ConversationSkinMainComponent,
     InformationCardModalComponent,
     FlagExplorationModalComponent,
     LearnerLocalNavComponent,
@@ -76,6 +77,7 @@ import { MyHammerConfig, toastrConfig } from 'pages/oppia-root/app.module';
     ExplorationSuccessfullyFlaggedModalComponent,
     InformationCardModalComponent,
     FlagExplorationModalComponent,
+    ConversationSkinMainComponent,
     LearnerLocalNavComponent,
     FeedbackPopupComponent,
     LearnerAnswerInfoCard,
@@ -108,6 +110,7 @@ class ExplorationPlayerPageModule {
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { downgradeModule } from '@angular/upgrade/static';
 import { ToastrModule } from 'ngx-toastr';
+import { ConversationSkinMainComponent } from './learner-experience/conversation-skin/conversation-skin-main.component';
 
 const bootstrapFnAsync = async(extraProviders: StaticProvider[]) => {
   const platformRef = platformBrowserDynamic(extraProviders);

@@ -1,0 +1,68 @@
+<div role="main" class="oppia-conversation-skin-animate-cards-container position-relative" *ngIf="hasFullyLoaded">
+  <div class="conversation-skin-cards-container conversation-skin-animate-cards protractor-test-conversation-skin-cards-container"
+       [ngClass]="{'animate-to-two-cards': isAnimatingToTwoCards, 'animate-to-one-card': isAnimatingToOneCard}">
+
+    <div class="conversation-skin-tutor-card-container"
+         [ngClass]="{'conversation-skin-animate-tutor-card-on-narrow':
+                      !canWindowShowTwoCards() && isCurrentSupplementalCardNonempty(),
+                    'conversation-skin-tutor-card-alone':
+                      !canWindowShowTwoCards() && !isCurrentSupplementalCardNonempty()}">
+      <oppia-tutor-card [displayedCard]="displayedCard"
+                        [avatarImageIsShown]="true"
+                        [startCardChangeAnimation]="startCardChangeAnimation">
+      </oppia-tutor-card>
+      <div *ngIf="isCurrentSupplementalCardNonempty() && !canWindowShowTwoCards()">
+        <oppia-supplemental-card (clickContinueButton)="showUpcomingCard()"
+                                 [displayedCard]="displayedCard"
+                                 [isLearnAgainButton]="isLearnAgainButton()">
+        </oppia-supplemental-card>
+      </div>
+      <div *ngIf="getCanAskLearnerForAnswerInfo()">
+        <oppia-learner-answer-info-card (submitAnswer)="submitAnswer($event.currentAnswer, $event.rulesService)">
+        </oppia-learner-answer-info-card>
+      </div>
+      <div *ngIf="!getCanAskLearnerForAnswerInfo()">
+        <oppia-progress-nav (submit)="submitAnswerFromProgressNav()"
+                            [isLearnAgainButton]="isLearnAgainButton"
+                            [submitButtonIsDisabled]="isSubmitButtonDisabled()"
+                            [displayedCard]="displayedCard"
+                            [submitButtonIsShown]="!answerIsBeingProcessed"
+                            (clickContinueButton)="showUpcomingCard()">
+        </oppia-progress-nav>
+      </div>
+      <div *ngIf="recommendedExplorationSummaries && recommendedExplorationSummaries.length > 0 && (inStoryMode  || (collectionSummary && isOnTerminalCard() && isCurrentCardAtEndOfTranscript()))" class="conversation-skin-next-lesson-wrapper">
+        <div class="oppia-conversation-skin-next-lession-text-container">
+          <span class="conversation-skin-next-lesson-text" translate="I18N_NEXT_LESSON"></span>
+          <span>{{ recommendedExplorationSummaries[0].title }}</span>
+        </div>
+        <div>
+          <a [href]="getExplorationLink()" target="{{ openInNewWindow ? '_blank' : '_self' }}">
+            <button class="md-raised oppia-button-raised">
+              <i class="material-icons oppia-vcenter oppia-button-icon" aria-hidden="true">&#xE5C8;</i>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isCurrentSupplementalCardNonempty() && canWindowShowTwoCards()"
+         class="conversation-skin-supplemental-card-container">
+      <div class="supplemental-card-parent-container">
+        <oppia-supplemental-card (clickContinueButton)="showUpcomingCard()"
+                                 [displayedCard]="displayedCard"
+                                 [isLearnAgainButton]="isLearnAgainButton()">
+        </oppia-supplemental-card>
+        <div class="conversation-skin-supplemental-nav" *ngIf="isSupplementalNavShown() && !getCanAskLearnerForAnswerInfo()">
+          <button type="submit" class="oppia-learner-confirm-button protractor-test-submit-answer-button conversation-skin-supplemental-nav-submit-button"
+                     (click)="submitAnswerFromProgressNav()"
+                     [disabled]="isSubmitButtonDisabled()"
+                     translate="I18N_INTERACTIONS_SUBMIT">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="conversation-skin-correctness-footer-container" *ngIf="isCorrectnessFooterEnabled()">
+    <oppia-correctness-footer></oppia-correctness-footer>
+  </div>
+</div>
