@@ -42,6 +42,7 @@ export class ExplorationHtmlFormatterService {
     'FractionInput',
     'GraphInput',
     'ImageClickInput',
+    'DragAndDropSortInput',
     'NumericExpressionInput',
     'NumericInput',
     'InteractiveMap',

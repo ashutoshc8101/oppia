@@ -36,6 +36,7 @@ export class InteractionAttributesExtractorService {
     'FractionInput',
     'GraphInput',
     'ImageClickInput',
+    'DragAndDropSortInput',
     'CodeRepl',
     'NumericExpressionInput',
     'NumericInput',

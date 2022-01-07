@@ -1,3 +1,16 @@
+<form (submit)="submitAnswer()">
+  <div cdkDropList class="drag-and-drop-sort-container" (cdkDropListDropped)="drop($event)">
+    <ol class="drag-and-drop-ordered-list mb-2">
+      <li *ngFor="let item of list" class="list-style-none" cdkDrag>
+        <div class="drag-and-drop-item-placeholder" *cdkDragPlaceholder></div>
+        <div class="drag-and-drop-item">
+          <angular-html-bind-wrapper [htmlData]="item.title"></angular-html-bind-wrapper>
+        </div>
+      </li>
+    </ol>
+  </div>
+</form>
+
 <style>
   @media screen and (max-width: 959px) {
     .drag-and-drop-item .drag-and-drop-subitem {
@@ -9,12 +22,14 @@
     }
   }
 
-  .angular-ui-tree-placeholder {
+  .drag-and-drop-item-placeholder {
     border: 2px dashed #add8e6;
     border-radius: 10px;
-    height: 70px;
     margin-left: 50px;
+    margin-top: 10px;
     max-width: 300px;
+    max-height: 200px;
+    min-height: 50px;
   }
 
   .drag-and-drop-sort-container {
@@ -26,6 +41,7 @@
     background-color: #add8e6;
     border: 1px solid #000000;
     border-radius: 10px;
+    font-weight: 700;
     margin: 10px 0 0 70px;
     max-height: 200px;
     max-width: 300px;
@@ -72,23 +88,14 @@
     padding: 10px 10px 25px 10px;
     touch-action: manipulation;
   }
-</style>
 
-<form ng-submit="$ctrl.submitAnswer()">
-  <div ui-tree="$ctrl.treeOptions" class="drag-and-drop-sort-container" data-max-depth="$ctrl.dataMaxDepth">
-    <ol ui-tree-nodes="" class="mb-2" ng-model="$ctrl.list">
-      <li ng-repeat="item in $ctrl.list" ui-tree-node data-scroll-container=".conversation-skin-interaction-container">
-        <div ui-tree-handle class="drag-and-drop-item">
-          <angular-html-bind html-data="item.title"></angular-html-bind>
-        </div>
-        <ol ui-tree-nodes="" ng-model="item.items">
-          <li ng-repeat="subItem in item.items" ui-tree-node data-scroll-container=".conversation-skin-interaction-container">
-            <div ui-tree-handle class="drag-and-drop-subitem">
-              <angular-html-bind html-data="subItem.title"></angular-html-bind>
-            </div>
-          </li>
-        </ol>
-      </li>
-    </ol>
-  </div>
-</form>
+  .drag-and-drop-ordered-list {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .list-style-none {
+    list-style: none;
+  }
+</style>

@@ -35,6 +35,9 @@ import { MultipleChoiceInputInteractionModule } from './MultipleChoiceInput/mult
 import { SetInputInteractionModule } from './SetInput/set-input-interactions.module';
 import { TextInputInteractionModule } from './TextInput/text-input-interactions.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { InteractiveDragAndDropSortInputComponent } from './DragAndDropSortInput/directives/oppia-interactive-drag-and-drop-sort-input.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DynamicContentModule } from 'components/angular-html-bind/dynamic-content.module';
 
 @NgModule({
   imports: [
@@ -42,6 +45,8 @@ import { TranslateModule } from '@ngx-translate/core';
     AlgebraicExpressionInputExtensionsModule,
     CodeReplInteractionModule,
     ContinueExtensionsModule,
+    DragDropModule,
+    DynamicContentModule,
     FractionInputInteractionModule,
     GraphInputInteractionModule,
     ImageClickInputInteractionModule,
@@ -52,10 +57,15 @@ import { TranslateModule } from '@ngx-translate/core';
     MultipleChoiceInputInteractionModule,
     SetInputInteractionModule,
     TextInputInteractionModule,
-    TranslateModule
+    TranslateModule,
+
   ],
-  declarations: [],
-  entryComponents: [],
+  declarations: [
+    InteractiveDragAndDropSortInputComponent
+  ],
+  entryComponents: [
+    InteractiveDragAndDropSortInputComponent
+  ],
   exports: [
     AlgebraicExpressionInputExtensionsModule,
     CodeReplInteractionModule,
@@ -63,6 +73,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FractionInputInteractionModule,
     GraphInputInteractionModule,
     ImageClickInputInteractionModule,
+    InteractiveDragAndDropSortInputComponent,
     NumericExpressionInputModule,
     NumericInputModule,
     MathEquationInputModule,
